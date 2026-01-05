@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from 'react-helmet-async';
+import Layout from '@/components/layout/Layout';
+import HeroSlider from '@/components/home/HeroSlider';
+import NewsSection from '@/components/home/NewsSection';
+import AboutSection from '@/components/home/AboutSection';
+import PurposeSection from '@/components/home/PurposeSection';
+import PillarsSection from '@/components/home/PillarsSection';
+import HowWeWorkSection from '@/components/home/HowWeWorkSection';
+import PartnersSection from '@/components/home/PartnersSection';
+import SupportSection from '@/components/home/SupportSection';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>AEFEM - Associação do Empoderamento Feminino | Moçambique</title>
+        <meta 
+          name="description" 
+          content="A AEFEM promove o empoderamento económico das mulheres em Moçambique através da educação, capacitação e criação de oportunidades sustentáveis." 
+        />
+        <meta name="keywords" content="empoderamento feminino, mulheres moçambique, igualdade género, capacitação, empreendedorismo feminino" />
+      </Helmet>
+      
+      <Layout>
+        <HeroSlider />
+        <NewsSection />
+        <AboutSection />
+        <PurposeSection />
+        <PillarsSection />
+        <HowWeWorkSection />
+        <PartnersSection />
+        <SupportSection />
+      </Layout>
+    </>
   );
 };
 
