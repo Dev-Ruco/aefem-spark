@@ -13,6 +13,20 @@ import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 
+// Admin Pages
+import AdminLogin from "./pages/admin/AdminLogin";
+import Dashboard from "./pages/admin/Dashboard";
+import ArticlesList from "./pages/admin/ArticlesList";
+import ArticleEditor from "./pages/admin/ArticleEditor";
+import CategoriesList from "./pages/admin/CategoriesList";
+import GalleryEventsList from "./pages/admin/GalleryEventsList";
+import GalleryEventEditor from "./pages/admin/GalleryEventEditor";
+import PartnersList from "./pages/admin/PartnersList";
+import NewsletterList from "./pages/admin/NewsletterList";
+import ContactMessages from "./pages/admin/ContactMessages";
+import Settings from "./pages/admin/Settings";
+import { AdminLayout } from "./components/admin/AdminLayout";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -23,6 +37,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/noticias" element={<NewsPage />} />
             <Route path="/artigo/:slug" element={<ArticlePage />} />
@@ -30,7 +45,24 @@ const App = () => (
             <Route path="/galeria" element={<GalleryPage />} />
             <Route path="/contacto" element={<ContactPage />} />
             <Route path="/sobre" element={<AboutPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="artigos" element={<ArticlesList />} />
+              <Route path="artigos/novo" element={<ArticleEditor />} />
+              <Route path="artigos/:id" element={<ArticleEditor />} />
+              <Route path="categorias" element={<CategoriesList />} />
+              <Route path="galeria" element={<GalleryEventsList />} />
+              <Route path="galeria/novo" element={<GalleryEventEditor />} />
+              <Route path="galeria/:id" element={<GalleryEventEditor />} />
+              <Route path="parceiros" element={<PartnersList />} />
+              <Route path="newsletter" element={<NewsletterList />} />
+              <Route path="mensagens" element={<ContactMessages />} />
+              <Route path="configuracoes" element={<Settings />} />
+            </Route>
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
