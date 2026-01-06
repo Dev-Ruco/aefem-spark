@@ -166,12 +166,6 @@ export default function ArticlePage() {
                       </time>
                     </div>
                   )}
-                  {article.profiles?.full_name && (
-                    <div className="flex items-center gap-2">
-                      <User className="h-4 w-4" />
-                      <span>{article.profiles.full_name}</span>
-                    </div>
-                  )}
                   <Button variant="ghost" size="sm" onClick={handleShare} className="ml-auto">
                     <Share2 className="h-4 w-4 mr-2" />
                     Partilhar
