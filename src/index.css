@@ -302,7 +302,6 @@
 .animate-progress {
   animation: progress linear forwards;
 }
-}
 
 /* Scroll-triggered animations */
 .scroll-animate {
