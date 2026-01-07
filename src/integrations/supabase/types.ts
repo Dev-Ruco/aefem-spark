@@ -19,8 +19,10 @@ export type Database = {
           author_id: string
           category_id: string | null
           content: string | null
+          content_en: string | null
           created_at: string
           excerpt: string | null
+          excerpt_en: string | null
           featured_image: string | null
           id: string
           is_featured: boolean | null
@@ -29,6 +31,7 @@ export type Database = {
           slug: string
           status: Database["public"]["Enums"]["article_status"]
           title: string
+          title_en: string | null
           updated_at: string
           view_count: number | null
         }
@@ -36,8 +39,10 @@ export type Database = {
           author_id: string
           category_id?: string | null
           content?: string | null
+          content_en?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_en?: string | null
           featured_image?: string | null
           id?: string
           is_featured?: boolean | null
@@ -46,6 +51,7 @@ export type Database = {
           slug: string
           status?: Database["public"]["Enums"]["article_status"]
           title: string
+          title_en?: string | null
           updated_at?: string
           view_count?: number | null
         }
@@ -53,8 +59,10 @@ export type Database = {
           author_id?: string
           category_id?: string | null
           content?: string | null
+          content_en?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_en?: string | null
           featured_image?: string | null
           id?: string
           is_featured?: boolean | null
@@ -63,6 +71,7 @@ export type Database = {
           slug?: string
           status?: Database["public"]["Enums"]["article_status"]
           title?: string
+          title_en?: string | null
           updated_at?: string
           view_count?: number | null
         }
@@ -195,6 +204,124 @@ export type Database = {
           },
         ]
       }
+      member_notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          member_id: string
+          message: string
+          title: string
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          member_id: string
+          message: string
+          title: string
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          member_id?: string
+          message?: string
+          title?: string
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_notifications_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_quotas: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          member_id: string
+          payment_date: string | null
+          payment_reference: string | null
+          payment_status: string | null
+          reference_month: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          member_id: string
+          payment_date?: string | null
+          payment_reference?: string | null
+          payment_status?: string | null
+          reference_month: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          member_id?: string
+          payment_date?: string | null
+          payment_reference?: string | null
+          payment_status?: string | null
+          reference_month?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_quotas_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      members: {
+        Row: {
+          birth_year: number
+          created_at: string | null
+          full_name: string
+          gender: string
+          id: string
+          province: string
+          status: string | null
+          updated_at: string | null
+          user_id: string
+          whatsapp_number: string
+        }
+        Insert: {
+          birth_year: number
+          created_at?: string | null
+          full_name: string
+          gender: string
+          id?: string
+          province: string
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+          whatsapp_number: string
+        }
+        Update: {
+          birth_year?: number
+          created_at?: string | null
+          full_name?: string
+          gender?: string
+          id?: string
+          province?: string
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string
@@ -282,6 +409,48 @@ export type Database = {
         }
         Relationships: []
       }
+      team_members: {
+        Row: {
+          bio: string | null
+          bio_en: string | null
+          created_at: string | null
+          display_order: number | null
+          full_name: string
+          id: string
+          is_active: boolean | null
+          photo_url: string | null
+          position: string
+          position_en: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          bio?: string | null
+          bio_en?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          full_name: string
+          id?: string
+          is_active?: boolean | null
+          photo_url?: string | null
+          position: string
+          position_en?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          bio?: string | null
+          bio_en?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          photo_url?: string | null
+          position?: string
+          position_en?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -316,9 +485,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin_or_editor: { Args: { _user_id: string }; Returns: boolean }
+      is_member: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "editor"
+      app_role: "admin" | "editor" | "member"
       article_status: "draft" | "published" | "scheduled"
     }
     CompositeTypes: {
@@ -447,7 +617,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "editor"],
+      app_role: ["admin", "editor", "member"],
       article_status: ["draft", "published", "scheduled"],
     },
   },
