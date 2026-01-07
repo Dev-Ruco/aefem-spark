@@ -13,6 +13,9 @@ import GalleryPage from "./pages/GalleryPage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
+import MemberRegistration from "./pages/MemberRegistration";
+import MemberLogin from "./pages/member/MemberLogin";
+import MemberDashboard from "./pages/member/MemberDashboard";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -22,6 +25,9 @@ import ArticleEditor from "./pages/admin/ArticleEditor";
 import CategoriesList from "./pages/admin/CategoriesList";
 import GalleryEventsList from "./pages/admin/GalleryEventsList";
 import GalleryEventEditor from "./pages/admin/GalleryEventEditor";
+import TeamMembersList from "./pages/admin/TeamMembersList";
+import MembersList from "./pages/admin/MembersList";
+import MemberQuotasAdmin from "./pages/admin/MemberQuotasAdmin";
 import PartnersList from "./pages/admin/PartnersList";
 import NewsletterList from "./pages/admin/NewsletterList";
 import ContactMessages from "./pages/admin/ContactMessages";
@@ -38,35 +44,41 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/noticias" element={<NewsPage />} />
-            <Route path="/artigo/:slug" element={<ArticlePage />} />
-            <Route path="/doacoes" element={<DonationsPage />} />
-            <Route path="/galeria" element={<GalleryPage />} />
-            <Route path="/contacto" element={<ContactPage />} />
-            <Route path="/sobre" element={<AboutPage />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="artigos" element={<ArticlesList />} />
-              <Route path="artigos/novo" element={<ArticleEditor />} />
-              <Route path="artigos/:id" element={<ArticleEditor />} />
-              <Route path="categorias" element={<CategoriesList />} />
-              <Route path="galeria" element={<GalleryEventsList />} />
-              <Route path="galeria/novo" element={<GalleryEventEditor />} />
-              <Route path="galeria/:id" element={<GalleryEventEditor />} />
-              <Route path="parceiros" element={<PartnersList />} />
-              <Route path="newsletter" element={<NewsletterList />} />
-              <Route path="mensagens" element={<ContactMessages />} />
-              <Route path="configuracoes" element={<Settings />} />
-            </Route>
-            
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/noticias" element={<NewsPage />} />
+              <Route path="/artigo/:slug" element={<ArticlePage />} />
+              <Route path="/doacoes" element={<DonationsPage />} />
+              <Route path="/galeria" element={<GalleryPage />} />
+              <Route path="/contacto" element={<ContactPage />} />
+              <Route path="/sobre" element={<AboutPage />} />
+              <Route path="/tornar-se-membro" element={<MemberRegistration />} />
+              <Route path="/membro/login" element={<MemberLogin />} />
+              <Route path="/membro" element={<MemberDashboard />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="artigos" element={<ArticlesList />} />
+                <Route path="artigos/novo" element={<ArticleEditor />} />
+                <Route path="artigos/:id" element={<ArticleEditor />} />
+                <Route path="categorias" element={<CategoriesList />} />
+                <Route path="galeria" element={<GalleryEventsList />} />
+                <Route path="galeria/novo" element={<GalleryEventEditor />} />
+                <Route path="galeria/:id" element={<GalleryEventEditor />} />
+                <Route path="equipa" element={<TeamMembersList />} />
+                <Route path="membros" element={<MembersList />} />
+                <Route path="quotas" element={<MemberQuotasAdmin />} />
+                <Route path="parceiros" element={<PartnersList />} />
+                <Route path="newsletter" element={<NewsletterList />} />
+                <Route path="mensagens" element={<ContactMessages />} />
+                <Route path="configuracoes" element={<Settings />} />
+              </Route>
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>
