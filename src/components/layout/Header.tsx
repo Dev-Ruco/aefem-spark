@@ -20,6 +20,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+  
+  const navLinks = getNavLinks(t);
 
   useEffect(() => {
     const handleScroll = () => {
