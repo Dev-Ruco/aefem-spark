@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { LanguageSelector } from '@/components/ui/LanguageSelector';
+import { useLanguage } from '@/contexts/LanguageContext';
 import logo from '@/assets/logo-aefem.png';
 
-const navLinks = [
-  { href: '/', label: 'Início' },
-  { href: '/sobre', label: 'Sobre Nós' },
-  { href: '/noticias', label: 'Notícias' },
-  { href: '/galeria', label: 'Galeria' },
-  { href: '/doacoes', label: 'Doações' },
-  { href: '/contacto', label: 'Contacto' },
+const getNavLinks = (t: (key: string) => string) => [
+  { href: '/', label: t('nav.home') },
+  { href: '/sobre', label: t('nav.about') },
+  { href: '/noticias', label: t('nav.news') },
+  { href: '/galeria', label: t('nav.gallery') },
+  { href: '/doacoes', label: t('nav.donations') },
+  { href: '/contacto', label: t('nav.contact') },
 ];
 
 export function Header() {

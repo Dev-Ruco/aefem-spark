@@ -20,7 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 interface UserRole {
   id: string;
   user_id: string;
-  role: 'admin' | 'editor';
+  role: 'admin' | 'editor' | 'member';
   created_at: string;
   profiles?: {
     full_name: string | null;
