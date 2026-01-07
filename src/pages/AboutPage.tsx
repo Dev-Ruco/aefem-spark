@@ -5,6 +5,7 @@ import AboutSection from '@/components/home/AboutSection';
 import PurposeSection from '@/components/home/PurposeSection';
 import PillarsSection from '@/components/home/PillarsSection';
 import HowWeWorkSection from '@/components/home/HowWeWorkSection';
+import TeamSection from '@/components/home/TeamSection';
 
 export default function AboutPage() {
   return (
@@ -30,6 +31,7 @@ export default function AboutPage() {
         <PurposeSection />
         <PillarsSection />
         <HowWeWorkSection />
+        <TeamSection />
       </Layout>
     </>
   );
