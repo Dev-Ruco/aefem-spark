@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import MemberRegistration from "./pages/MemberRegistration";
 import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
+import MutiyanePage from "./pages/MutiyanePage";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -53,6 +54,7 @@ const App = () => (
               <Route path="/galeria" element={<GalleryPage />} />
               <Route path="/contacto" element={<ContactPage />} />
               <Route path="/sobre" element={<AboutPage />} />
+              <Route path="/mutiyane" element={<MutiyanePage />} />
               <Route path="/tornar-se-membro" element={<MemberRegistration />} />
               <Route path="/membro/login" element={<MemberLogin />} />
               <Route path="/membro" element={<MemberDashboard />} />
