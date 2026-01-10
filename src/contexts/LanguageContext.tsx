@@ -19,6 +19,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contacto',
     'nav.become_member': 'Tornar-se Membro',
     'nav.member_area': 'Área de Membro',
+    'nav.mutiyane': 'Mutiyane',
     
     // Hero
     'hero.featured': 'Notícia em Destaque',
@@ -91,6 +92,91 @@ const translations: Record<Language, Record<string, string>> = {
     'team.title': 'Nossa Equipa',
     'team.subtitle': 'Conheça a equipa',
     'team.description': 'Os colaboradores que trabalham para promover o empoderamento feminino em Moçambique',
+
+    // Mutiyane Project
+    'mutiyane.tagline': 'Projecto AEFEM',
+    'mutiyane.subtitle': 'Chat inteligente de orientação em saúde da mulher',
+    'mutiyane.description': 'O Mutiyane é um projecto da AEFEM que utiliza Inteligência Artificial de forma responsável para ampliar o acesso das mulheres e raparigas a informação fiável, segura e digna sobre saúde da mulher.',
+    'mutiyane.badge_confidential': 'Confidencial',
+    'mutiyane.badge_respectful': 'Respeitoso',
+    'mutiyane.badge_responsible': 'IA Responsável',
+    'mutiyane.cta_try': 'Experimentar Mutiyane',
+    'mutiyane.cta_support': 'Apoiar o Projecto',
+    
+    // Mutiyane - What is
+    'mutiyane.section_what': 'O Projecto',
+    'mutiyane.what_title': 'O que é o Mutiyane?',
+    'mutiyane.what_description': 'Um chat interactivo, simples e confidencial para orientação em saúde da mulher',
+    'mutiyane.what_full_description': 'O Mutiyane funciona como um chat interactivo, simples e confidencial, onde as utilizadoras podem colocar perguntas e receber respostas claras e orientadoras, baseadas em fontes institucionais e educativas previamente validadas. A tecnologia é usada como ferramenta de apoio à informação, nunca como substituto da relação humana ou dos serviços de saúde.',
+    'mutiyane.disclaimer_title': 'Aviso importante',
+    'mutiyane.disclaimer_text': 'O Mutiyane não substitui profissionais de saúde, não faz diagnósticos nem prescreve tratamentos.',
+    
+    // Mutiyane - How it works
+    'mutiyane.section_how': 'Como Funciona',
+    'mutiyane.how_title': 'Inteligência Artificial Responsável',
+    'mutiyane.how_description': 'A IA do Mutiyane é supervisionada e delimitada, garantindo respostas seguras e fiáveis',
+    'mutiyane.step1_title': 'A utilizadora pergunta',
+    'mutiyane.step1_desc': 'Coloca a sua questão no chat de forma simples e natural',
+    'mutiyane.step2_title': 'IA processa',
+    'mutiyane.step2_desc': 'O sistema interpreta a pergunta com inteligência artificial supervisionada',
+    'mutiyane.step3_title': 'Consulta a base',
+    'mutiyane.step3_desc': 'A resposta é construída exclusivamente com base validada',
+    'mutiyane.step4_title': 'Resposta clara',
+    'mutiyane.step4_desc': 'A utilizadora recebe orientação responsável e fundamentada',
+    
+    // Mutiyane - Limitations
+    'mutiyane.what_not': 'O que a IA NÃO faz',
+    'mutiyane.limit_internet': 'Não pesquisa a internet em tempo real',
+    'mutiyane.limit_learn': 'Não aprende com as conversas das utilizadoras',
+    'mutiyane.limit_create': 'Não cria informação livremente',
+    'mutiyane.limit_base': 'Responde APENAS da base de conhecimento validada',
+    
+    // Mutiyane - Security
+    'mutiyane.security_title': 'Garantias de Segurança',
+    'mutiyane.security_no_id': 'Não é exigida identificação pessoal',
+    'mutiyane.security_no_data': 'Não são recolhidos dados pessoais',
+    'mutiyane.security_no_track': 'Conversas não são associadas a identidades',
+    
+    // Mutiyane - Gallery
+    'mutiyane.section_gallery': 'Galeria do App',
+    'mutiyane.gallery_title': 'Conheça a Interface',
+    'mutiyane.gallery_description': 'Veja como o Mutiyane foi desenhado para ser intuitivo e acessível',
+    
+    // Mutiyane - Sources
+    'mutiyane.section_sources': 'Fontes de Informação',
+    'mutiyane.sources_title': 'De Onde Vem a Informação',
+    'mutiyane.sources_description': 'As respostas baseiam-se numa base de conhecimento estruturada e validada',
+    'mutiyane.source_institutional': 'Fontes Institucionais',
+    'mutiyane.source_inst_1': 'Materiais de organizações internacionais de referência em saúde da mulher',
+    'mutiyane.source_inst_2': 'Guias técnicos de programas de saúde e género',
+    'mutiyane.source_educational': 'Fontes Educativas',
+    'mutiyane.source_edu_1': 'Materiais de educação para a saúde',
+    'mutiyane.source_edu_2': 'Conteúdos de organizações com trabalho reconhecido',
+    'mutiyane.source_aefem': 'Contributos da AEFEM',
+    'mutiyane.source_aefem_1': 'Conteúdos desenvolvidos com base na experiência de terreno',
+    'mutiyane.source_aefem_2': 'Materiais produzidos em parceria com entidades',
+    'mutiyane.not_used_title': 'O que o Mutiyane NÃO utiliza',
+    'mutiyane.not_unverified': 'Conteúdos não verificados',
+    'mutiyane.not_personal': 'Dados pessoais das utilizadoras',
+    'mutiyane.not_internet': 'Informação da internet',
+    
+    // Mutiyane - Status
+    'mutiyane.status_badge': 'Em Desenvolvimento',
+    'mutiyane.status_title': 'Estado do Projecto',
+    'mutiyane.status_description': 'O Mutiyane encontra-se em fase de desenvolvimento e implementação progressiva, com foco na qualidade da informação e segurança das utilizadoras.',
+    'mutiyane.status_complete': 'concluído',
+    
+    // Mutiyane - CTA
+    'mutiyane.cta_title': 'Quer apoiar o Mutiyane?',
+    'mutiyane.cta_description': 'Junte-se a nós num uso responsável da tecnologia em prol das mulheres.',
+    'mutiyane.cta_learn': 'Conhecer a AEFEM',
+    'mutiyane.cta_donate': 'Apoiar o Projecto',
+    'mutiyane.cta_partner': 'Parcerias Institucionais',
+    
+    // Mutiyane - Preview Section
+    'mutiyane.preview_badge': 'Novo Projecto',
+    'mutiyane.preview_description': 'Um chat interactivo, simples e confidencial, onde as utilizadoras podem colocar perguntas e receber respostas claras sobre saúde da mulher.',
+    'mutiyane.preview_cta': 'Conhecer o Mutiyane',
   },
   en: {
     // Navigation
@@ -102,6 +188,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.become_member': 'Become a Member',
     'nav.member_area': 'Member Area',
+    'nav.mutiyane': 'Mutiyane',
     
     // Hero
     'hero.featured': 'Featured News',
@@ -174,6 +261,91 @@ const translations: Record<Language, Record<string, string>> = {
     'team.title': 'Our Team',
     'team.subtitle': 'Meet the team',
     'team.description': 'The collaborators working to promote women\'s empowerment in Mozambique',
+
+    // Mutiyane Project
+    'mutiyane.tagline': 'AEFEM Project',
+    'mutiyane.subtitle': 'Intelligent women\'s health guidance chat',
+    'mutiyane.description': 'Mutiyane is an AEFEM project that uses Artificial Intelligence responsibly to expand women\'s and girls\' access to reliable, safe, and dignified information about women\'s health.',
+    'mutiyane.badge_confidential': 'Confidential',
+    'mutiyane.badge_respectful': 'Respectful',
+    'mutiyane.badge_responsible': 'Responsible AI',
+    'mutiyane.cta_try': 'Try Mutiyane',
+    'mutiyane.cta_support': 'Support the Project',
+    
+    // Mutiyane - What is
+    'mutiyane.section_what': 'The Project',
+    'mutiyane.what_title': 'What is Mutiyane?',
+    'mutiyane.what_description': 'An interactive, simple and confidential chat for women\'s health guidance',
+    'mutiyane.what_full_description': 'Mutiyane works as an interactive, simple and confidential chat, where users can ask questions and receive clear, guiding answers, based on previously validated institutional and educational sources. Technology is used as a tool to support information, never as a substitute for human relationships or health services.',
+    'mutiyane.disclaimer_title': 'Important notice',
+    'mutiyane.disclaimer_text': 'Mutiyane does not replace healthcare professionals, does not make diagnoses or prescribe treatments.',
+    
+    // Mutiyane - How it works
+    'mutiyane.section_how': 'How It Works',
+    'mutiyane.how_title': 'Responsible Artificial Intelligence',
+    'mutiyane.how_description': 'Mutiyane\'s AI is supervised and bounded, ensuring safe and reliable answers',
+    'mutiyane.step1_title': 'User asks',
+    'mutiyane.step1_desc': 'Ask your question in the chat simply and naturally',
+    'mutiyane.step2_title': 'AI processes',
+    'mutiyane.step2_desc': 'The system interprets the question with supervised artificial intelligence',
+    'mutiyane.step3_title': 'Queries the base',
+    'mutiyane.step3_desc': 'The answer is built exclusively from validated knowledge base',
+    'mutiyane.step4_title': 'Clear answer',
+    'mutiyane.step4_desc': 'User receives responsible and grounded guidance',
+    
+    // Mutiyane - Limitations
+    'mutiyane.what_not': 'What AI does NOT do',
+    'mutiyane.limit_internet': 'Does not search the internet in real time',
+    'mutiyane.limit_learn': 'Does not learn from user conversations',
+    'mutiyane.limit_create': 'Does not create information freely',
+    'mutiyane.limit_base': 'Responds ONLY from validated knowledge base',
+    
+    // Mutiyane - Security
+    'mutiyane.security_title': 'Security Guarantees',
+    'mutiyane.security_no_id': 'No personal identification required',
+    'mutiyane.security_no_data': 'No personal data collected',
+    'mutiyane.security_no_track': 'Conversations not linked to identities',
+    
+    // Mutiyane - Gallery
+    'mutiyane.section_gallery': 'App Gallery',
+    'mutiyane.gallery_title': 'Discover the Interface',
+    'mutiyane.gallery_description': 'See how Mutiyane was designed to be intuitive and accessible',
+    
+    // Mutiyane - Sources
+    'mutiyane.section_sources': 'Information Sources',
+    'mutiyane.sources_title': 'Where the Information Comes From',
+    'mutiyane.sources_description': 'Answers are based on a structured and validated knowledge base',
+    'mutiyane.source_institutional': 'Institutional Sources',
+    'mutiyane.source_inst_1': 'Materials from international reference organizations in women\'s health',
+    'mutiyane.source_inst_2': 'Technical guides from health and gender programs',
+    'mutiyane.source_educational': 'Educational Sources',
+    'mutiyane.source_edu_1': 'Health education materials',
+    'mutiyane.source_edu_2': 'Content from organizations with recognized work',
+    'mutiyane.source_aefem': 'AEFEM Contributions',
+    'mutiyane.source_aefem_1': 'Content developed based on field experience',
+    'mutiyane.source_aefem_2': 'Materials produced in partnership with entities',
+    'mutiyane.not_used_title': 'What Mutiyane does NOT use',
+    'mutiyane.not_unverified': 'Unverified content',
+    'mutiyane.not_personal': 'User personal data',
+    'mutiyane.not_internet': 'Internet information',
+    
+    // Mutiyane - Status
+    'mutiyane.status_badge': 'In Development',
+    'mutiyane.status_title': 'Project Status',
+    'mutiyane.status_description': 'Mutiyane is in the development and progressive implementation phase, focusing on information quality and user safety.',
+    'mutiyane.status_complete': 'complete',
+    
+    // Mutiyane - CTA
+    'mutiyane.cta_title': 'Want to support Mutiyane?',
+    'mutiyane.cta_description': 'Join us in responsible use of technology for women.',
+    'mutiyane.cta_learn': 'Learn about AEFEM',
+    'mutiyane.cta_donate': 'Support the Project',
+    'mutiyane.cta_partner': 'Institutional Partnerships',
+    
+    // Mutiyane - Preview Section
+    'mutiyane.preview_badge': 'New Project',
+    'mutiyane.preview_description': 'An interactive, simple and confidential chat, where users can ask questions and receive clear answers about women\'s health.',
+    'mutiyane.preview_cta': 'Discover Mutiyane',
   }
 };
 
