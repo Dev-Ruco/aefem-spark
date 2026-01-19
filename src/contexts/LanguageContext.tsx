@@ -177,6 +177,46 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.preview_badge': 'Novo Projecto',
     'mutiyane.preview_description': 'Um chat interactivo, simples e confidencial, onde as utilizadoras podem colocar perguntas e receber respostas claras sobre saúde da mulher.',
     'mutiyane.preview_cta': 'Conhecer o Mutiyane',
+
+    // Statistics Section
+    'stats.badge': 'Dados Reais',
+    'stats.title': 'A Realidade da Mulher em Moçambique',
+    'stats.subtitle': 'Dados que mostram porque o empoderamento económico é urgente',
+    'stats.source': 'Fonte: Inquérito Demográfico e de Saúde 2022-23 e IV Recenseamento Geral da População (INE)',
+    'stats.click_expand': 'Clique para expandir',
+
+    // Employment Gap
+    'stats.employment.title': 'O Fosso do Trabalho Remunerado',
+    'stats.employment.question': 'Quem tem emprego em Moçambique?',
+    'stats.employment.men': 'Homens Empregados',
+    'stats.employment.women': 'Mulheres Empregadas',
+    'stats.employment.tooltip': 'Apenas 3 em cada 10 mulheres têm emprego formal, criando uma dependência económica severa.',
+
+    // Agriculture
+    'stats.agriculture.title': 'Trabalhar de Graça?',
+    'stats.agriculture.subtitle': 'A Realidade Agrícola',
+    'stats.agriculture.description': 'Mulheres na Agricultura',
+    'stats.agriculture.paid': 'Recebem pagamento',
+    'stats.agriculture.unpaid': 'Sem pagamento',
+    'stats.agriculture.compare': 'Outras áreas: apenas 5% sem pagamento',
+    'stats.agriculture.tooltip': 'A agricultura é o maior empregador da mulher, mas quase metade trabalha sem receber um único metical.',
+
+    // Financial Exclusion
+    'stats.financial.title': 'Exclusão Financeira',
+    'stats.financial.description': 'Acesso a Contas e Serviços Financeiros',
+    'stats.financial.men': 'Homens',
+    'stats.financial.women': 'Mulheres',
+    'stats.financial.rural': 'Mulheres Rurais',
+    'stats.financial.tooltip': 'Sem acesso a bancos ou M-Pesa, a mulher não consegue poupar nem investir no seu negócio.',
+
+    // Digital Divide
+    'stats.digital.title': 'O Fosso Digital',
+    'stats.digital.description': 'Quem está conectado à Internet?',
+    'stats.digital.men': 'Homens conectados',
+    'stats.digital.women': 'Mulheres conectadas',
+    'stats.digital.gap': 'Fosso de',
+    'stats.digital.smartphone': 'das mulheres possuem smartphone',
+    'stats.digital.tooltip': 'A AEFEM luta para colocar a tecnologia nas mãos das mulheres, reduzindo o fosso de 13% que nos separa dos homens.',
   },
   en: {
     // Navigation
@@ -346,6 +386,46 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.preview_badge': 'New Project',
     'mutiyane.preview_description': 'An interactive, simple and confidential chat, where users can ask questions and receive clear answers about women\'s health.',
     'mutiyane.preview_cta': 'Discover Mutiyane',
+
+    // Statistics Section
+    'stats.badge': 'Real Data',
+    'stats.title': 'The Reality of Women in Mozambique',
+    'stats.subtitle': 'Data showing why economic empowerment is urgent',
+    'stats.source': 'Source: Demographic and Health Survey 2022-23 and IV General Population Census (INE)',
+    'stats.click_expand': 'Click to expand',
+
+    // Employment Gap
+    'stats.employment.title': 'The Paid Work Gap',
+    'stats.employment.question': 'Who has employment in Mozambique?',
+    'stats.employment.men': 'Men Employed',
+    'stats.employment.women': 'Women Employed',
+    'stats.employment.tooltip': 'Only 3 in 10 women have formal employment, creating severe economic dependence.',
+
+    // Agriculture
+    'stats.agriculture.title': 'Working for Free?',
+    'stats.agriculture.subtitle': 'The Agricultural Reality',
+    'stats.agriculture.description': 'Women in Agriculture',
+    'stats.agriculture.paid': 'Receive payment',
+    'stats.agriculture.unpaid': 'No payment',
+    'stats.agriculture.compare': 'Other areas: only 5% unpaid',
+    'stats.agriculture.tooltip': 'Agriculture is the largest employer of women, but almost half work without receiving a single metical.',
+
+    // Financial Exclusion
+    'stats.financial.title': 'Financial Exclusion',
+    'stats.financial.description': 'Access to Accounts and Financial Services',
+    'stats.financial.men': 'Men',
+    'stats.financial.women': 'Women',
+    'stats.financial.rural': 'Rural Women',
+    'stats.financial.tooltip': 'Without access to banks or M-Pesa, women cannot save or invest in their business.',
+
+    // Digital Divide
+    'stats.digital.title': 'The Digital Divide',
+    'stats.digital.description': 'Who is connected to the Internet?',
+    'stats.digital.men': 'Men connected',
+    'stats.digital.women': 'Women connected',
+    'stats.digital.gap': 'Gap of',
+    'stats.digital.smartphone': 'of women own a smartphone',
+    'stats.digital.tooltip': 'AEFEM fights to put technology in the hands of women, reducing the 13% gap that separates us from men.',
   }
 };
 
