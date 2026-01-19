@@ -9,6 +9,7 @@ import HowWeWorkSection from '@/components/home/HowWeWorkSection';
 import PartnersSection from '@/components/home/PartnersSection';
 import SupportSection from '@/components/home/SupportSection';
 import StatisticsSection from '@/components/home/StatisticsSection';
+import TeamSection from '@/components/home/TeamSection';
 
 const Index = () => {
   return (
@@ -30,6 +31,7 @@ const Index = () => {
         <PillarsSection />
         <HowWeWorkSection />
         <PartnersSection />
+        <TeamSection />
         <ActivitiesSection />
         <SupportSection />
       </Layout>
