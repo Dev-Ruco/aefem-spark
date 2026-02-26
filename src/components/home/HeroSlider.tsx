@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,64 +14,69 @@ interface Article {
   excerpt_en: string | null;
   featured_image: string | null;
   slug: string;
+  published_at: string | null;
 }
 
 export function HeroSlider() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const { t, language } = useLanguage();
+  const prefersReducedMotion = useRef(false);
 
   useEffect(() => {
-    const fetchFeaturedArticles = async () => {
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  useEffect(() => {
+    const fetchRecentActivities = async () => {
       const { data, error } = await supabase
         .from('articles')
-        .select('id, title, title_en, excerpt, excerpt_en, featured_image, slug')
+        .select('id, title, title_en, excerpt, excerpt_en, featured_image, slug, published_at')
         .eq('status', 'published')
-        .eq('is_featured', true)
         .order('published_at', { ascending: false })
-        .limit(3);
+        .limit(5);
 
       if (error) {
-        console.error('Error fetching featured articles:', error);
+        console.error('Error fetching activities:', error);
       } else {
         setArticles(data || []);
       }
       setIsLoading(false);
     };
 
-    fetchFeaturedArticles();
+    fetchRecentActivities();
   }, []);
 
   useEffect(() => {
-    if (articles.length === 0) return;
+    if (articles.length === 0 || isPaused || prefersReducedMotion.current) return;
     
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % articles.length);
     }, 6000);
 
     return () => clearInterval(timer);
+  }, [articles.length, isPaused]);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % articles.length);
   }, [articles.length]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % articles.length);
-  };
-
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length);
-  };
+  }, [articles.length]);
 
   // Default hero content when no articles
   if (isLoading || articles.length === 0) {
     return (
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-hero">
-        {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full blur-3xl animate-float" />
           <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full blur-3xl animate-float delay-300" />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <span className="inline-block text-sm font-semibold text-primary uppercase tracking-wider mb-4 animate-fade-down">
               {t('hero.tagline')}
@@ -98,7 +103,6 @@ export function HeroSlider() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden sm:block">
           <div className="w-6 h-10 rounded-full border-2 border-primary/50 flex items-start justify-center p-2">
             <div className="w-1.5 h-3 bg-primary rounded-full animate-pulse" />
@@ -109,7 +113,11 @@ export function HeroSlider() {
   }
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section
+      className="relative min-h-screen overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Slides */}
       {articles.map((article, index) => {
         const title = language === 'en' && article.title_en ? article.title_en : article.title;
@@ -119,36 +127,45 @@ export function HeroSlider() {
           <div
             key={article.id}
             className={cn(
-              'absolute inset-0 transition-all duration-700 ease-in-out',
-              index === currentSlide
-                ? 'opacity-100 scale-100'
-                : 'opacity-0 scale-105'
+              'absolute inset-0',
+              prefersReducedMotion.current
+                ? (index === currentSlide ? 'opacity-100' : 'opacity-0')
+                : cn(
+                    'transition-all duration-700 ease-in-out',
+                    index === currentSlide
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-0 scale-105'
+                  )
             )}
           >
-            {/* Background Image with enhanced overlay */}
+            {/* Background Image with lazy loading */}
             {article.featured_image && (
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${article.featured_image})` }}
               >
-                {/* Much darker overlay for better text visibility */}
-                <div className="absolute inset-0 bg-gradient-to-b from-foreground/85 via-foreground/75 to-foreground/90" />
+                <div className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/70 to-foreground/85" />
               </div>
             )}
             {!article.featured_image && (
               <div className="absolute inset-0 gradient-primary opacity-90" />
             )}
 
-            {/* Content with better visibility */}
+            {/* Content */}
             <div className="relative h-full flex items-center justify-center pt-20">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center text-background">
-                  {/* Featured badge */}
-                  <span className="inline-block text-xs sm:text-sm font-semibold uppercase tracking-wider mb-4 bg-primary/90 text-primary-foreground px-4 py-1.5 rounded-full shadow-lg">
-                    {t('hero.featured')}
+                  {/* Institutional micro-copy */}
+                  <span className="inline-block text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 text-background/70">
+                    {t('hero.our_work')}
                   </span>
                   
-                  {/* Title with text shadow for better visibility */}
+                  {/* Activities badge */}
+                  <span className="block text-xs sm:text-sm font-semibold uppercase tracking-wider mb-4 bg-primary/90 text-primary-foreground px-4 py-1.5 rounded-full shadow-lg mx-auto w-fit">
+                    {t('hero.activities_label')}
+                  </span>
+                  
+                  {/* Title */}
                   <h1 
                     className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight px-2"
                     style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
@@ -170,7 +187,7 @@ export function HeroSlider() {
                       size="lg"
                       className="bg-background text-primary hover:bg-background/90 hover:scale-105 transition-all duration-300 px-8 shadow-xl"
                     >
-                      {t('hero.read_more')}
+                      {t('hero.view_activity')}
                     </Button>
                   </Link>
                 </div>
@@ -180,7 +197,7 @@ export function HeroSlider() {
         );
       })}
 
-      {/* Navigation Arrows - larger touch targets for mobile */}
+      {/* Navigation Arrows */}
       {articles.length > 1 && (
         <>
           <button
@@ -200,7 +217,7 @@ export function HeroSlider() {
         </>
       )}
 
-      {/* Progress dots with animation */}
+      {/* Progress dots */}
       {articles.length > 1 && (
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
           {articles.map((_, index) => (
@@ -215,7 +232,7 @@ export function HeroSlider() {
               )}
               aria-label={`Go to slide ${index + 1}`}
             >
-              {index === currentSlide && (
+              {index === currentSlide && !prefersReducedMotion.current && (
                 <span 
                   className="absolute inset-0 bg-background origin-left animate-progress"
                   style={{ animationDuration: '6s' }}
