@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LanguageSelector } from '@/components/ui/LanguageSelector';
@@ -19,7 +19,6 @@ const getNavLinks = (t: (key: string) => string) => [
 ];
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
@@ -27,26 +26,12 @@ export function Header() {
   const navLinks = getNavLinks(t);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
   return (
     <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-brand-sm py-2'
-          : 'bg-transparent py-4'
-      )}
+      className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm py-3"
     >
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between">

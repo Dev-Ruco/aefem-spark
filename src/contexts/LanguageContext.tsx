@@ -24,6 +24,9 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.featured': 'Notícia em Destaque',
     'hero.read_more': 'Ler Mais',
+    'hero.activities_label': 'Actividades Recentes',
+    'hero.view_activity': 'Ver Actividade',
+    'hero.our_work': 'O nosso trabalho no terreno',
     'hero.tagline': 'Associação do Empoderamento Feminino',
     'hero.title': 'Empoderar economicamente as mulheres',
     'hero.title_highlight': 'para transformar famílias, comunidades e o país.',
@@ -233,6 +236,9 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero
     'hero.featured': 'Featured News',
     'hero.read_more': 'Read More',
+    'hero.activities_label': 'Recent Activities',
+    'hero.view_activity': 'View Activity',
+    'hero.our_work': 'Our work in the field',
     'hero.tagline': 'Association for Women\'s Empowerment',
     'hero.title': 'Economically empowering women',
     'hero.title_highlight': 'to transform families, communities and the country.',
