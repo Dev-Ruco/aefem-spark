@@ -70,7 +70,7 @@ export function HeroSlider() {
   // Default hero content when no articles
   if (isLoading || articles.length === 0) {
     return (
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-hero">
+      <section className="relative min-h-[500px] h-[70vh] mt-[72px] flex items-center justify-center overflow-hidden gradient-hero">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full blur-3xl animate-float" />
           <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full blur-3xl animate-float delay-300" />
@@ -114,7 +114,7 @@ export function HeroSlider() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[500px] h-[70vh] mt-[72px] overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -141,7 +141,7 @@ export function HeroSlider() {
             {/* Background Image with lazy loading */}
             {article.featured_image && (
               <div
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-top"
                 style={{ backgroundImage: `url(${article.featured_image})` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/70 to-foreground/85" />
@@ -152,7 +152,7 @@ export function HeroSlider() {
             )}
 
             {/* Content */}
-            <div className="relative h-full flex items-center justify-center pt-20">
+            <div className="relative h-full flex items-center justify-center pt-8">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center text-background">
                   {/* Institutional micro-copy */}
