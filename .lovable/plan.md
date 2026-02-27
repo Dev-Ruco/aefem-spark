@@ -1,38 +1,90 @@
 
+## Plano: Corrigir Sistema de Traducao Bilingue (PT/EN)
 
-## Plano: Ajustar Hero Section - Altura e Fotos Completas
+### Problema Identificado
 
-### Problema Actual
-1. O hero ocupa `min-h-screen` (100% da altura do ecra), forcando-o a encher toda a tela
-2. As imagens usam `bg-cover bg-center`, o que corta cabecas e partes importantes das fotos
-3. O header fixo sobrepoe-se ao topo das imagens
+O site tem um sistema de traducao (`useLanguage` + `t()`) mas a maioria dos componentes tem textos fixos em portugues, sem usar o sistema de traducao. Alem disso, o editor de artigos nao permite inserir versoes em ingles dos conteudos.
 
-### Alteracoes
+### Ambito das Alteracoes
 
-**Ficheiro:** `src/components/home/HeroSlider.tsx`
+#### 1. Adicionar campos EN no Editor de Artigos
+**Ficheiro:** `src/pages/admin/ArticleEditor.tsx`
 
-#### 1. Reduzir altura do Hero
-- Mudar `min-h-screen` para uma altura fixa mais curta: `h-[70vh]` ou `min-h-[500px] max-h-[75vh]`
-- Isto deixa espaco branco em baixo, permitindo ver a proxima seccao
-- Aplicar tanto no slider activo como no fallback estatico
+- Adicionar campos `title_en`, `excerpt_en` e `content_en` ao formulario
+- A base de dados ja suporta estas colunas na tabela `articles`
+- Adicionar uma seccao "Traducao (Ingles)" com os 3 campos
+- Guardar os valores na base de dados ao submeter
 
-#### 2. Fotos completas sem cortar cabecas
-- Mudar `bg-cover bg-center` para `bg-contain bg-center` nao funciona bem para hero
-- Melhor abordagem: usar `bg-cover bg-top` em vez de `bg-center` - isto prioriza o topo da foto (onde estao as cabecas)
-- Adicionar `mt-[72px]` ou `pt-[72px]` para compensar o header fixo, garantindo que a foto comeca abaixo do header
+#### 2. Traduzir ArticlePage (pagina de artigo individual)
+**Ficheiro:** `src/pages/ArticlePage.tsx`
 
-#### 3. Compensar header fixo
-- Adicionar `mt-[72px]` na section principal para que o conteudo comece abaixo do header
-- Ajustar o padding interno do conteudo de `pt-20` para `pt-8` ja que o margin-top compensa
+- Importar `useLanguage`
+- Buscar `title_en`, `content_en`, `excerpt_en` da base de dados
+- Mostrar versao EN quando idioma e ingles
+- Traduzir textos fixos ("Artigo nao encontrado", "Voltar as Noticias", "Partilhar", formato de data)
 
-### Resumo das alteracoes CSS
+#### 3. Traduzir NewsPage (pagina de noticias)
+**Ficheiro:** `src/pages/NewsPage.tsx`
 
-| De | Para | Razao |
-|----|------|-------|
-| `min-h-screen` | `min-h-[500px] h-[70vh]` | Hero nao enche toda a tela |
-| `bg-cover bg-center` | `bg-cover bg-top` | Prioriza topo da foto (cabecas) |
-| sem margin-top | `mt-[72px]` | Foto nao fica escondida pelo header |
-| `pt-20` | `pt-8` | Ajuste de padding interno |
+- Importar `useLanguage`
+- Buscar `title_en`, `excerpt_en`
+- Mostrar versao EN dos artigos
+- Traduzir textos fixos ("Noticias", "Pesquisar", "Todas", "Ler mais", "Nenhuma noticia")
 
-### Ficheiro a modificar
-- `src/components/home/HeroSlider.tsx`
+#### 4. Traduzir NewsSection (seccao homepage)
+**Ficheiro:** `src/components/home/NewsSection.tsx`
+
+- Importar `useLanguage`
+- Buscar `title_en`, `excerpt_en`
+- Traduzir textos fixos
+
+#### 5. Traduzir Footer
+**Ficheiro:** `src/components/layout/Footer.tsx`
+
+- Importar `useLanguage` e usar `t()` para todos os textos
+- Traduzir links rapidos, contactos, newsletter, etc.
+
+#### 6. Traduzir paginas estaticas
+**Ficheiros:**
+- `src/components/home/AboutSection.tsx`
+- `src/components/home/PurposeSection.tsx`
+- `src/components/home/PillarsSection.tsx`
+- `src/components/home/HowWeWorkSection.tsx`
+- `src/components/home/SupportSection.tsx`
+- `src/components/home/PartnersSection.tsx`
+- `src/pages/AboutPage.tsx`
+- `src/pages/ContactPage.tsx`
+- `src/pages/DonationsPage.tsx`
+
+Cada ficheiro: importar `useLanguage`, substituir textos hardcoded por `t('chave')`
+
+#### 7. Adicionar todas as traducoes em falta
+**Ficheiro:** `src/contexts/LanguageContext.tsx`
+
+Adicionar chaves para:
+- About section (~10 chaves)
+- Purpose section (~8 chaves)
+- Pillars section (~12 chaves)
+- How We Work section (~10 chaves)
+- Support section (~10 chaves)
+- Partners section (~5 chaves)
+- News section (~5 chaves)
+- Footer (~15 chaves)
+- Contact page (~10 chaves)
+- Donations page (~20 chaves)
+- Article page (~5 chaves)
+
+### Prioridade de Implementacao
+
+1. **Traducoes no LanguageContext** (base para tudo)
+2. **Editor de artigos** (permitir inserir conteudo EN)
+3. **ArticlePage + NewsPage + NewsSection** (mostrar conteudo EN dos artigos)
+4. **Footer** (visivel em todas as paginas)
+5. **Restantes seccoes e paginas**
+
+### Resultado Esperado
+
+- Todas as paginas respondem a troca de idioma PT/EN
+- Artigos podem ser criados com versao inglesa
+- Quando o idioma e EN mas nao ha traducao, mostra a versao PT como fallback
+- ~150 novas chaves de traducao
