@@ -3,14 +3,12 @@ import Layout from '@/components/layout/Layout';
 import HeroSlider from '@/components/home/HeroSlider';
 import ActivitiesSection from '@/components/home/ActivitiesSection';
 import AboutSection from '@/components/home/AboutSection';
-import PurposeSection from '@/components/home/PurposeSection';
 import ImpactStorySection from '@/components/home/ImpactStorySection';
 import PillarsSection from '@/components/home/PillarsSection';
-import HowWeWorkSection from '@/components/home/HowWeWorkSection';
 import PartnersSection from '@/components/home/PartnersSection';
-import SupportSection from '@/components/home/SupportSection';
 import StatisticsSection from '@/components/home/StatisticsSection';
 import TeamSection from '@/components/home/TeamSection';
+import VideosSection from '@/components/home/VideosSection';
 
 const Index = () => {
   return (
@@ -29,13 +27,11 @@ const Index = () => {
         <AboutSection />
         <StatisticsSection />
         <ImpactStorySection />
-        <PurposeSection />
         <PillarsSection />
-        <HowWeWorkSection />
-        <PartnersSection />
         <TeamSection />
         <ActivitiesSection />
-        <SupportSection />
+        <VideosSection />
+        <PartnersSection />
       </Layout>
     </>
   );

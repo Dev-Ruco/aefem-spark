@@ -372,6 +372,12 @@ const translations: Record<Language, Record<string, string>> = {
     'impact.point2': 'Apoio alimentar solidário',
     'impact.point3': 'Ligação a redes de oportunidades e mentoria',
     'impact.closing': 'As formações abrangeram áreas práticas como costura, culinária, estética, arte floral e serviços, reforçando competências para o auto-emprego e micronegócios.',
+
+    // Videos Section
+    'videos.subtitle': 'Multimédia',
+    'videos.title': 'Acompanhe as Nossas Actividades',
+    'videos.description': 'Veja os momentos mais marcantes do nosso trabalho no terreno',
+    'videos.watch': 'Assistir Vídeo',
   },
   en: {
     // Navigation
@@ -736,6 +742,12 @@ const translations: Record<Language, Record<string, string>> = {
     'impact.point2': 'Solidarity food support',
     'impact.point3': 'Connection to opportunity networks and mentoring',
     'impact.closing': 'The training covered practical areas such as sewing, cooking, aesthetics, floral art and services, reinforcing skills for self-employment and micro-businesses.',
+
+    // Videos Section
+    'videos.subtitle': 'Multimedia',
+    'videos.title': 'Follow Our Activities',
+    'videos.description': 'Watch the most remarkable moments of our work in the field',
+    'videos.watch': 'Watch Video',
   }
 };
 
