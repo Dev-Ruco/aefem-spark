@@ -34,7 +34,100 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.cta_work': 'Conheça o nosso trabalho',
     'hero.cta_support': 'Apoiar a AEFEM',
     
-    // Sections
+    // About Section
+    'about.subtitle': 'Sobre Nós',
+    'about.title': 'Quem Somos',
+    'about.women_empowered': 'Mulheres Empoderadas',
+    'about.economic_empowerment': 'Empoderamento Económico da Mulher',
+    'about.p1': 'A <strong class="text-foreground">Associação do Empoderamento Feminino (AEFEM)</strong> é uma organização da sociedade civil, sem fins lucrativos, dedicada ao empoderamento económico da mulher como base para a igualdade de género, a autonomia social e o desenvolvimento sustentável.',
+    'about.p2': 'Acreditamos que mulheres com acesso a educação, competências, recursos económicos e oportunidades produtivas tornam-se agentes activas de mudança — capazes de melhorar a qualidade de vida das suas famílias, fortalecer as comunidades e contribuir para o crescimento do país.',
+    'about.p3': 'A AEFEM actua através de programas de capacitação económica, educação financeira, empreendedorismo, liderança feminina e advocacia, integrando uma abordagem centrada nos direitos humanos, na inclusão social e na participação comunitária.',
+
+    // Purpose Section
+    'purpose.subtitle': 'O Nosso Propósito',
+    'purpose.title': 'O Que Nos Move',
+    'purpose.description': 'Guiados por valores sólidos, trabalhamos para construir um futuro mais justo e igualitário',
+    'purpose.mission_title': 'Missão',
+    'purpose.mission_content': 'Promover o empoderamento económico das mulheres em Moçambique, através da educação, capacitação, empreendedorismo e defesa de direitos, criando condições para a sua autonomia, participação activa e desenvolvimento sustentável.',
+    'purpose.vision_title': 'Visão',
+    'purpose.vision_content': 'Um Moçambique onde as mulheres tenham independência económica, acesso equitativo a oportunidades e capacidade de decisão sobre as suas vidas, contribuindo plenamente para o desenvolvimento social e económico do país.',
+    'purpose.values_title': 'Valores',
+    'purpose.values_content': 'Autonomia • Igualdade de oportunidades • Integridade • Transparência • Participação • Sustentabilidade',
+
+    // Pillars Section
+    'pillars.subtitle': 'Pilares de Actuação',
+    'pillars.title': 'Áreas de Actuação',
+    'pillars.description': 'Trabalhamos em cinco pilares fundamentais para promover o empoderamento económico das mulheres',
+    'pillars.economic_title': 'Empoderamento Económico e Geração de Rendimento',
+    'pillars.economic_desc': 'Apoio ao empreendedorismo feminino, formação em gestão de pequenos negócios e promoção da inclusão económica.',
+    'pillars.education_title': 'Educação e Capacitação',
+    'pillars.education_desc': 'Alfabetização funcional e financeira, educação para o empreendedorismo e formação técnica profissional.',
+    'pillars.rights_title': 'Direitos Económicos e Sociais',
+    'pillars.rights_desc': 'Sensibilização sobre direitos económicos e laborais, apoio à igualdade de acesso a recursos e serviços.',
+    'pillars.leadership_title': 'Liderança Feminina',
+    'pillars.leadership_desc': 'Formação em liderança, promoção de redes de mulheres empreendedoras e participação em fóruns económicos.',
+    'pillars.advocacy_title': 'Advocacia e Parcerias',
+    'pillars.advocacy_desc': 'Diálogo com instituições públicas e privadas, parcerias estratégicas para o desenvolvimento económico.',
+
+    // How We Work Section
+    'howwework.subtitle': 'Como Trabalhamos',
+    'howwework.title': 'Modelo de Actuação Integrado',
+    'howwework.description': 'Seguimos uma metodologia estruturada para garantir resultados sustentáveis',
+    'howwework.step1_title': 'Diagnóstico',
+    'howwework.step1_desc': 'Identificação das necessidades, capacidades e oportunidades económicas das mulheres e comunidades.',
+    'howwework.step2_title': 'Capacitação',
+    'howwework.step2_desc': 'Formação prática, educação financeira e apoio técnico adaptado ao contexto local.',
+    'howwework.step3_title': 'Implementação',
+    'howwework.step3_desc': 'Apoio à criação, fortalecimento e sustentabilidade de actividades geradoras de rendimento.',
+    'howwework.step4_title': 'Acompanhamento',
+    'howwework.step4_desc': 'Monitoria, mentoria, avaliação de impacto e prestação de contas.',
+
+    // Support Section
+    'support.subtitle': 'Como Apoiar',
+    'support.title': 'Apoie o Empoderamento Económico das Mulheres',
+    'support.description': 'Existem várias formas de contribuir para a nossa causa e fazer a diferença',
+    'support.member_title': 'Torne-se Associado',
+    'support.member_desc': 'Fortaleça a nossa missão tornando-se membro da AEFEM.',
+    'support.donate_title': 'Faça uma Doação',
+    'support.donate_desc': 'Apoie programas de educação e geração de rendimento.',
+    'support.partner_title': 'Parceria Institucional',
+    'support.partner_desc': 'Estabeleça uma colaboração estratégica com a AEFEM.',
+    'support.volunteer_title': 'Seja Voluntário',
+    'support.volunteer_desc': 'Contribua com conhecimento e experiência.',
+    'support.cta': 'Apoiar a AEFEM',
+
+    // Partners Section
+    'partners.subtitle': 'Colaborações',
+    'partners.title': 'Parcerias',
+    'partners.description': 'O empoderamento económico das mulheres exige acção colectiva. Trabalhamos com diversas instituições para alcançar os nossos objectivos.',
+    'partners.interested': 'Interessado em estabelecer uma parceria com a AEFEM?',
+    'partners.based_on': 'Todas as parcerias são baseadas na partilha de valores, na transparência e no compromisso com resultados sustentáveis.',
+
+    // News Section
+    'news.subtitle': 'Actualizações',
+    'news.title': 'Últimas Notícias',
+    'news.description': 'Fique a par das últimas novidades, eventos e actividades da AEFEM',
+    'news.view_all': 'Ver Todas as Notícias',
+    'news.empty': 'Nenhuma notícia disponível de momento.',
+    'news.read_more': 'Ler mais',
+
+    // News Page
+    'newspage.title': 'Notícias',
+    'newspage.meta_desc': 'Últimas notícias e actualizações sobre o trabalho da AEFEM no empoderamento económico das mulheres em Moçambique.',
+    'newspage.subtitle': 'Actualizações',
+    'newspage.description': 'Acompanhe as últimas novidades, eventos e actividades da AEFEM',
+    'newspage.search': 'Pesquisar notícias...',
+    'newspage.all': 'Todas',
+    'newspage.no_results': 'Nenhuma notícia encontrada.',
+
+    // Article Page
+    'article.not_found_title': 'Artigo não encontrado',
+    'article.not_found_desc': 'O artigo que procura não existe ou foi removido.',
+    'article.back': 'Voltar às Notícias',
+    'article.share': 'Partilhar',
+    'article.link_copied': 'Link copiado!',
+
+    // Activities Section
     'activities.subtitle': 'Actividades Recentes',
     'activities.title': 'Últimas Actividades',
     'activities.description': 'Fique a par das últimas novidades, eventos e actividades da AEFEM',
@@ -44,14 +137,88 @@ const translations: Record<Language, Record<string, string>> = {
     // Footer
     'footer.newsletter_title': 'Junte-se à Nossa Newsletter',
     'footer.newsletter_desc': 'Receba as últimas notícias e actualizações da AEFEM',
+    'footer.email_placeholder': 'O seu email',
     'footer.subscribe': 'Subscrever',
     'footer.subscribing': 'A subscrever...',
+    'footer.subscribe_success': 'Subscrição realizada com sucesso!',
+    'footer.subscribe_duplicate': 'Este email já está subscrito na newsletter.',
+    'footer.subscribe_error': 'Erro ao subscrever. Tente novamente.',
+    'footer.about_text': 'A AEFEM promove o empoderamento económico das mulheres como base para a igualdade, a dignidade e o desenvolvimento sustentável em Moçambique.',
+    'footer.tagline': 'Quando uma mulher prospera, toda a comunidade avança.',
     'footer.quick_links': 'Links Rápidos',
     'footer.contacts': 'Contactos',
     'footer.follow_us': 'Siga-nos',
     'footer.support': 'Apoiar a AEFEM',
     'footer.privacy': 'Política de Privacidade',
     'footer.rights': 'Todos os direitos reservados.',
+
+    // About Page
+    'aboutpage.title': 'Sobre Nós',
+    'aboutpage.meta_desc': 'Conheça a AEFEM - Associação do Empoderamento Feminino. Trabalhamos pelo empoderamento económico das mulheres em Moçambique.',
+    'aboutpage.hero_desc': 'Empoderamento Económico da Mulher como Motor de Transformação Social',
+
+    // Contact Page
+    'contact.subtitle': 'Fale Connosco',
+    'contact.title': 'Contacto',
+    'contact.description': 'Tem questões, sugestões ou quer colaborar connosco? Entre em contacto!',
+    'contact.meta_desc': 'Entre em contacto com a AEFEM. Estamos disponíveis para responder às suas questões e receber sugestões.',
+    'contact.info_title': 'Informações de Contacto',
+    'contact.address_label': 'Morada',
+    'contact.phone_label': 'Telefone',
+    'contact.email_label': 'Email',
+    'contact.map_soon': 'Mapa em breve',
+    'contact.form_title': 'Envie-nos uma Mensagem',
+    'contact.name': 'Nome *',
+    'contact.name_placeholder': 'O seu nome',
+    'contact.email': 'Email *',
+    'contact.email_placeholder': 'O seu email',
+    'contact.subject': 'Assunto',
+    'contact.subject_placeholder': 'Assunto da mensagem',
+    'contact.message': 'Mensagem *',
+    'contact.message_placeholder': 'Escreva a sua mensagem...',
+    'contact.send': 'Enviar Mensagem',
+    'contact.sending': 'A enviar...',
+    'contact.success': 'Mensagem enviada com sucesso! Entraremos em contacto brevemente.',
+    'contact.error': 'Erro ao enviar mensagem. Tente novamente.',
+
+    // Donations Page
+    'donations.title': 'Doações',
+    'donations.meta_desc': 'Apoie o empoderamento económico das mulheres em Moçambique. A sua doação faz a diferença.',
+    'donations.hero_title_prefix': 'Apoie o',
+    'donations.hero_title_highlight': 'Empoderamento Feminino',
+    'donations.hero_desc': 'Cada contribuição ajuda a transformar vidas. Junte-se a nós na missão de empoderar economicamente as mulheres em Moçambique.',
+    'donations.methods_subtitle': 'Como Doar',
+    'donations.methods_title': 'Métodos de Doação',
+    'donations.methods_desc': 'Escolha a forma mais conveniente para fazer a sua contribuição',
+    'donations.bank_title': 'Transferência Bancária',
+    'donations.bank_desc': 'Faça uma transferência directa para a nossa conta.',
+    'donations.bank_details': 'Banco: Millennium BIM\nNIB: 0001 0000 0000 0000 0001\nTitular: AEFEM',
+    'donations.mpesa_title': 'M-Pesa',
+    'donations.mpesa_desc': 'Envie a sua doação através do M-Pesa.',
+    'donations.mpesa_details': 'Número: 84 000 0000\nNome: AEFEM',
+    'donations.card_title': 'Cartão de Crédito',
+    'donations.card_desc': 'Em breve: doações online por cartão.',
+    'donations.card_details': 'Esta funcionalidade estará disponível em breve.',
+    'donations.coming_soon': 'Em breve',
+    'donations.impact_subtitle': 'O Seu Impacto',
+    'donations.impact_title': 'O Que a Sua Doação Pode Fazer',
+    'donations.impact_desc': 'Veja como a sua contribuição pode fazer a diferença',
+    'donations.impact_1': 'Fornece material escolar para uma mulher em formação',
+    'donations.impact_2': 'Financia uma sessão de formação em literacia financeira',
+    'donations.impact_3': 'Apoia o arranque de um pequeno negócio',
+    'donations.impact_4': 'Financia um programa completo de capacitação',
+    'donations.other_subtitle': 'Outras Formas',
+    'donations.other_title': 'Mais Formas de Apoiar',
+    'donations.other_desc': 'Para além de doações financeiras, existem outras formas de contribuir',
+    'donations.volunteer_title': 'Voluntariado',
+    'donations.volunteer_desc': 'Partilhe o seu tempo, conhecimento e experiência para ajudar mulheres a alcançar a independência económica.',
+    'donations.volunteer_cta': 'Torne-se Voluntário',
+    'donations.partnerships_title': 'Parcerias',
+    'donations.partnerships_desc': 'Empresas e organizações podem estabelecer parcerias estratégicas para apoiar os nossos programas.',
+    'donations.partnerships_cta': 'Seja Parceiro',
+    'donations.cta_title': 'Pronto para Fazer a Diferença?',
+    'donations.cta_desc': 'Quando uma mulher prospera, toda a comunidade avança. Junte-se a nós nesta missão.',
+    'donations.cta_button': 'Doar Agora',
     
     // Member Area
     'member.register_title': 'Tornar-se Membro da AEFEM',
@@ -105,16 +272,12 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.badge_responsible': 'IA Responsável',
     'mutiyane.cta_try': 'Experimentar Mutiyane',
     'mutiyane.cta_support': 'Apoiar o Projecto',
-    
-    // Mutiyane - What is
     'mutiyane.section_what': 'O Projecto',
     'mutiyane.what_title': 'O que é o Mutiyane?',
     'mutiyane.what_description': 'Um chat interactivo, simples e confidencial para orientação em saúde da mulher',
     'mutiyane.what_full_description': 'O Mutiyane funciona como um chat interactivo, simples e confidencial, onde as utilizadoras podem colocar perguntas e receber respostas claras e orientadoras, baseadas em fontes institucionais e educativas previamente validadas. A tecnologia é usada como ferramenta de apoio à informação, nunca como substituto da relação humana ou dos serviços de saúde.',
     'mutiyane.disclaimer_title': 'Aviso importante',
     'mutiyane.disclaimer_text': 'O Mutiyane não substitui profissionais de saúde, não faz diagnósticos nem prescreve tratamentos.',
-    
-    // Mutiyane - How it works
     'mutiyane.section_how': 'Como Funciona',
     'mutiyane.how_title': 'Inteligência Artificial Responsável',
     'mutiyane.how_description': 'A IA do Mutiyane é supervisionada e delimitada, garantindo respostas seguras e fiáveis',
@@ -126,26 +289,18 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.step3_desc': 'A resposta é construída exclusivamente com base validada',
     'mutiyane.step4_title': 'Resposta clara',
     'mutiyane.step4_desc': 'A utilizadora recebe orientação responsável e fundamentada',
-    
-    // Mutiyane - Limitations
     'mutiyane.what_not': 'O que a IA NÃO faz',
     'mutiyane.limit_internet': 'Não pesquisa a internet em tempo real',
     'mutiyane.limit_learn': 'Não aprende com as conversas das utilizadoras',
     'mutiyane.limit_create': 'Não cria informação livremente',
     'mutiyane.limit_base': 'Responde APENAS da base de conhecimento validada',
-    
-    // Mutiyane - Security
     'mutiyane.security_title': 'Garantias de Segurança',
     'mutiyane.security_no_id': 'Não é exigida identificação pessoal',
     'mutiyane.security_no_data': 'Não são recolhidos dados pessoais',
     'mutiyane.security_no_track': 'Conversas não são associadas a identidades',
-    
-    // Mutiyane - Gallery
     'mutiyane.section_gallery': 'Galeria do App',
     'mutiyane.gallery_title': 'Conheça a Interface',
     'mutiyane.gallery_description': 'Veja como o Mutiyane foi desenhado para ser intuitivo e acessível',
-    
-    // Mutiyane - Sources
     'mutiyane.section_sources': 'Fontes de Informação',
     'mutiyane.sources_title': 'De Onde Vem a Informação',
     'mutiyane.sources_description': 'As respostas baseiam-se numa base de conhecimento estruturada e validada',
@@ -162,21 +317,15 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.not_unverified': 'Conteúdos não verificados',
     'mutiyane.not_personal': 'Dados pessoais das utilizadoras',
     'mutiyane.not_internet': 'Informação da internet',
-    
-    // Mutiyane - Status
     'mutiyane.status_badge': 'Em Desenvolvimento',
     'mutiyane.status_title': 'Estado do Projecto',
     'mutiyane.status_description': 'O Mutiyane encontra-se em fase de desenvolvimento e implementação progressiva, com foco na qualidade da informação e segurança das utilizadoras.',
     'mutiyane.status_complete': 'concluído',
-    
-    // Mutiyane - CTA
     'mutiyane.cta_title': 'Quer apoiar o Mutiyane?',
     'mutiyane.cta_description': 'Junte-se a nós num uso responsável da tecnologia em prol das mulheres.',
     'mutiyane.cta_learn': 'Conhecer a AEFEM',
     'mutiyane.cta_donate': 'Apoiar o Projecto',
     'mutiyane.cta_partner': 'Parcerias Institucionais',
-    
-    // Mutiyane - Preview Section
     'mutiyane.preview_badge': 'Novo Projecto',
     'mutiyane.preview_description': 'Um chat interactivo, simples e confidencial, onde as utilizadoras podem colocar perguntas e receber respostas claras sobre saúde da mulher.',
     'mutiyane.preview_cta': 'Conhecer o Mutiyane',
@@ -187,15 +336,11 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.subtitle': 'Dados que mostram porque o empoderamento económico é urgente',
     'stats.source': 'Fonte: Inquérito Demográfico e de Saúde 2022-23 e IV Recenseamento Geral da População (INE)',
     'stats.click_expand': 'Clique para expandir',
-
-    // Employment Gap
     'stats.employment.title': 'O Fosso do Trabalho Remunerado',
     'stats.employment.question': 'Quem tem emprego em Moçambique?',
     'stats.employment.men': 'Homens Empregados',
     'stats.employment.women': 'Mulheres Empregadas',
     'stats.employment.tooltip': 'Apenas 3 em cada 10 mulheres têm emprego formal, criando uma dependência económica severa.',
-
-    // Agriculture
     'stats.agriculture.title': 'Trabalhar de Graça?',
     'stats.agriculture.subtitle': 'A Realidade Agrícola',
     'stats.agriculture.description': 'Mulheres na Agricultura',
@@ -203,16 +348,12 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.agriculture.unpaid': 'Sem pagamento',
     'stats.agriculture.compare': 'Outras áreas: apenas 5% sem pagamento',
     'stats.agriculture.tooltip': 'A agricultura é o maior empregador da mulher, mas quase metade trabalha sem receber um único metical.',
-
-    // Financial Exclusion
     'stats.financial.title': 'Exclusão Financeira',
     'stats.financial.description': 'Acesso a Contas e Serviços Financeiros',
     'stats.financial.men': 'Homens',
     'stats.financial.women': 'Mulheres',
     'stats.financial.rural': 'Mulheres Rurais',
     'stats.financial.tooltip': 'Sem acesso a bancos ou M-Pesa, a mulher não consegue poupar nem investir no seu negócio.',
-
-    // Digital Divide
     'stats.digital.title': 'O Fosso Digital',
     'stats.digital.description': 'Quem está conectado à Internet?',
     'stats.digital.men': 'Homens conectados',
@@ -246,7 +387,100 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.cta_work': 'Learn about our work',
     'hero.cta_support': 'Support AEFEM',
     
-    // Sections
+    // About Section
+    'about.subtitle': 'About Us',
+    'about.title': 'Who We Are',
+    'about.women_empowered': 'Women Empowered',
+    'about.economic_empowerment': 'Women\'s Economic Empowerment',
+    'about.p1': '<strong class="text-foreground">The Association for Women\'s Empowerment (AEFEM)</strong> is a non-profit civil society organization dedicated to the economic empowerment of women as a foundation for gender equality, social autonomy and sustainable development.',
+    'about.p2': 'We believe that women with access to education, skills, economic resources and productive opportunities become active agents of change — capable of improving the quality of life of their families, strengthening communities and contributing to the country\'s growth.',
+    'about.p3': 'AEFEM works through programs of economic capacity building, financial education, entrepreneurship, women\'s leadership and advocacy, integrating an approach centered on human rights, social inclusion and community participation.',
+
+    // Purpose Section
+    'purpose.subtitle': 'Our Purpose',
+    'purpose.title': 'What Drives Us',
+    'purpose.description': 'Guided by strong values, we work to build a fairer and more equal future',
+    'purpose.mission_title': 'Mission',
+    'purpose.mission_content': 'To promote the economic empowerment of women in Mozambique, through education, training, entrepreneurship and rights advocacy, creating conditions for their autonomy, active participation and sustainable development.',
+    'purpose.vision_title': 'Vision',
+    'purpose.vision_content': 'A Mozambique where women have economic independence, equitable access to opportunities and decision-making power over their lives, fully contributing to the country\'s social and economic development.',
+    'purpose.values_title': 'Values',
+    'purpose.values_content': 'Autonomy • Equal opportunities • Integrity • Transparency • Participation • Sustainability',
+
+    // Pillars Section
+    'pillars.subtitle': 'Pillars of Action',
+    'pillars.title': 'Areas of Action',
+    'pillars.description': 'We work on five fundamental pillars to promote the economic empowerment of women',
+    'pillars.economic_title': 'Economic Empowerment and Income Generation',
+    'pillars.economic_desc': 'Support for women\'s entrepreneurship, training in small business management and promotion of economic inclusion.',
+    'pillars.education_title': 'Education and Training',
+    'pillars.education_desc': 'Functional and financial literacy, entrepreneurship education and professional technical training.',
+    'pillars.rights_title': 'Economic and Social Rights',
+    'pillars.rights_desc': 'Awareness of economic and labor rights, support for equal access to resources and services.',
+    'pillars.leadership_title': 'Women\'s Leadership',
+    'pillars.leadership_desc': 'Leadership training, promotion of women entrepreneur networks and participation in economic forums.',
+    'pillars.advocacy_title': 'Advocacy and Partnerships',
+    'pillars.advocacy_desc': 'Dialogue with public and private institutions, strategic partnerships for economic development.',
+
+    // How We Work Section
+    'howwework.subtitle': 'How We Work',
+    'howwework.title': 'Integrated Action Model',
+    'howwework.description': 'We follow a structured methodology to ensure sustainable results',
+    'howwework.step1_title': 'Assessment',
+    'howwework.step1_desc': 'Identification of the needs, capacities and economic opportunities of women and communities.',
+    'howwework.step2_title': 'Training',
+    'howwework.step2_desc': 'Practical training, financial education and technical support adapted to the local context.',
+    'howwework.step3_title': 'Implementation',
+    'howwework.step3_desc': 'Support for the creation, strengthening and sustainability of income-generating activities.',
+    'howwework.step4_title': 'Follow-up',
+    'howwework.step4_desc': 'Monitoring, mentoring, impact assessment and accountability.',
+
+    // Support Section
+    'support.subtitle': 'How to Support',
+    'support.title': 'Support Women\'s Economic Empowerment',
+    'support.description': 'There are several ways to contribute to our cause and make a difference',
+    'support.member_title': 'Become a Member',
+    'support.member_desc': 'Strengthen our mission by becoming an AEFEM member.',
+    'support.donate_title': 'Make a Donation',
+    'support.donate_desc': 'Support education and income generation programs.',
+    'support.partner_title': 'Institutional Partnership',
+    'support.partner_desc': 'Establish a strategic collaboration with AEFEM.',
+    'support.volunteer_title': 'Volunteer',
+    'support.volunteer_desc': 'Contribute your knowledge and experience.',
+    'support.cta': 'Support AEFEM',
+
+    // Partners Section
+    'partners.subtitle': 'Collaborations',
+    'partners.title': 'Partnerships',
+    'partners.description': 'Women\'s economic empowerment requires collective action. We work with various institutions to achieve our goals.',
+    'partners.interested': 'Interested in establishing a partnership with AEFEM?',
+    'partners.based_on': 'All partnerships are based on shared values, transparency and commitment to sustainable results.',
+
+    // News Section
+    'news.subtitle': 'Updates',
+    'news.title': 'Latest News',
+    'news.description': 'Stay up to date with the latest news, events and activities from AEFEM',
+    'news.view_all': 'View All News',
+    'news.empty': 'No news available at the moment.',
+    'news.read_more': 'Read more',
+
+    // News Page
+    'newspage.title': 'News',
+    'newspage.meta_desc': 'Latest news and updates on AEFEM\'s work in the economic empowerment of women in Mozambique.',
+    'newspage.subtitle': 'Updates',
+    'newspage.description': 'Follow the latest news, events and activities from AEFEM',
+    'newspage.search': 'Search news...',
+    'newspage.all': 'All',
+    'newspage.no_results': 'No news found.',
+
+    // Article Page
+    'article.not_found_title': 'Article not found',
+    'article.not_found_desc': 'The article you are looking for does not exist or has been removed.',
+    'article.back': 'Back to News',
+    'article.share': 'Share',
+    'article.link_copied': 'Link copied!',
+
+    // Activities Section
     'activities.subtitle': 'Recent Activities',
     'activities.title': 'Latest Activities',
     'activities.description': 'Stay up to date with the latest news, events and activities from AEFEM',
@@ -256,14 +490,88 @@ const translations: Record<Language, Record<string, string>> = {
     // Footer
     'footer.newsletter_title': 'Join Our Newsletter',
     'footer.newsletter_desc': 'Receive the latest news and updates from AEFEM',
+    'footer.email_placeholder': 'Your email',
     'footer.subscribe': 'Subscribe',
     'footer.subscribing': 'Subscribing...',
+    'footer.subscribe_success': 'Successfully subscribed!',
+    'footer.subscribe_duplicate': 'This email is already subscribed to the newsletter.',
+    'footer.subscribe_error': 'Error subscribing. Please try again.',
+    'footer.about_text': 'AEFEM promotes the economic empowerment of women as a foundation for equality, dignity and sustainable development in Mozambique.',
+    'footer.tagline': 'When a woman thrives, the whole community advances.',
     'footer.quick_links': 'Quick Links',
     'footer.contacts': 'Contacts',
     'footer.follow_us': 'Follow Us',
     'footer.support': 'Support AEFEM',
     'footer.privacy': 'Privacy Policy',
     'footer.rights': 'All rights reserved.',
+
+    // About Page
+    'aboutpage.title': 'About Us',
+    'aboutpage.meta_desc': 'Learn about AEFEM - Association for Women\'s Empowerment. We work for the economic empowerment of women in Mozambique.',
+    'aboutpage.hero_desc': 'Women\'s Economic Empowerment as a Driver of Social Transformation',
+
+    // Contact Page
+    'contact.subtitle': 'Get in Touch',
+    'contact.title': 'Contact',
+    'contact.description': 'Have questions, suggestions or want to collaborate? Get in touch!',
+    'contact.meta_desc': 'Contact AEFEM. We are available to answer your questions and receive suggestions.',
+    'contact.info_title': 'Contact Information',
+    'contact.address_label': 'Address',
+    'contact.phone_label': 'Phone',
+    'contact.email_label': 'Email',
+    'contact.map_soon': 'Map coming soon',
+    'contact.form_title': 'Send Us a Message',
+    'contact.name': 'Name *',
+    'contact.name_placeholder': 'Your name',
+    'contact.email': 'Email *',
+    'contact.email_placeholder': 'Your email',
+    'contact.subject': 'Subject',
+    'contact.subject_placeholder': 'Message subject',
+    'contact.message': 'Message *',
+    'contact.message_placeholder': 'Write your message...',
+    'contact.send': 'Send Message',
+    'contact.sending': 'Sending...',
+    'contact.success': 'Message sent successfully! We will be in touch shortly.',
+    'contact.error': 'Error sending message. Please try again.',
+
+    // Donations Page
+    'donations.title': 'Donations',
+    'donations.meta_desc': 'Support the economic empowerment of women in Mozambique. Your donation makes a difference.',
+    'donations.hero_title_prefix': 'Support',
+    'donations.hero_title_highlight': 'Women\'s Empowerment',
+    'donations.hero_desc': 'Every contribution helps transform lives. Join us in the mission to economically empower women in Mozambique.',
+    'donations.methods_subtitle': 'How to Donate',
+    'donations.methods_title': 'Donation Methods',
+    'donations.methods_desc': 'Choose the most convenient way to make your contribution',
+    'donations.bank_title': 'Bank Transfer',
+    'donations.bank_desc': 'Make a direct transfer to our account.',
+    'donations.bank_details': 'Bank: Millennium BIM\nNIB: 0001 0000 0000 0000 0001\nHolder: AEFEM',
+    'donations.mpesa_title': 'M-Pesa',
+    'donations.mpesa_desc': 'Send your donation via M-Pesa.',
+    'donations.mpesa_details': 'Number: 84 000 0000\nName: AEFEM',
+    'donations.card_title': 'Credit Card',
+    'donations.card_desc': 'Coming soon: online card donations.',
+    'donations.card_details': 'This feature will be available soon.',
+    'donations.coming_soon': 'Coming soon',
+    'donations.impact_subtitle': 'Your Impact',
+    'donations.impact_title': 'What Your Donation Can Do',
+    'donations.impact_desc': 'See how your contribution can make a difference',
+    'donations.impact_1': 'Provides school materials for a woman in training',
+    'donations.impact_2': 'Funds a financial literacy training session',
+    'donations.impact_3': 'Supports the launch of a small business',
+    'donations.impact_4': 'Funds a complete training program',
+    'donations.other_subtitle': 'Other Ways',
+    'donations.other_title': 'More Ways to Support',
+    'donations.other_desc': 'Beyond financial donations, there are other ways to contribute',
+    'donations.volunteer_title': 'Volunteering',
+    'donations.volunteer_desc': 'Share your time, knowledge and experience to help women achieve economic independence.',
+    'donations.volunteer_cta': 'Become a Volunteer',
+    'donations.partnerships_title': 'Partnerships',
+    'donations.partnerships_desc': 'Companies and organizations can establish strategic partnerships to support our programs.',
+    'donations.partnerships_cta': 'Become a Partner',
+    'donations.cta_title': 'Ready to Make a Difference?',
+    'donations.cta_desc': 'When a woman thrives, the whole community advances. Join us in this mission.',
+    'donations.cta_button': 'Donate Now',
     
     // Member Area
     'member.register_title': 'Become an AEFEM Member',
@@ -317,16 +625,12 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.badge_responsible': 'Responsible AI',
     'mutiyane.cta_try': 'Try Mutiyane',
     'mutiyane.cta_support': 'Support the Project',
-    
-    // Mutiyane - What is
     'mutiyane.section_what': 'The Project',
     'mutiyane.what_title': 'What is Mutiyane?',
     'mutiyane.what_description': 'An interactive, simple and confidential chat for women\'s health guidance',
     'mutiyane.what_full_description': 'Mutiyane works as an interactive, simple and confidential chat, where users can ask questions and receive clear, guiding answers, based on previously validated institutional and educational sources. Technology is used as a tool to support information, never as a substitute for human relationships or health services.',
     'mutiyane.disclaimer_title': 'Important notice',
     'mutiyane.disclaimer_text': 'Mutiyane does not replace healthcare professionals, does not make diagnoses or prescribe treatments.',
-    
-    // Mutiyane - How it works
     'mutiyane.section_how': 'How It Works',
     'mutiyane.how_title': 'Responsible Artificial Intelligence',
     'mutiyane.how_description': 'Mutiyane\'s AI is supervised and bounded, ensuring safe and reliable answers',
@@ -338,26 +642,18 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.step3_desc': 'The answer is built exclusively from validated knowledge base',
     'mutiyane.step4_title': 'Clear answer',
     'mutiyane.step4_desc': 'User receives responsible and grounded guidance',
-    
-    // Mutiyane - Limitations
     'mutiyane.what_not': 'What AI does NOT do',
     'mutiyane.limit_internet': 'Does not search the internet in real time',
     'mutiyane.limit_learn': 'Does not learn from user conversations',
     'mutiyane.limit_create': 'Does not create information freely',
     'mutiyane.limit_base': 'Responds ONLY from validated knowledge base',
-    
-    // Mutiyane - Security
     'mutiyane.security_title': 'Security Guarantees',
     'mutiyane.security_no_id': 'No personal identification required',
     'mutiyane.security_no_data': 'No personal data collected',
     'mutiyane.security_no_track': 'Conversations not linked to identities',
-    
-    // Mutiyane - Gallery
     'mutiyane.section_gallery': 'App Gallery',
     'mutiyane.gallery_title': 'Discover the Interface',
     'mutiyane.gallery_description': 'See how Mutiyane was designed to be intuitive and accessible',
-    
-    // Mutiyane - Sources
     'mutiyane.section_sources': 'Information Sources',
     'mutiyane.sources_title': 'Where the Information Comes From',
     'mutiyane.sources_description': 'Answers are based on a structured and validated knowledge base',
@@ -374,21 +670,15 @@ const translations: Record<Language, Record<string, string>> = {
     'mutiyane.not_unverified': 'Unverified content',
     'mutiyane.not_personal': 'User personal data',
     'mutiyane.not_internet': 'Internet information',
-    
-    // Mutiyane - Status
     'mutiyane.status_badge': 'In Development',
     'mutiyane.status_title': 'Project Status',
     'mutiyane.status_description': 'Mutiyane is in the development and progressive implementation phase, focusing on information quality and user safety.',
     'mutiyane.status_complete': 'complete',
-    
-    // Mutiyane - CTA
     'mutiyane.cta_title': 'Want to support Mutiyane?',
     'mutiyane.cta_description': 'Join us in responsible use of technology for women.',
     'mutiyane.cta_learn': 'Learn about AEFEM',
     'mutiyane.cta_donate': 'Support the Project',
     'mutiyane.cta_partner': 'Institutional Partnerships',
-    
-    // Mutiyane - Preview Section
     'mutiyane.preview_badge': 'New Project',
     'mutiyane.preview_description': 'An interactive, simple and confidential chat, where users can ask questions and receive clear answers about women\'s health.',
     'mutiyane.preview_cta': 'Discover Mutiyane',
@@ -399,15 +689,11 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.subtitle': 'Data showing why economic empowerment is urgent',
     'stats.source': 'Source: Demographic and Health Survey 2022-23 and IV General Population Census (INE)',
     'stats.click_expand': 'Click to expand',
-
-    // Employment Gap
     'stats.employment.title': 'The Paid Work Gap',
     'stats.employment.question': 'Who has employment in Mozambique?',
     'stats.employment.men': 'Men Employed',
     'stats.employment.women': 'Women Employed',
     'stats.employment.tooltip': 'Only 3 in 10 women have formal employment, creating severe economic dependence.',
-
-    // Agriculture
     'stats.agriculture.title': 'Working for Free?',
     'stats.agriculture.subtitle': 'The Agricultural Reality',
     'stats.agriculture.description': 'Women in Agriculture',
@@ -415,16 +701,12 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.agriculture.unpaid': 'No payment',
     'stats.agriculture.compare': 'Other areas: only 5% unpaid',
     'stats.agriculture.tooltip': 'Agriculture is the largest employer of women, but almost half work without receiving a single metical.',
-
-    // Financial Exclusion
     'stats.financial.title': 'Financial Exclusion',
     'stats.financial.description': 'Access to Accounts and Financial Services',
     'stats.financial.men': 'Men',
     'stats.financial.women': 'Women',
     'stats.financial.rural': 'Rural Women',
     'stats.financial.tooltip': 'Without access to banks or M-Pesa, women cannot save or invest in their business.',
-
-    // Digital Divide
     'stats.digital.title': 'The Digital Divide',
     'stats.digital.description': 'Who is connected to the Internet?',
     'stats.digital.men': 'Men connected',
@@ -439,16 +721,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
-    // Check localStorage first
     const saved = localStorage.getItem('aefem-language');
     if (saved === 'pt' || saved === 'en') return saved;
-    
-    // Detect browser language
     const browserLang = navigator.language.toLowerCase();
     if (browserLang.startsWith('pt')) return 'pt';
     if (browserLang.startsWith('en')) return 'en';
-    
-    // Default to Portuguese
     return 'pt';
   });
 

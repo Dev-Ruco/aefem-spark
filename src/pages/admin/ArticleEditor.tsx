@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { RichTextEditor } from '@/components/admin/RichTextEditor';
 import { ImageUploader } from '@/components/admin/ImageUploader';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Languages } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -35,6 +35,9 @@ interface ArticleForm {
   status: 'draft' | 'published' | 'scheduled';
   is_featured: boolean;
   scheduled_at: string;
+  title_en: string;
+  excerpt_en: string;
+  content_en: string;
 }
 
 export default function ArticleEditor() {
@@ -56,7 +59,10 @@ export default function ArticleEditor() {
     category_id: '',
     status: 'draft',
     is_featured: false,
-    scheduled_at: ''
+    scheduled_at: '',
+    title_en: '',
+    excerpt_en: '',
+    content_en: '',
   });
 
   useEffect(() => {
@@ -93,7 +99,10 @@ export default function ArticleEditor() {
         category_id: data.category_id || '',
         status: data.status,
         is_featured: data.is_featured || false,
-        scheduled_at: data.scheduled_at || ''
+        scheduled_at: data.scheduled_at || '',
+        title_en: data.title_en || '',
+        excerpt_en: data.excerpt_en || '',
+        content_en: data.content_en || '',
       });
     } catch (error: any) {
       toast({
@@ -161,7 +170,10 @@ export default function ArticleEditor() {
         is_featured: form.is_featured,
         scheduled_at: form.status === 'scheduled' ? form.scheduled_at : null,
         published_at: form.status === 'published' ? new Date().toISOString() : null,
-        author_id: user?.id || ''
+        author_id: user?.id || '',
+        title_en: form.title_en || null,
+        excerpt_en: form.excerpt_en || null,
+        content_en: form.content_en || null,
       };
 
       if (isEditing) {
@@ -237,7 +249,7 @@ export default function ArticleEditor() {
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Conteúdo</CardTitle>
+              <CardTitle>Conteúdo (Português)</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -279,6 +291,46 @@ export default function ArticleEditor() {
                 <RichTextEditor
                   content={form.content}
                   onChange={(content) => setForm(prev => ({ ...prev, content }))}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* English Translation */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Languages className="h-5 w-5" />
+                Tradução (English)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title_en">Title (EN)</Label>
+                <Input
+                  id="title_en"
+                  value={form.title_en}
+                  onChange={(e) => setForm(prev => ({ ...prev, title_en: e.target.value }))}
+                  placeholder="Article title in English"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="excerpt_en">Excerpt (EN)</Label>
+                <Textarea
+                  id="excerpt_en"
+                  value={form.excerpt_en}
+                  onChange={(e) => setForm(prev => ({ ...prev, excerpt_en: e.target.value }))}
+                  placeholder="Brief description in English"
+                  rows={3}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Content (EN)</Label>
+                <RichTextEditor
+                  content={form.content_en}
+                  onChange={(content_en) => setForm(prev => ({ ...prev, content_en }))}
                 />
               </div>
             </CardContent>

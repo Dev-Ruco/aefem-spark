@@ -3,38 +3,41 @@ import { Card, CardContent } from '@/components/ui/card';
 import SectionHeader from '@/components/ui/section-header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-
-const purposeCards = [
-  {
-    icon: Target,
-    title: 'Missão',
-    content: 'Promover o empoderamento económico das mulheres em Moçambique, através da educação, capacitação, empreendedorismo e defesa de direitos, criando condições para a sua autonomia, participação activa e desenvolvimento sustentável.',
-  },
-  {
-    icon: Eye,
-    title: 'Visão',
-    content: 'Um Moçambique onde as mulheres tenham independência económica, acesso equitativo a oportunidades e capacidade de decisão sobre as suas vidas, contribuindo plenamente para o desenvolvimento social e económico do país.',
-  },
-  {
-    icon: Heart,
-    title: 'Valores',
-    content: 'Autonomia • Igualdade de oportunidades • Integridade • Transparência • Participação • Sustentabilidade',
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function PurposeSection() {
+  const { t } = useLanguage();
+
+  const purposeCards = [
+    {
+      icon: Target,
+      title: t('purpose.mission_title'),
+      content: t('purpose.mission_content'),
+    },
+    {
+      icon: Eye,
+      title: t('purpose.vision_title'),
+      content: t('purpose.vision_content'),
+    },
+    {
+      icon: Heart,
+      title: t('purpose.values_title'),
+      content: t('purpose.values_content'),
+    },
+  ];
+
   return (
     <section className="py-20 md:py-28 gradient-hero">
       <div className="container mx-auto px-4">
         <SectionHeader
-          subtitle="O Nosso Propósito"
-          title="O Que Nos Move"
-          description="Guiados por valores sólidos, trabalhamos para construir um futuro mais justo e igualitário"
+          subtitle={t('purpose.subtitle')}
+          title={t('purpose.title')}
+          description={t('purpose.description')}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {purposeCards.map((card, index) => (
-            <PurposeCard key={card.title} card={card} index={index} />
+            <PurposeCard key={index} card={card} index={index} />
           ))}
         </div>
       </div>
@@ -46,7 +49,7 @@ function PurposeCard({
   card,
   index,
 }: {
-  card: (typeof purposeCards)[0];
+  card: { icon: any; title: string; content: string };
   index: number;
 }) {
   const { ref, isInView } = useScrollAnimation();
@@ -60,7 +63,6 @@ function PurposeCard({
       )}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      {/* Gradient background on hover */}
       <div className="absolute inset-0 gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <CardContent className="relative p-8 text-center">

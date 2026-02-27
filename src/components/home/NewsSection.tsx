@@ -9,12 +9,15 @@ import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS } from 'date-fns/locale';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Article {
   id: string;
   title: string;
+  title_en: string | null;
   excerpt: string | null;
+  excerpt_en: string | null;
   featured_image: string | null;
   slug: string;
   published_at: string | null;
@@ -24,6 +27,7 @@ interface Article {
 export function NewsSection() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -32,7 +36,9 @@ export function NewsSection() {
         .select(`
           id,
           title,
+          title_en,
           excerpt,
+          excerpt_en,
           featured_image,
           slug,
           published_at,
@@ -57,14 +63,13 @@ export function NewsSection() {
     <section className="py-20 md:py-28 bg-secondary/30">
       <div className="container mx-auto px-4">
         <SectionHeader
-          subtitle="Actualizações"
-          title="Últimas Notícias"
-          description="Fique a par das últimas novidades, eventos e actividades da AEFEM"
+          subtitle={t('news.subtitle')}
+          title={t('news.title')}
+          description={t('news.description')}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {isLoading ? (
-            // Skeleton loading
             Array.from({ length: 3 }).map((_, i) => (
               <Card key={i} className="overflow-hidden animate-pulse">
                 <div className="aspect-video bg-muted" />
@@ -77,11 +82,11 @@ export function NewsSection() {
             ))
           ) : articles.length > 0 ? (
             articles.map((article, index) => (
-              <ArticleCard key={article.id} article={article} index={index} />
+              <ArticleCard key={article.id} article={article} index={index} language={language} t={t} />
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground">Nenhuma notícia disponível de momento.</p>
+              <p className="text-muted-foreground">{t('news.empty')}</p>
             </div>
           )}
         </div>
@@ -90,7 +95,7 @@ export function NewsSection() {
           <div className="mt-12 text-center">
             <Link to="/noticias">
               <Button variant="outline" size="lg" className="group">
-                Ver Todas as Notícias
+                {t('news.view_all')}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
@@ -101,8 +106,12 @@ export function NewsSection() {
   );
 }
 
-function ArticleCard({ article, index }: { article: Article; index: number }) {
+function ArticleCard({ article, index, language, t }: { article: Article; index: number; language: string; t: (key: string) => string }) {
   const { ref, isInView } = useScrollAnimation();
+  const dateLocale = language === 'en' ? enUS : pt;
+  const dateFormat = language === 'en' ? "MMMM d, yyyy" : "d 'de' MMMM, yyyy";
+  const title = (language === 'en' && article.title_en) ? article.title_en : article.title;
+  const excerpt = (language === 'en' && article.excerpt_en) ? article.excerpt_en : article.excerpt;
 
   return (
     <Link to={`/noticias/${article.slug}`}>
@@ -120,7 +129,7 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
           {article.featured_image ? (
             <img
               src={article.featured_image}
-              alt={article.title}
+              alt={title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
@@ -137,20 +146,20 @@ function ArticleCard({ article, index }: { article: Article; index: number }) {
             <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
               <Calendar className="h-4 w-4" />
               <time dateTime={article.published_at}>
-                {format(new Date(article.published_at), "d 'de' MMMM, yyyy", { locale: pt })}
+                {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
               </time>
             </div>
           )}
           <h3 className="font-display text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-            {article.title}
+            {title}
           </h3>
-          {article.excerpt && (
+          {excerpt && (
             <p className="text-muted-foreground line-clamp-2 text-sm">
-              {article.excerpt}
+              {excerpt}
             </p>
           )}
           <div className="mt-4 flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
-            Ler mais
+            {t('news.read_more')}
             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </div>
         </CardContent>

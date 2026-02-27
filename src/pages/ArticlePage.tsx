@@ -7,14 +7,18 @@ import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS } from 'date-fns/locale';
 import { toast } from 'sonner';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Article {
   id: string;
   title: string;
+  title_en: string | null;
   content: string | null;
+  content_en: string | null;
   excerpt: string | null;
+  excerpt_en: string | null;
   featured_image: string | null;
   published_at: string | null;
   categories: { name: string; slug: string } | null;
@@ -24,6 +28,7 @@ export default function ArticlePage() {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -34,8 +39,11 @@ export default function ArticlePage() {
         .select(`
           id,
           title,
+          title_en,
           content,
+          content_en,
           excerpt,
+          excerpt_en,
           featured_image,
           published_at,
           categories (name, slug)
@@ -67,9 +75,27 @@ export default function ArticlePage() {
       }
     } else {
       await navigator.clipboard.writeText(window.location.href);
-      toast.success('Link copiado!');
+      toast.success(t('article.link_copied'));
     }
   };
+
+  const getTitle = () => {
+    if (!article) return '';
+    return (language === 'en' && article.title_en) ? article.title_en : article.title;
+  };
+
+  const getContent = () => {
+    if (!article) return '';
+    return (language === 'en' && article.content_en) ? article.content_en : (article.content || '');
+  };
+
+  const getExcerpt = () => {
+    if (!article) return '';
+    return (language === 'en' && article.excerpt_en) ? article.excerpt_en : (article.excerpt || '');
+  };
+
+  const dateLocale = language === 'en' ? enUS : pt;
+  const dateFormat = language === 'en' ? "MMMM d, yyyy" : "d 'de' MMMM, yyyy";
 
   if (isLoading) {
     return (
@@ -97,12 +123,12 @@ export default function ArticlePage() {
       <Layout>
         <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h1 className="font-display text-3xl font-bold mb-4">Artigo não encontrado</h1>
-            <p className="text-muted-foreground mb-6">O artigo que procura não existe ou foi removido.</p>
+            <h1 className="font-display text-3xl font-bold mb-4">{t('article.not_found_title')}</h1>
+            <p className="text-muted-foreground mb-6">{t('article.not_found_desc')}</p>
             <Link to="/noticias">
               <Button>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Voltar às Notícias
+                {t('article.back')}
               </Button>
             </Link>
           </div>
@@ -114,8 +140,8 @@ export default function ArticlePage() {
   return (
     <>
       <Helmet>
-        <title>{article.title} | AEFEM</title>
-        <meta name="description" content={article.excerpt || ''} />
+        <title>{getTitle()} | AEFEM</title>
+        <meta name="description" content={getExcerpt()} />
       </Helmet>
 
       <Layout>
@@ -126,7 +152,7 @@ export default function ArticlePage() {
               <div className="h-[50vh] relative">
                 <img
                   src={article.featured_image}
-                  alt={article.title}
+                  alt={getTitle()}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
@@ -143,7 +169,7 @@ export default function ArticlePage() {
                 {/* Back button */}
                 <Link to="/noticias" className="inline-flex items-center text-muted-foreground hover:text-primary mb-6 transition-colors">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Voltar às Notícias
+                  {t('article.back')}
                 </Link>
 
                 {/* Category */}
@@ -153,7 +179,7 @@ export default function ArticlePage() {
 
                 {/* Title */}
                 <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                  {article.title}
+                  {getTitle()}
                 </h1>
 
                 {/* Meta */}
@@ -162,20 +188,20 @@ export default function ArticlePage() {
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
                       <time dateTime={article.published_at}>
-                        {format(new Date(article.published_at), "d 'de' MMMM, yyyy", { locale: pt })}
+                        {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
                       </time>
                     </div>
                   )}
                   <Button variant="ghost" size="sm" onClick={handleShare} className="ml-auto">
                     <Share2 className="h-4 w-4 mr-2" />
-                    Partilhar
+                    {t('article.share')}
                   </Button>
                 </div>
 
                 {/* Content */}
                 <div 
                   className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary"
-                  dangerouslySetInnerHTML={{ __html: article.content || '' }}
+                  dangerouslySetInnerHTML={{ __html: getContent() }}
                 />
               </div>
             </div>

@@ -3,48 +3,31 @@ import { Card, CardContent } from '@/components/ui/card';
 import SectionHeader from '@/components/ui/section-header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-
-const pillars = [
-  {
-    icon: TrendingUp,
-    title: 'Empoderamento Económico e Geração de Rendimento',
-    description: 'Apoio ao empreendedorismo feminino, formação em gestão de pequenos negócios e promoção da inclusão económica.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Educação e Capacitação',
-    description: 'Alfabetização funcional e financeira, educação para o empreendedorismo e formação técnica profissional.',
-  },
-  {
-    icon: Scale,
-    title: 'Direitos Económicos e Sociais',
-    description: 'Sensibilização sobre direitos económicos e laborais, apoio à igualdade de acesso a recursos e serviços.',
-  },
-  {
-    icon: Users,
-    title: 'Liderança Feminina',
-    description: 'Formação em liderança, promoção de redes de mulheres empreendedoras e participação em fóruns económicos.',
-  },
-  {
-    icon: Handshake,
-    title: 'Advocacia e Parcerias',
-    description: 'Diálogo com instituições públicas e privadas, parcerias estratégicas para o desenvolvimento económico.',
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function PillarsSection() {
+  const { t } = useLanguage();
+
+  const pillars = [
+    { icon: TrendingUp, title: t('pillars.economic_title'), description: t('pillars.economic_desc') },
+    { icon: GraduationCap, title: t('pillars.education_title'), description: t('pillars.education_desc') },
+    { icon: Scale, title: t('pillars.rights_title'), description: t('pillars.rights_desc') },
+    { icon: Users, title: t('pillars.leadership_title'), description: t('pillars.leadership_desc') },
+    { icon: Handshake, title: t('pillars.advocacy_title'), description: t('pillars.advocacy_desc') },
+  ];
+
   return (
     <section className="py-20 md:py-28">
       <div className="container mx-auto px-4">
         <SectionHeader
-          subtitle="Pilares de Actuação"
-          title="Áreas de Actuação"
-          description="Trabalhamos em cinco pilares fundamentais para promover o empoderamento económico das mulheres"
+          subtitle={t('pillars.subtitle')}
+          title={t('pillars.title')}
+          description={t('pillars.description')}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {pillars.map((pillar, index) => (
-            <PillarCard key={pillar.title} pillar={pillar} index={index} />
+            <PillarCard key={index} pillar={pillar} index={index} />
           ))}
         </div>
       </div>
@@ -56,7 +39,7 @@ function PillarCard({
   pillar,
   index,
 }: {
-  pillar: (typeof pillars)[0];
+  pillar: { icon: any; title: string; description: string };
   index: number;
 }) {
   const { ref, isInView } = useScrollAnimation();
@@ -67,7 +50,7 @@ function PillarCard({
       className={cn(
         'group transition-all duration-500 hover:shadow-brand-md border-border/50 hover:border-primary/30',
         isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-        index === 4 && 'lg:col-start-2' // Center the last card on desktop
+        index === 4 && 'lg:col-start-2'
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
