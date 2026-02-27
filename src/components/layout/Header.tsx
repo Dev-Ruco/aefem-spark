@@ -76,12 +76,13 @@ export function Header() {
           </div>
 
           {/* CTA Button & Mobile Menu Toggle */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <LanguageSelector />
             <Link to="/doacoes" className="hidden sm:block">
               <Button
                 className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105"
               >
-                Apoiar a AEFEM
+                {t('footer.support')}
               </Button>
             </Link>
 
@@ -121,9 +122,12 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <div className="flex items-center justify-between pt-2 px-4">
+              <LanguageSelector />
+            </div>
             <Link to="/doacoes" className="block pt-2">
               <Button className="w-full gradient-primary text-primary-foreground">
-                Apoiar a AEFEM
+                {t('footer.support')}
               </Button>
             </Link>
           </div>

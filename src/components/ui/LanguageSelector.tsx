@@ -1,5 +1,4 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function LanguageSelector({ className }: { className?: string }) {
@@ -7,29 +6,28 @@ export function LanguageSelector({ className }: { className?: string }) {
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
-      <Button
-        variant="ghost"
-        size="sm"
+      <button
         onClick={() => setLanguage('pt')}
         className={cn(
-          'px-2 py-1 text-xs font-medium',
-          language === 'pt' ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
+          'flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium transition-all',
+          language === 'pt' ? 'bg-primary/10 ring-1 ring-primary/30' : 'opacity-60 hover:opacity-100'
         )}
+        aria-label="Português"
       >
-        PT
-      </Button>
-      <span className="text-muted-foreground/50">|</span>
-      <Button
-        variant="ghost"
-        size="sm"
+        <span className="text-base leading-none">🇵🇹</span>
+        <span className="hidden sm:inline">PT</span>
+      </button>
+      <button
         onClick={() => setLanguage('en')}
         className={cn(
-          'px-2 py-1 text-xs font-medium',
-          language === 'en' ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
+          'flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium transition-all',
+          language === 'en' ? 'bg-primary/10 ring-1 ring-primary/30' : 'opacity-60 hover:opacity-100'
         )}
+        aria-label="English"
       >
-        EN
-      </Button>
+        <span className="text-base leading-none">🇬🇧</span>
+        <span className="hidden sm:inline">EN</span>
+      </button>
     </div>
   );
 }
