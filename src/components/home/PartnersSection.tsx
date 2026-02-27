@@ -3,6 +3,7 @@ import SectionHeader from '@/components/ui/section-header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Partner {
   id: string;
@@ -14,6 +15,7 @@ interface Partner {
 export function PartnersSection() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const { ref, isInView } = useScrollAnimation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchPartners = async () => {
@@ -37,9 +39,9 @@ export function PartnersSection() {
     <section className="py-20 md:py-28 bg-secondary/30">
       <div className="container mx-auto px-4">
         <SectionHeader
-          subtitle="Colaborações"
-          title="Parcerias"
-          description="O empoderamento económico das mulheres exige acção colectiva. Trabalhamos com diversas instituições para alcançar os nossos objectivos."
+          subtitle={t('partners.subtitle')}
+          title={t('partners.title')}
+          description={t('partners.description')}
         />
 
         <div
@@ -76,10 +78,10 @@ export function PartnersSection() {
           ) : (
             <div className="text-center py-12 bg-card rounded-2xl">
               <p className="text-muted-foreground mb-4">
-                Interessado em estabelecer uma parceria com a AEFEM?
+                {t('partners.interested')}
               </p>
               <p className="text-sm text-muted-foreground">
-                Todas as parcerias são baseadas na partilha de valores, na transparência e no compromisso com resultados sustentáveis.
+                {t('partners.based_on')}
               </p>
             </div>
           )}

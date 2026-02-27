@@ -10,13 +10,16 @@ import Layout from '@/components/layout/Layout';
 import SectionHeader from '@/components/ui/section-header';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Article {
   id: string;
   title: string;
+  title_en: string | null;
   excerpt: string | null;
+  excerpt_en: string | null;
   featured_image: string | null;
   slug: string;
   published_at: string | null;
@@ -35,6 +38,10 @@ export default function NewsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const { language, t } = useLanguage();
+
+  const dateLocale = language === 'en' ? enUS : pt;
+  const dateFormat = language === 'en' ? "MMMM d, yyyy" : "d 'de' MMMM, yyyy";
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -56,7 +63,9 @@ export default function NewsPage() {
         .select(`
           id,
           title,
+          title_en,
           excerpt,
+          excerpt_en,
           featured_image,
           slug,
           published_at,
@@ -76,17 +85,17 @@ export default function NewsPage() {
       } else {
         let filteredArticles = data || [];
         
-        // Filter by search query
         if (searchQuery) {
           const lowerQuery = searchQuery.toLowerCase();
           filteredArticles = filteredArticles.filter(
             (article) =>
               article.title.toLowerCase().includes(lowerQuery) ||
-              article.excerpt?.toLowerCase().includes(lowerQuery)
+              article.title_en?.toLowerCase().includes(lowerQuery) ||
+              article.excerpt?.toLowerCase().includes(lowerQuery) ||
+              article.excerpt_en?.toLowerCase().includes(lowerQuery)
           );
         }
         
-        // Filter by category (since nested filter might not work)
         if (selectedCategory) {
           filteredArticles = filteredArticles.filter(
             (article) => article.categories?.slug === selectedCategory
@@ -101,11 +110,19 @@ export default function NewsPage() {
     fetchArticles();
   }, [selectedCategory, searchQuery]);
 
+  const getArticleTitle = (article: Article) => {
+    return (language === 'en' && article.title_en) ? article.title_en : article.title;
+  };
+
+  const getArticleExcerpt = (article: Article) => {
+    return (language === 'en' && article.excerpt_en) ? article.excerpt_en : article.excerpt;
+  };
+
   return (
     <>
       <Helmet>
-        <title>Notícias | AEFEM</title>
-        <meta name="description" content="Últimas notícias e actualizações sobre o trabalho da AEFEM no empoderamento económico das mulheres em Moçambique." />
+        <title>{t('newspage.title')} | AEFEM</title>
+        <meta name="description" content={t('newspage.meta_desc')} />
       </Helmet>
 
       <Layout>
@@ -113,9 +130,9 @@ export default function NewsPage() {
         <section className="pt-32 pb-16 gradient-hero">
           <div className="container mx-auto px-4">
             <SectionHeader
-              subtitle="Actualizações"
-              title="Notícias"
-              description="Acompanhe as últimas novidades, eventos e actividades da AEFEM"
+              subtitle={t('newspage.subtitle')}
+              title={t('newspage.title')}
+              description={t('newspage.description')}
             />
 
             {/* Search & Filter */}
@@ -124,7 +141,7 @@ export default function NewsPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="search"
-                  placeholder="Pesquisar notícias..."
+                  placeholder={t('newspage.search')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -138,7 +155,7 @@ export default function NewsPage() {
                     size="sm"
                     onClick={() => setSelectedCategory(null)}
                   >
-                    Todas
+                    {t('newspage.all')}
                   </Button>
                   {categories.map((category) => (
                     <Button
@@ -181,7 +198,7 @@ export default function NewsPage() {
                         {article.featured_image ? (
                           <img
                             src={article.featured_image}
-                            alt={article.title}
+                            alt={getArticleTitle(article)}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         ) : (
@@ -198,20 +215,20 @@ export default function NewsPage() {
                           <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
                             <Calendar className="h-4 w-4" />
                             <time dateTime={article.published_at}>
-                              {format(new Date(article.published_at), "d 'de' MMMM, yyyy", { locale: pt })}
+                              {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
                             </time>
                           </div>
                         )}
                         <h2 className="font-display text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                          {article.title}
+                          {getArticleTitle(article)}
                         </h2>
-                        {article.excerpt && (
+                        {getArticleExcerpt(article) && (
                           <p className="text-muted-foreground line-clamp-2 text-sm">
-                            {article.excerpt}
+                            {getArticleExcerpt(article)}
                           </p>
                         )}
                         <div className="mt-4 flex items-center text-primary font-medium text-sm">
-                          Ler mais
+                          {t('news.read_more')}
                           <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </div>
                       </CardContent>
@@ -221,7 +238,7 @@ export default function NewsPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">Nenhuma notícia encontrada.</p>
+                <p className="text-muted-foreground text-lg">{t('newspage.no_results')}</p>
               </div>
             )}
           </div>

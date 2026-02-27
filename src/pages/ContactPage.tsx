@@ -13,6 +13,7 @@ import Layout from '@/components/layout/Layout';
 import SectionHeader from '@/components/ui/section-header';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -23,28 +24,15 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-const contactInfo = [
-  {
-    icon: MapPin,
-    title: 'Morada',
-    value: 'Maputo, Moçambique',
-  },
-  {
-    icon: Phone,
-    title: 'Telefone',
-    value: '+258 84 000 0000',
-    href: 'tel:+258840000000',
-  },
-  {
-    icon: Mail,
-    title: 'Email',
-    value: 'info@aefem.org.mz',
-    href: 'mailto:info@aefem.org.mz',
-  },
-];
-
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
+
+  const contactInfo = [
+    { icon: MapPin, title: t('contact.address_label'), value: 'Maputo, Moçambique' },
+    { icon: Phone, title: t('contact.phone_label'), value: '+258 84 000 0000', href: 'tel:+258840000000' },
+    { icon: Mail, title: t('contact.email_label'), value: 'info@aefem.org.mz', href: 'mailto:info@aefem.org.mz' },
+  ];
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -65,11 +53,11 @@ export default function ContactPage() {
 
       if (error) throw error;
 
-      toast.success('Mensagem enviada com sucesso! Entraremos em contacto brevemente.');
+      toast.success(t('contact.success'));
       form.reset();
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Erro ao enviar mensagem. Tente novamente.');
+      toast.error(t('contact.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -78,29 +66,26 @@ export default function ContactPage() {
   return (
     <>
       <Helmet>
-        <title>Contacto | AEFEM</title>
-        <meta name="description" content="Entre em contacto com a AEFEM. Estamos disponíveis para responder às suas questões e receber sugestões." />
+        <title>{t('contact.title')} | AEFEM</title>
+        <meta name="description" content={t('contact.meta_desc')} />
       </Helmet>
 
       <Layout>
-        {/* Hero */}
         <section className="pt-32 pb-16 gradient-hero">
           <div className="container mx-auto px-4">
             <SectionHeader
-              subtitle="Fale Connosco"
-              title="Contacto"
-              description="Tem questões, sugestões ou quer colaborar connosco? Entre em contacto!"
+              subtitle={t('contact.subtitle')}
+              title={t('contact.title')}
+              description={t('contact.description')}
             />
           </div>
         </section>
 
-        {/* Contact Section */}
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Contact Info */}
               <div className="space-y-6">
-                <h2 className="font-display text-2xl font-bold mb-6">Informações de Contacto</h2>
+                <h2 className="font-display text-2xl font-bold mb-6">{t('contact.info_title')}</h2>
                 {contactInfo.map((info) => (
                   <Card key={info.title} className="border-border/50">
                     <CardContent className="p-6 flex items-start gap-4">
@@ -124,17 +109,15 @@ export default function ContactPage() {
                   </Card>
                 ))}
 
-                {/* Map placeholder */}
                 <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
-                  <span className="text-muted-foreground">Mapa em breve</span>
+                  <span className="text-muted-foreground">{t('contact.map_soon')}</span>
                 </div>
               </div>
 
-              {/* Contact Form */}
               <div className="lg:col-span-2">
                 <Card>
                   <CardContent className="p-8">
-                    <h2 className="font-display text-2xl font-bold mb-6">Envie-nos uma Mensagem</h2>
+                    <h2 className="font-display text-2xl font-bold mb-6">{t('contact.form_title')}</h2>
                     
                     <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -144,9 +127,9 @@ export default function ContactPage() {
                             name="name"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Nome *</FormLabel>
+                                <FormLabel>{t('contact.name')}</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="O seu nome" {...field} />
+                                  <Input placeholder={t('contact.name_placeholder')} {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -157,9 +140,9 @@ export default function ContactPage() {
                             name="email"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Email *</FormLabel>
+                                <FormLabel>{t('contact.email')}</FormLabel>
                                 <FormControl>
-                                  <Input type="email" placeholder="O seu email" {...field} />
+                                  <Input type="email" placeholder={t('contact.email_placeholder')} {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -172,9 +155,9 @@ export default function ContactPage() {
                           name="subject"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Assunto</FormLabel>
+                              <FormLabel>{t('contact.subject')}</FormLabel>
                               <FormControl>
-                                <Input placeholder="Assunto da mensagem" {...field} />
+                                <Input placeholder={t('contact.subject_placeholder')} {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -186,10 +169,10 @@ export default function ContactPage() {
                           name="message"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Mensagem *</FormLabel>
+                              <FormLabel>{t('contact.message')}</FormLabel>
                               <FormControl>
                                 <Textarea
-                                  placeholder="Escreva a sua mensagem..."
+                                  placeholder={t('contact.message_placeholder')}
                                   className="min-h-[150px] resize-none"
                                   {...field}
                                 />
@@ -205,11 +188,11 @@ export default function ContactPage() {
                           className="w-full gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300"
                         >
                           {isSubmitting ? (
-                            'A enviar...'
+                            t('contact.sending')
                           ) : (
                             <>
                               <Send className="mr-2 h-4 w-4" />
-                              Enviar Mensagem
+                              {t('contact.send')}
                             </>
                           )}
                         </Button>

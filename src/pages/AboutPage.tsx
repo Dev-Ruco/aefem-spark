@@ -6,23 +6,25 @@ import PurposeSection from '@/components/home/PurposeSection';
 import PillarsSection from '@/components/home/PillarsSection';
 import HowWeWorkSection from '@/components/home/HowWeWorkSection';
 import TeamSection from '@/components/home/TeamSection';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AboutPage() {
+  const { t } = useLanguage();
+
   return (
     <>
       <Helmet>
-        <title>Sobre Nós | AEFEM</title>
-        <meta name="description" content="Conheça a AEFEM - Associação do Empoderamento Feminino. Trabalhamos pelo empoderamento económico das mulheres em Moçambique." />
+        <title>{t('aboutpage.title')} | AEFEM</title>
+        <meta name="description" content={t('aboutpage.meta_desc')} />
       </Helmet>
 
       <Layout>
-        {/* Hero */}
         <section className="pt-32 pb-16 gradient-hero">
           <div className="container mx-auto px-4">
             <SectionHeader
               subtitle="AEFEM"
-              title="Sobre Nós"
-              description="Empoderamento Económico da Mulher como Motor de Transformação Social"
+              title={t('aboutpage.title')}
+              description={t('aboutpage.hero_desc')}
             />
           </div>
         </section>

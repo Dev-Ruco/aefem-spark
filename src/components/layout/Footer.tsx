@@ -6,15 +6,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import logo from '@/assets/logo-aefem.png';
-
-const quickLinks = [
-  { href: '/', label: 'Início' },
-  { href: '/sobre', label: 'Sobre Nós' },
-  { href: '/noticias', label: 'Notícias' },
-  { href: '/galeria', label: 'Galeria' },
-  { href: '/doacoes', label: 'Doações' },
-  { href: '/contacto', label: 'Contacto' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
   { icon: Facebook, href: '#', label: 'Facebook' },
@@ -26,6 +18,16 @@ const socialLinks = [
 export function Footer() {
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const { t } = useLanguage();
+
+  const quickLinks = [
+    { href: '/', label: t('nav.home') },
+    { href: '/sobre', label: t('nav.about') },
+    { href: '/noticias', label: t('nav.news') },
+    { href: '/galeria', label: t('nav.gallery') },
+    { href: '/doacoes', label: t('nav.donations') },
+    { href: '/contacto', label: t('nav.contact') },
+  ];
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,17 +41,17 @@ export function Footer() {
 
       if (error) {
         if (error.code === '23505') {
-          toast.error('Este email já está subscrito na newsletter.');
+          toast.error(t('footer.subscribe_duplicate'));
         } else {
           throw error;
         }
       } else {
-        toast.success('Subscrição realizada com sucesso!');
+        toast.success(t('footer.subscribe_success'));
         setEmail('');
       }
     } catch (error) {
       console.error('Error subscribing:', error);
-      toast.error('Erro ao subscrever. Tente novamente.');
+      toast.error(t('footer.subscribe_error'));
     } finally {
       setIsSubscribing(false);
     }
@@ -63,16 +65,16 @@ export function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
               <h3 className="text-2xl font-display font-bold text-primary-foreground mb-2">
-                Junte-se à Nossa Newsletter
+                {t('footer.newsletter_title')}
               </h3>
               <p className="text-primary-foreground/80">
-                Receba as últimas notícias e actualizações da AEFEM
+                {t('footer.newsletter_desc')}
               </p>
             </div>
             <form onSubmit={handleNewsletterSubmit} className="flex gap-3 w-full md:w-auto">
               <Input
                 type="email"
-                placeholder="O seu email"
+                placeholder={t('footer.email_placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-background/20 border-background/30 text-primary-foreground placeholder:text-primary-foreground/60 min-w-[250px]"
@@ -83,7 +85,7 @@ export function Footer() {
                 disabled={isSubscribing}
                 className="bg-background text-primary hover:bg-background/90 font-medium"
               >
-                {isSubscribing ? 'A subscrever...' : 'Subscrever'}
+                {isSubscribing ? t('footer.subscribing') : t('footer.subscribe')}
               </Button>
             </form>
           </div>
@@ -101,16 +103,16 @@ export function Footer() {
                 <span className="font-display text-xl font-bold">AEFEM</span>
               </Link>
               <p className="text-background/70 text-sm leading-relaxed">
-                A AEFEM promove o empoderamento económico das mulheres como base para a igualdade, a dignidade e o desenvolvimento sustentável em Moçambique.
+                {t('footer.about_text')}
               </p>
               <p className="text-background/70 text-sm italic">
-                Quando uma mulher prospera, toda a comunidade avança.
+                {t('footer.tagline')}
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="font-display text-lg font-semibold mb-6">Links Rápidos</h4>
+              <h4 className="font-display text-lg font-semibold mb-6">{t('footer.quick_links')}</h4>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
@@ -127,7 +129,7 @@ export function Footer() {
 
             {/* Contact */}
             <div>
-              <h4 className="font-display text-lg font-semibold mb-6">Contactos</h4>
+              <h4 className="font-display text-lg font-semibold mb-6">{t('footer.contacts')}</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-primary mt-0.5" />
@@ -152,7 +154,7 @@ export function Footer() {
 
             {/* Social & Support */}
             <div>
-              <h4 className="font-display text-lg font-semibold mb-6">Siga-nos</h4>
+              <h4 className="font-display text-lg font-semibold mb-6">{t('footer.follow_us')}</h4>
               <div className="flex gap-3 mb-8">
                 {socialLinks.map((social) => (
                   <a
@@ -168,7 +170,7 @@ export function Footer() {
               <Link to="/doacoes">
                 <Button className="w-full gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300">
                   <Heart className="h-4 w-4 mr-2" />
-                  Apoiar a AEFEM
+                  {t('footer.support')}
                 </Button>
               </Link>
             </div>
@@ -180,13 +182,13 @@ export function Footer() {
       <div className="border-t border-background/10 py-6">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
-            <p>© {new Date().getFullYear()} AEFEM - Associação do Empoderamento Feminino. Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} AEFEM - Associação do Empoderamento Feminino. {t('footer.rights')}</p>
             <div className="flex gap-6">
               <Link to="/admin" className="hover:text-primary transition-colors">
                 Admin
               </Link>
               <a href="#" className="hover:text-primary transition-colors">
-                Política de Privacidade
+                {t('footer.privacy')}
               </a>
             </div>
           </div>

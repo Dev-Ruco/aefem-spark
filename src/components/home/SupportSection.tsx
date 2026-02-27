@@ -5,46 +5,32 @@ import { Card, CardContent } from '@/components/ui/card';
 import SectionHeader from '@/components/ui/section-header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { cn } from '@/lib/utils';
-
-const supportOptions = [
-  {
-    icon: UserPlus,
-    title: 'Torne-se Associado',
-    description: 'Fortaleça a nossa missão tornando-se membro da AEFEM.',
-  },
-  {
-    icon: Heart,
-    title: 'Faça uma Doação',
-    description: 'Apoie programas de educação e geração de rendimento.',
-  },
-  {
-    icon: Handshake,
-    title: 'Parceria Institucional',
-    description: 'Estabeleça uma colaboração estratégica com a AEFEM.',
-  },
-  {
-    icon: Users,
-    title: 'Seja Voluntário',
-    description: 'Contribua com conhecimento e experiência.',
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function SupportSection() {
+  const { t } = useLanguage();
+
+  const supportOptions = [
+    { icon: UserPlus, title: t('support.member_title'), description: t('support.member_desc') },
+    { icon: Heart, title: t('support.donate_title'), description: t('support.donate_desc') },
+    { icon: Handshake, title: t('support.partner_title'), description: t('support.partner_desc') },
+    { icon: Users, title: t('support.volunteer_title'), description: t('support.volunteer_desc') },
+  ];
+
   return (
     <section className="py-20 md:py-28 relative overflow-hidden">
-      {/* Background gradient */}
       <div className="absolute inset-0 gradient-hero" />
       
       <div className="container mx-auto px-4 relative z-10">
         <SectionHeader
-          subtitle="Como Apoiar"
-          title="Apoie o Empoderamento Económico das Mulheres"
-          description="Existem várias formas de contribuir para a nossa causa e fazer a diferença"
+          subtitle={t('support.subtitle')}
+          title={t('support.title')}
+          description={t('support.description')}
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {supportOptions.map((option, index) => (
-            <SupportCard key={option.title} option={option} index={index} />
+            <SupportCard key={index} option={option} index={index} />
           ))}
         </div>
 
@@ -55,7 +41,7 @@ export function SupportSection() {
               className="gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300 hover:scale-105 px-12"
             >
               <Heart className="mr-2 h-5 w-5" />
-              Apoiar a AEFEM
+              {t('support.cta')}
             </Button>
           </Link>
         </div>
@@ -68,7 +54,7 @@ function SupportCard({
   option,
   index,
 }: {
-  option: (typeof supportOptions)[0];
+  option: { icon: any; title: string; description: string };
   index: number;
 }) {
   const { ref, isInView } = useScrollAnimation();
