@@ -361,6 +361,17 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.digital.gap': 'Fosso de',
     'stats.digital.smartphone': 'das mulheres possuem smartphone',
     'stats.digital.tooltip': 'A AEFEM luta para colocar a tecnologia nas mãos das mulheres, reduzindo o fosso de 13% que nos separa dos homens.',
+
+    // Impact Story Section
+    'impact.badge': 'História de Destaque',
+    'impact.title': 'Empoderar é Criar Oportunidades',
+    'impact.subtitle': 'AEFEM aposta na capacitação como motor de autonomia feminina',
+    'impact.description': 'A Associação de Empoderamento Feminino (AEFEM) promove o empoderamento económico de mulheres em situação de vulnerabilidade através da formação profissional orientada para geração de rendimento.',
+    'impact.location': 'Em Maputo, a AEFEM apoiou mulheres vivendo com VIH com:',
+    'impact.point1': 'Bolsas de formação técnica',
+    'impact.point2': 'Apoio alimentar solidário',
+    'impact.point3': 'Ligação a redes de oportunidades e mentoria',
+    'impact.closing': 'As formações abrangeram áreas práticas como costura, culinária, estética, arte floral e serviços, reforçando competências para o auto-emprego e micronegócios.',
   },
   en: {
     // Navigation
@@ -714,6 +725,17 @@ const translations: Record<Language, Record<string, string>> = {
     'stats.digital.gap': 'Gap of',
     'stats.digital.smartphone': 'of women own a smartphone',
     'stats.digital.tooltip': 'AEFEM fights to put technology in the hands of women, reducing the 13% gap that separates us from men.',
+
+    // Impact Story Section
+    'impact.badge': 'Featured Story',
+    'impact.title': 'Empowering Through Opportunities',
+    'impact.subtitle': 'AEFEM invests in training as a driver of women\'s autonomy',
+    'impact.description': 'The Association for Women\'s Empowerment (AEFEM) promotes the economic empowerment of women in vulnerable situations through professional training oriented towards income generation.',
+    'impact.location': 'In Maputo, AEFEM supported women living with HIV with:',
+    'impact.point1': 'Technical training scholarships',
+    'impact.point2': 'Solidarity food support',
+    'impact.point3': 'Connection to opportunity networks and mentoring',
+    'impact.closing': 'The training covered practical areas such as sewing, cooking, aesthetics, floral art and services, reinforcing skills for self-employment and micro-businesses.',
   }
 };
 

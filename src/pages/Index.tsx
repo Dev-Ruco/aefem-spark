@@ -4,6 +4,7 @@ import HeroSlider from '@/components/home/HeroSlider';
 import ActivitiesSection from '@/components/home/ActivitiesSection';
 import AboutSection from '@/components/home/AboutSection';
 import PurposeSection from '@/components/home/PurposeSection';
+import ImpactStorySection from '@/components/home/ImpactStorySection';
 import PillarsSection from '@/components/home/PillarsSection';
 import HowWeWorkSection from '@/components/home/HowWeWorkSection';
 import PartnersSection from '@/components/home/PartnersSection';
@@ -27,6 +28,7 @@ const Index = () => {
         <HeroSlider />
         <AboutSection />
         <StatisticsSection />
+        <ImpactStorySection />
         <PurposeSection />
         <PillarsSection />
         <HowWeWorkSection />
