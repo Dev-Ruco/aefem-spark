@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import SectionHeader from '@/components/ui/section-header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import aboutImage from '@/assets/about-group.jpg';
 
 export function AboutSection() {
   const { ref, isInView } = useScrollAnimation();
@@ -22,12 +23,11 @@ export function AboutSection() {
           >
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-brand-lg">
-                <div className="w-full h-full gradient-primary opacity-90 flex items-center justify-center">
-                  <div className="text-center text-primary-foreground p-8">
-                    <h3 className="font-display text-4xl font-bold mb-4">AEFEM</h3>
-                    <p className="text-lg opacity-90">{t('about.economic_empowerment')}</p>
-                  </div>
-                </div>
+                <img
+                   src={aboutImage}
+                   alt="Grupo AEFEM - Associação para o Empoderamento Económico e Financeiro da Mulher"
+                   className="w-full h-full object-cover"
+                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-card rounded-xl shadow-brand-md p-6 animate-float">
                 <div className="text-center">
