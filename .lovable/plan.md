@@ -1,20 +1,29 @@
 
+## Plano: Mover secção "Nossa Equipa" para antes de "Parceiros"
 
-## Plano: Adicionar foto do grupo AEFEM na secção "Sobre Nós"
+Alteração simples na ordem das secções em `src/pages/Index.tsx`.
 
-### Alteração
+### Ordem actual:
+1. HeroSlider
+2. AboutSection
+3. StatisticsSection
+4. ImpactStorySection
+5. PillarsSection
+6. **TeamSection**
+7. ActivitiesSection
+8. VideosSection
+9. PartnersSection
 
-Substituir o placeholder com gradiente (linhas 24-31 do `AboutSection.tsx`) pela foto real do grupo AEFEM que foi carregada.
+### Nova ordem:
+1. HeroSlider
+2. AboutSection
+3. StatisticsSection
+4. ImpactStorySection
+5. PillarsSection
+6. ActivitiesSection
+7. VideosSection
+8. **TeamSection** (movida para aqui)
+9. PartnersSection
 
-### Passos
-
-#### 1. Copiar a imagem para o projecto
-- Copiar `user-uploads://505158538_...jpg` para `src/assets/about-group.jpg`
-
-#### 2. Actualizar o componente AboutSection
-**Ficheiro:** `src/components/home/AboutSection.tsx`
-
-- Importar a imagem: `import aboutImage from '@/assets/about-group.jpg'`
-- Substituir o `div` com gradiente e texto placeholder por uma tag `<img>` com a foto real
-- Manter o aspect-ratio, cantos arredondados, sombra e o card flutuante "+1000"
-
+### Ficheiro a modificar
+- `src/pages/Index.tsx` -- mover `<TeamSection />` da linha 31 para depois de `<VideosSection />` (antes de `<PartnersSection />`).
