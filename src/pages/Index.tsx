@@ -28,9 +28,9 @@ const Index = () => {
         <StatisticsSection />
         <ImpactStorySection />
         <PillarsSection />
-        <TeamSection />
         <ActivitiesSection />
         <VideosSection />
+        <TeamSection />
         <PartnersSection />
       </Layout>
     </>
