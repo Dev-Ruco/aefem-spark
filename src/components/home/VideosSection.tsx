@@ -47,12 +47,13 @@ export function VideosSection() {
   const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
 
   return (
-    <section className="py-20 md:py-28 bg-muted/30">
+    <section className="py-20 md:py-28 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(280 25% 12%), hsl(288 45% 20%))' }}>
       <div className="container mx-auto px-4">
         <SectionHeader
           subtitle={t('videos.subtitle')}
           title={t('videos.title')}
           description={t('videos.description')}
+          light
         />
 
         <div
@@ -66,7 +67,7 @@ export function VideosSection() {
             <div
               key={video.id}
               className={cn(
-                'group relative cursor-pointer rounded-2xl overflow-hidden bg-card border shadow-sm hover:shadow-lg transition-all duration-500',
+                'group relative cursor-pointer rounded-2xl overflow-hidden bg-card/10 border border-white/10 shadow-sm hover:shadow-lg transition-all duration-500',
                 isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               )}
               style={{ transitionDelay: isInView ? `${index * 150}ms` : '0ms' }}
@@ -86,7 +87,7 @@ export function VideosSection() {
                   <div className="w-16 h-16 rounded-full bg-primary/90 text-primary-foreground flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
                     <Play className="w-7 h-7 ml-1" fill="currentColor" />
                   </div>
-                  <span className="text-sm font-medium text-foreground/70 group-hover:text-foreground transition-colors">
+                  <span className="text-sm font-medium text-white/70 group-hover:text-white transition-colors">
                     {t('videos.watch')}
                   </span>
                 </div>
@@ -99,7 +100,7 @@ export function VideosSection() {
 
               {/* Video title */}
               <div className="p-4">
-                <p className="text-sm font-medium text-foreground truncate">
+                <p className="text-sm font-medium text-white truncate">
                   {language === 'pt' ? video.titlePt : video.titleEn}
                 </p>
               </div>

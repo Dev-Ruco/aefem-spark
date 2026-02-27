@@ -7,6 +7,7 @@ interface SectionHeaderProps {
   description?: string;
   align?: 'left' | 'center';
   className?: string;
+  light?: boolean;
 }
 
 export function SectionHeader({
@@ -15,6 +16,7 @@ export function SectionHeader({
   description,
   align = 'center',
   className,
+  light = false,
 }: SectionHeaderProps) {
   const { ref, isInView } = useScrollAnimation();
 
@@ -29,15 +31,21 @@ export function SectionHeader({
       )}
     >
       {subtitle && (
-        <span className="inline-block text-sm font-semibold text-primary uppercase tracking-wider mb-3">
+        <span className={cn(
+          "inline-block text-sm font-semibold uppercase tracking-wider mb-3",
+          light ? "text-white/80" : "text-primary"
+        )}>
           {subtitle}
         </span>
       )}
       <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-        <span className="gradient-text">{title}</span>
+        <span className={light ? "text-white" : "gradient-text"}>{title}</span>
       </h2>
       {description && (
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+        <p className={cn(
+          "text-lg max-w-2xl mx-auto",
+          light ? "text-white/70" : "text-muted-foreground"
+        )}>
           {description}
         </p>
       )}
