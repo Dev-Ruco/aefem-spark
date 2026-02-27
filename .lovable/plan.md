@@ -1,54 +1,61 @@
 
 
-## Plano: Criar Seccao "Historias de Impacto" entre Estatisticas e Proposito
+## Plano: Simplificar Homepage e Adicionar Seccao de Videos
 
-### Objectivo
-Criar uma nova seccao visualmente atraente entre `StatisticsSection` e `PurposeSection` que destaque a historia de impacto da AEFEM com o conteudo fornecido e a foto carregada.
+### Resumo
+Reduzir a quantidade de conteudo na homepage removendo seccoes redundantes, reorganizar a ordem, e adicionar uma nova seccao de videos verticais do Facebook.
 
-### Design da Seccao
-Layout em duas colunas (desktop): imagem a esquerda com a foto do evento AEFEM, texto a direita com o conteudo fornecido. Fundo com gradiente subtil para se destacar. Inclui badge de destaque, titulo principal, subtitulo, paragrafo descritivo e lista de pontos de impacto com icones. Responsivo: em mobile fica em coluna unica.
+### Alteracoes na Homepage
 
-### Alteracoes
-
-#### 1. Copiar imagem para o projecto
-- Copiar `user-uploads://505302907_...jpg` para `src/assets/impact-story.jpg`
-
-#### 2. Criar componente `ImpactStorySection`
-**Ficheiro:** `src/components/home/ImpactStorySection.tsx`
-
-- Layout split: imagem (60%) + conteudo (40%) em desktop
-- Imagem com cantos arredondados, sombra, e leve overlay decorativo
-- Titulo "Empoderar e Criar Oportunidades" com estilo gradient-text
-- Subtitulo em destaque
-- Paragrafo descritivo
-- Lista de 3 pontos com icones (GraduationCap, Apple, Users)
-- Paragrafo final sobre areas de formacao
-- Animacoes de scroll (useScrollAnimation)
-- Totalmente bilingue com `t()` keys
-
-#### 3. Adicionar traducoes
-**Ficheiro:** `src/contexts/LanguageContext.tsx`
-
-Novas chaves (~12):
-- `impact.badge` - "Historia de Destaque" / "Featured Story"
-- `impact.title` - "Empoderar e Criar Oportunidades" / "Empowering Through Opportunities"
-- `impact.subtitle` - subtitulo PT/EN
-- `impact.description` - paragrafo principal PT/EN
-- `impact.point1` - "Bolsas de formacao tecnica" / "Technical training scholarships"
-- `impact.point2` - "Apoio alimentar solidario" / "Solidarity food support"
-- `impact.point3` - "Ligacao a redes de oportunidades e mentoria" / "Connection to opportunity networks and mentoring"
-- `impact.closing` - paragrafo final sobre areas de formacao PT/EN
-- `impact.location` - "Em Maputo..." PT/EN
-
-#### 4. Integrar na homepage
 **Ficheiro:** `src/pages/Index.tsx`
 
-- Importar `ImpactStorySection`
-- Colocar entre `StatisticsSection` e `PurposeSection`
+Nova ordem das seccoes:
+1. HeroSlider
+2. AboutSection
+3. StatisticsSection
+4. ImpactStorySection
+5. PillarsSection
+6. TeamSection
+7. ActivitiesSection
+8. **VideosSection** (NOVA)
+9. PartnersSection (ultima antes do footer)
 
-### Ficheiros a criar/modificar
-- **Criar:** `src/components/home/ImpactStorySection.tsx`
-- **Copiar:** imagem para `src/assets/impact-story.jpg`
-- **Modificar:** `src/contexts/LanguageContext.tsx` (adicionar ~12 chaves)
-- **Modificar:** `src/pages/Index.tsx` (adicionar import e componente)
+Seccoes removidas da homepage:
+- PurposeSection (ja existe na pagina Sobre Nos)
+- HowWeWorkSection (ja existe na pagina Sobre Nos)
+- SupportSection (removida)
+
+### Nova Seccao: VideosSection
+
+**Ficheiro a criar:** `src/components/home/VideosSection.tsx`
+
+Design:
+- Titulo: "Acompanhe as Nossas Actividades" com subtitulo
+- Grid de 4 videos em layout responsivo (2x2 em desktop, 1 coluna em mobile)
+- Cada video mostra uma thumbnail/preview com botao de play no centro
+- Ao clicar, abre o video do Facebook num modal ou redireciona para o Facebook
+- Formato vertical (aspect-ratio 9:16) para videos verticais do Facebook
+- Scroll animations consistentes com o resto do site
+- Os 4 links de video do Facebook serao hardcoded como dados estaticos
+
+Abordagem tecnica para os videos do Facebook:
+- Usar iframes do Facebook Video Embed dentro de um modal (Dialog)
+- Converter os links de partilha para URLs de embed do Facebook
+- Cada card tera um overlay com icone de play e titulo descritivo
+- Fundo escuro no modal para destaque do video
+
+### Traducoes
+
+**Ficheiro:** `src/contexts/LanguageContext.tsx`
+
+Novas chaves (~5):
+- `videos.subtitle`: "Multimidia" / "Multimedia"
+- `videos.title`: "Acompanhe as Nossas Actividades" / "Follow Our Activities"
+- `videos.description`: "Veja os momentos mais marcantes..." / "Watch the most remarkable moments..."
+- `videos.watch`: "Assistir Video" / "Watch Video"
+
+### Ficheiros a modificar/criar
+- **Criar:** `src/components/home/VideosSection.tsx`
+- **Modificar:** `src/pages/Index.tsx` (reorganizar seccoes)
+- **Modificar:** `src/contexts/LanguageContext.tsx` (adicionar chaves de traducao)
 
