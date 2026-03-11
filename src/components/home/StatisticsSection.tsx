@@ -12,7 +12,7 @@ const StatisticsSection = () => {
 
   return (
     <section className="py-16 lg:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(280 30% 15%), hsl(288 55% 25%))' }}>
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div
           ref={ref}

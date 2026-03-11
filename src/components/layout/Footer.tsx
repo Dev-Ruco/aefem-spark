@@ -156,10 +156,12 @@ export function Footer() {
             <div>
               <h4 className="font-display text-lg font-semibold mb-6">{t('footer.follow_us')}</h4>
               <div className="flex gap-3 mb-8">
-                {socialLinks.map((social) => (
+                {socialLinks.filter(s => s.href).map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >

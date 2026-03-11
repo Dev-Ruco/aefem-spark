@@ -115,7 +115,7 @@ function ArticleCard({ article, index, language }: { article: Article; index: nu
   const dateLocale = language === 'en' ? enUS : pt;
 
   return (
-    <Link to={`/noticias/${article.slug}`}>
+    <Link to={`/artigo/${article.slug}`}>
       <Card
         ref={ref}
         className={cn(

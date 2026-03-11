@@ -17,6 +17,7 @@ import MemberRegistration from "./pages/MemberRegistration";
 import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import MutiyanePage from "./pages/MutiyanePage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";

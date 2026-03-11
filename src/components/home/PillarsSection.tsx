@@ -18,7 +18,7 @@ export function PillarsSection() {
 
   return (
     <section className="py-20 md:py-28 bg-secondary/40">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           subtitle={t('pillars.subtitle')}
           title={t('pillars.title')}
