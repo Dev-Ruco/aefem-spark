@@ -192,7 +192,7 @@ export default function NewsPage() {
             ) : articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.map((article) => (
-                  <Link key={article.id} to={`/noticias/${article.slug}`}>
+                  <Link key={article.id} to={`/artigo/${article.slug}`}>
                     <Card className="overflow-hidden group cursor-pointer h-full transition-all duration-300 hover:shadow-brand-lg">
                       <div className="aspect-video overflow-hidden relative">
                         {article.featured_image ? (
