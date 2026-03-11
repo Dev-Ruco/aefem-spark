@@ -763,6 +763,21 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.title': 'Follow Our Activities',
     'videos.description': 'Watch the most remarkable moments of our work in the field',
     'videos.watch': 'Watch Video',
+
+    // Projects Page
+    'projects.title': 'AEFEM Projects',
+    'projects.badge': 'Our Projects',
+    'projects.description': 'Discover the projects AEFEM develops to promote the economic empowerment of women in Mozambique.',
+    'projects.meta_desc': 'AEFEM projects for women\'s empowerment in Mozambique.',
+
+    // Publications Page
+    'publications.title': 'Publications',
+    'publications.badge': 'Documents',
+    'publications.description': 'Browse and download our reports, studies and publications.',
+    'publications.meta_desc': 'AEFEM publications and documents on women\'s empowerment.',
+    'publications.empty': 'No publications available at the moment.',
+    'publications.preview': 'Preview',
+    'publications.download': 'Download',
   }
 };
 
