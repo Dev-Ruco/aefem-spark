@@ -187,9 +187,9 @@ export function Footer() {
               <Link to="/admin" className="hover:text-primary transition-colors">
                 Admin
               </Link>
-              <a href="#" className="hover:text-primary transition-colors">
+              <Link to="/privacidade" className="hover:text-primary transition-colors">
                 {t('footer.privacy')}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
