@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,7 +45,8 @@ export default function MemberRegistration() {
     age: '',
     whatsapp_number: '',
     province: '',
-    access_code: '',
+    email: '',
+    password: '',
   });
 
   const handleChange = (field: string, value: string) => {
@@ -55,13 +57,19 @@ export default function MemberRegistration() {
     e.preventDefault();
     setError('');
 
-    if (!form.full_name.trim() || !form.whatsapp_number.trim() || !form.province || !form.access_code.trim()) {
+    // Validation
+    if (!form.full_name.trim() || !form.whatsapp_number.trim() || !form.province || !form.email.trim() || !form.password) {
       setError(isEn ? 'Please fill in all required fields.' : 'Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
     if (form.full_name.trim().length > 100) {
       setError(isEn ? 'Name is too long.' : 'Nome demasiado longo.');
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError(isEn ? 'Password must be at least 6 characters.' : 'A palavra-passe deve ter pelo menos 6 caracteres.');
       return;
     }
 
@@ -74,21 +82,59 @@ export default function MemberRegistration() {
     setIsLoading(true);
 
     try {
-      const { error: insertError } = await supabase
-        .from('membership_applications' as any)
-        .insert({
-          full_name: form.full_name.trim(),
-          profession: form.profession.trim() || null,
-          age: ageNum,
-          whatsapp_number: form.whatsapp_number.trim(),
-          province: form.province,
-          access_code: form.access_code.trim(),
-        } as any);
+      // 1. Sign up with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: form.email.trim(),
+        password: form.password,
+        options: {
+          data: {
+            full_name: form.full_name.trim(),
+          },
+          emailRedirectTo: window.location.origin,
+        },
+      });
 
-      if (insertError) {
-        console.error('Insert error:', insertError);
-        setError(isEn ? 'An error occurred. Please try again.' : 'Ocorreu um erro. Tente novamente.');
+      if (authError) {
+        if (authError.message.includes('already registered')) {
+          setError(isEn ? 'This email is already registered.' : 'Este email já está registado.');
+        } else {
+          setError(isEn ? 'Registration error. Please try again.' : 'Erro no registo. Tente novamente.');
+        }
         return;
+      }
+
+      if (!authData.user) {
+        setError(isEn ? 'Unexpected error.' : 'Erro inesperado.');
+        return;
+      }
+
+      // 2. Insert into members table
+      const { error: memberError } = await supabase.from('members').insert({
+        user_id: authData.user.id,
+        full_name: form.full_name.trim(),
+        profession: form.profession.trim() || null,
+        age: ageNum,
+        whatsapp_number: form.whatsapp_number.trim(),
+        province: form.province,
+        gender: null,
+        birth_year: null,
+        status: 'pending',
+      });
+
+      if (memberError) {
+        console.error('Member insert error:', memberError);
+        // Auth user was created but member insert failed - still show success
+        // as the admin can fix this manually
+      }
+
+      // 3. Assign member role
+      const { error: roleError } = await supabase.from('user_roles').insert({
+        user_id: authData.user.id,
+        role: 'member' as any,
+      });
+
+      if (roleError) {
+        console.error('Role assign error:', roleError);
       }
 
       setShowSuccess(true);
@@ -104,7 +150,7 @@ export default function MemberRegistration() {
     return (
       <>
         <Helmet>
-          <title>{isEn ? 'Registration Complete' : 'Inscrição Recebida'} | AEFEM</title>
+          <title>{isEn ? 'Registration Complete' : 'Registo Concluído'} | AEFEM</title>
         </Helmet>
         <Layout>
           <section className="pt-32 pb-20 min-h-screen gradient-hero">
@@ -114,13 +160,18 @@ export default function MemberRegistration() {
                   <CheckCircle className="h-10 w-10 text-green-600" />
                 </div>
                 <h1 className="font-display text-3xl font-bold mb-4">
-                  {isEn ? 'Application Received!' : 'Inscrição Recebida!'}
+                  {isEn ? 'Registration Successful!' : 'Registo Concluído!'}
                 </h1>
-                <p className="text-muted-foreground text-lg leading-relaxed">
+                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                   {isEn
-                    ? 'Your application has been received successfully. We will contact you soon.'
-                    : 'A sua inscrição foi recebida com sucesso. Em breve entraremos em contacto.'}
+                    ? 'Please check your email to verify your account. After verification, you can log in to your member area.'
+                    : 'Por favor, verifique o seu email para confirmar a sua conta. Após a verificação, poderá aceder à sua área de membro.'}
                 </p>
+                <Link to="/membro/login">
+                  <Button variant="outline" size="lg">
+                    {isEn ? 'Go to Login' : 'Ir para Login'}
+                  </Button>
+                </Link>
               </div>
             </div>
           </section>
@@ -252,19 +303,37 @@ export default function MemberRegistration() {
                       </Select>
                     </div>
 
-                    {/* Código de acesso */}
+                    {/* Email */}
                     <div className="space-y-2">
-                      <Label htmlFor="access_code" className="text-base">
-                        {isEn ? 'Access Code' : 'Código de Acesso'} *
+                      <Label htmlFor="email" className="text-base">
+                        Email *
                       </Label>
                       <Input
-                        id="access_code"
-                        value={form.access_code}
-                        onChange={(e) => handleChange('access_code', e.target.value)}
-                        placeholder={isEn ? 'Enter your code' : 'Introduza o seu código'}
+                        id="email"
+                        type="email"
+                        value={form.email}
+                        onChange={(e) => handleChange('email', e.target.value)}
+                        placeholder={isEn ? 'your@email.com' : 'seu@email.com'}
                         className="h-12 text-base"
                         required
-                        maxLength={50}
+                        maxLength={255}
+                      />
+                    </div>
+
+                    {/* Password */}
+                    <div className="space-y-2">
+                      <Label htmlFor="password" className="text-base">
+                        {isEn ? 'Password' : 'Palavra-passe'} *
+                      </Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        value={form.password}
+                        onChange={(e) => handleChange('password', e.target.value)}
+                        placeholder={isEn ? 'Minimum 6 characters' : 'Mínimo 6 caracteres'}
+                        className="h-12 text-base"
+                        required
+                        minLength={6}
                       />
                     </div>
 
@@ -278,12 +347,19 @@ export default function MemberRegistration() {
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                          {isEn ? 'Submitting...' : 'A enviar...'}
+                          {isEn ? 'Creating account...' : 'A criar conta...'}
                         </>
                       ) : (
-                        isEn ? 'Submit Application' : 'Submeter Inscrição'
+                        isEn ? 'Create Account' : 'Criar Conta'
                       )}
                     </Button>
+
+                    <p className="text-center text-sm text-muted-foreground">
+                      {isEn ? 'Already have an account?' : 'Já tem conta?'}{' '}
+                      <Link to="/membro/login" className="text-primary hover:underline font-medium">
+                        {isEn ? 'Log in' : 'Iniciar sessão'}
+                      </Link>
+                    </p>
                   </form>
                 </CardContent>
               </Card>

@@ -18,6 +18,7 @@ import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import MutiyanePage from "./pages/MutiyanePage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import ResetPassword from "./pages/member/ResetPassword";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -61,6 +62,7 @@ const App = () => (
               <Route path="/tornar-se-membro" element={<MemberRegistration />} />
               <Route path="/membro/login" element={<MemberLogin />} />
               <Route path="/membro" element={<MemberDashboard />} />
+              <Route path="/membro/recuperar-password" element={<ResetPassword />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

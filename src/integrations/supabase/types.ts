@@ -285,11 +285,13 @@ export type Database = {
       }
       members: {
         Row: {
-          birth_year: number
+          age: number | null
+          birth_year: number | null
           created_at: string | null
           full_name: string
-          gender: string
+          gender: string | null
           id: string
+          profession: string | null
           province: string
           status: string | null
           updated_at: string | null
@@ -297,11 +299,13 @@ export type Database = {
           whatsapp_number: string
         }
         Insert: {
-          birth_year: number
+          age?: number | null
+          birth_year?: number | null
           created_at?: string | null
           full_name: string
-          gender: string
+          gender?: string | null
           id?: string
+          profession?: string | null
           province: string
           status?: string | null
           updated_at?: string | null
@@ -309,11 +313,13 @@ export type Database = {
           whatsapp_number: string
         }
         Update: {
-          birth_year?: number
+          age?: number | null
+          birth_year?: number | null
           created_at?: string | null
           full_name?: string
-          gender?: string
+          gender?: string | null
           id?: string
+          profession?: string | null
           province?: string
           status?: string | null
           updated_at?: string | null

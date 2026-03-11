@@ -16,6 +16,8 @@ export default function MemberLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [showReset, setShowReset] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +43,33 @@ export default function MemberLogin() {
     }
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      setError('Por favor, introduza o seu email.');
+      return;
+    }
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/membro/recuperar-password`,
+      });
+
+      if (error) {
+        setError('Erro ao enviar email. Tente novamente.');
+        return;
+      }
+
+      setResetSent(true);
+    } catch {
+      setError('Erro inesperado. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -52,47 +81,98 @@ export default function MemberLogin() {
             <div className="max-w-md mx-auto">
               <Card className="shadow-brand-lg">
                 <CardHeader className="text-center">
-                  <CardTitle className="font-display text-2xl">Área de Membro</CardTitle>
-                  <CardDescription>Entre com os seus dados</CardDescription>
+                  <CardTitle className="font-display text-2xl">
+                    {showReset ? 'Recuperar Palavra-passe' : 'Área de Membro'}
+                  </CardTitle>
+                  <CardDescription>
+                    {showReset
+                      ? 'Introduza o seu email para receber um link de recuperação'
+                      : 'Entre com os seus dados'}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {error && (
-                      <Alert variant="destructive">
-                        <AlertCircle className="h-4 w-4" />
-                        <AlertDescription>{error}</AlertDescription>
-                      </Alert>
-                    )}
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
+                  {resetSent ? (
+                    <div className="text-center py-4">
+                      <p className="text-muted-foreground mb-4">
+                        Se o email existir na nossa base de dados, receberá um link para redefinir a sua palavra-passe.
+                      </p>
+                      <Button variant="outline" onClick={() => { setShowReset(false); setResetSent(false); }}>
+                        Voltar ao Login
+                      </Button>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="password">Palavra-passe</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <Button type="submit" className="w-full gradient-primary" disabled={isLoading}>
-                      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Entrar'}
-                    </Button>
-                    <p className="text-center text-sm text-muted-foreground">
-                      Não tem conta?{' '}
-                      <Link to="/tornar-se-membro" className="text-primary hover:underline">
-                        Registar-se
-                      </Link>
-                    </p>
-                  </form>
+                  ) : showReset ? (
+                    <form onSubmit={handleResetPassword} className="space-y-4">
+                      {error && (
+                        <Alert variant="destructive">
+                          <AlertCircle className="h-4 w-4" />
+                          <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                      )}
+                      <div className="space-y-2">
+                        <Label htmlFor="reset-email">Email</Label>
+                        <Input
+                          id="reset-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <Button type="submit" className="w-full gradient-primary" disabled={isLoading}>
+                        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enviar Link de Recuperação'}
+                      </Button>
+                      <Button type="button" variant="ghost" className="w-full" onClick={() => { setShowReset(false); setError(''); }}>
+                        Voltar ao Login
+                      </Button>
+                    </form>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      {error && (
+                        <Alert variant="destructive">
+                          <AlertCircle className="h-4 w-4" />
+                          <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                      )}
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <Label htmlFor="password">Palavra-passe</Label>
+                          <button
+                            type="button"
+                            onClick={() => { setShowReset(true); setError(''); }}
+                            className="text-xs text-primary hover:underline"
+                          >
+                            Esqueci a palavra-passe
+                          </button>
+                        </div>
+                        <Input
+                          id="password"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <Button type="submit" className="w-full gradient-primary" disabled={isLoading}>
+                        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Entrar'}
+                      </Button>
+                      <p className="text-center text-sm text-muted-foreground">
+                        Não tem conta?{' '}
+                        <Link to="/tornar-se-membro" className="text-primary hover:underline">
+                          Registar-se
+                        </Link>
+                      </p>
+                    </form>
+                  )}
                 </CardContent>
               </Card>
             </div>
