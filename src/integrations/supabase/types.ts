@@ -322,6 +322,42 @@ export type Database = {
         }
         Relationships: []
       }
+      membership_applications: {
+        Row: {
+          access_code: string | null
+          age: number | null
+          created_at: string | null
+          full_name: string
+          id: string
+          profession: string | null
+          province: string
+          status: string | null
+          whatsapp_number: string
+        }
+        Insert: {
+          access_code?: string | null
+          age?: number | null
+          created_at?: string | null
+          full_name: string
+          id?: string
+          profession?: string | null
+          province: string
+          status?: string | null
+          whatsapp_number: string
+        }
+        Update: {
+          access_code?: string | null
+          age?: number | null
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          profession?: string | null
+          province?: string
+          status?: string | null
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string

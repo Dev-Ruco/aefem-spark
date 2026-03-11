@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Calendar, User, ArrowLeft, Share2 } from 'lucide-react';
+import { Calendar, ArrowLeft, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
@@ -37,15 +37,8 @@ export default function ArticlePage() {
       const { data, error } = await supabase
         .from('articles')
         .select(`
-          id,
-          title,
-          title_en,
-          content,
-          content_en,
-          excerpt,
-          excerpt_en,
-          featured_image,
-          published_at,
+          id, title, title_en, content, content_en,
+          excerpt, excerpt_en, featured_image, published_at,
           categories (name, slug)
         `)
         .eq('slug', slug)
@@ -66,10 +59,7 @@ export default function ArticlePage() {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: article?.title,
-          url: window.location.href,
-        });
+        await navigator.share({ title: article?.title, url: window.location.href });
       } catch (err) {
         console.log('Share cancelled');
       }
@@ -100,13 +90,14 @@ export default function ArticlePage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="pt-24 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto animate-pulse space-y-6">
-              <div className="h-8 bg-muted rounded w-3/4" />
-              <div className="h-4 bg-muted rounded w-1/4" />
-              <div className="aspect-video bg-muted rounded-xl" />
-              <div className="space-y-3">
+        <div className="pt-32 pb-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto animate-pulse space-y-8">
+              <div className="h-6 bg-muted rounded w-1/4" />
+              <div className="h-10 bg-muted rounded w-3/4" />
+              <div className="h-4 bg-muted rounded w-1/3" />
+              <div className="aspect-[16/9] bg-muted rounded-xl" />
+              <div className="max-w-[720px] mx-auto space-y-4">
                 <div className="h-4 bg-muted rounded" />
                 <div className="h-4 bg-muted rounded" />
                 <div className="h-4 bg-muted rounded w-2/3" />
@@ -121,7 +112,7 @@ export default function ArticlePage() {
   if (!article) {
     return (
       <Layout>
-        <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
+        <div className="pt-32 pb-16 min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="font-display text-3xl font-bold mb-4">{t('article.not_found_title')}</h1>
             <p className="text-muted-foreground mb-6">{t('article.not_found_desc')}</p>
@@ -145,65 +136,60 @@ export default function ArticlePage() {
       </Helmet>
 
       <Layout>
-        <article className="pt-24 pb-16">
-          {/* Hero */}
-          <div className="relative">
-            {article.featured_image ? (
-              <div className="h-[50vh] relative">
-                <img
-                  src={article.featured_image}
-                  alt={getTitle()}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-              </div>
-            ) : (
-              <div className="h-48 gradient-primary" />
-            )}
-          </div>
+        <article className="pt-32 pb-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Back button */}
+              <Link
+                to="/noticias"
+                className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors text-sm"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t('article.back')}
+              </Link>
 
-          {/* Content */}
-          <div className="container mx-auto px-4 -mt-32 relative z-10">
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-card rounded-2xl shadow-brand-lg p-8 md:p-12">
-                {/* Back button */}
-                <Link to="/noticias" className="inline-flex items-center text-muted-foreground hover:text-primary mb-6 transition-colors">
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  {t('article.back')}
-                </Link>
+              {/* Category */}
+              {article.categories && (
+                <Badge className="mb-4">{article.categories.name}</Badge>
+              )}
 
-                {/* Category */}
-                {article.categories && (
-                  <Badge className="mb-4">{article.categories.name}</Badge>
+              {/* Title */}
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+                {getTitle()}
+              </h1>
+
+              {/* Meta */}
+              <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-10">
+                {article.published_at && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <Calendar className="h-4 w-4" />
+                    <time dateTime={article.published_at}>
+                      {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
+                    </time>
+                  </div>
                 )}
-
-                {/* Title */}
-                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                  {getTitle()}
-                </h1>
-
-                {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-8 pb-8 border-b">
-                  {article.published_at && (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      <time dateTime={article.published_at}>
-                        {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
-                      </time>
-                    </div>
-                  )}
-                  <Button variant="ghost" size="sm" onClick={handleShare} className="ml-auto">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    {t('article.share')}
-                  </Button>
-                </div>
-
-                {/* Content */}
-                <div 
-                  className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary"
-                  dangerouslySetInnerHTML={{ __html: getContent() }}
-                />
+                <Button variant="ghost" size="sm" onClick={handleShare}>
+                  <Share2 className="h-4 w-4 mr-2" />
+                  {t('article.share')}
+                </Button>
               </div>
+
+              {/* Featured Image */}
+              {article.featured_image && (
+                <div className="mb-12">
+                  <img
+                    src={article.featured_image}
+                    alt={getTitle()}
+                    className="w-full aspect-[16/9] object-cover object-center rounded-xl"
+                  />
+                </div>
+              )}
+
+              {/* Article Body */}
+              <div
+                className="max-w-[720px] mx-auto prose prose-lg prose-headings:font-display prose-headings:text-foreground prose-headings:mt-10 prose-headings:mb-4 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-img:rounded-lg prose-img:my-8"
+                dangerouslySetInnerHTML={{ __html: getContent() }}
+              />
             </div>
           </div>
         </article>
