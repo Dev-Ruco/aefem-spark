@@ -9,10 +9,10 @@ import logo from '@/assets/logo-aefem.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Facebook, href: 'https://www.facebook.com/aefem', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/aefem', label: 'Instagram' },
+  { icon: Twitter, href: '', label: 'Twitter' },
+  { icon: Linkedin, href: '', label: 'LinkedIn' },
 ];
 
 export function Footer() {
