@@ -176,8 +176,8 @@ export default function MemberRegistration() {
                 </h1>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                   {isEn
-                    ? 'Please check your email to verify your account. After verification, you can log in to your member area.'
-                    : 'Por favor, verifique o seu email para confirmar a sua conta. Após a verificação, poderá aceder à sua área de membro.'}
+                    ? 'Your account has been created successfully. You can now log in to your member area.'
+                    : 'A sua conta foi criada com sucesso. Já pode aceder à sua área de membro.'}
                 </p>
                 <Link to="/membro/login">
                   <Button variant="outline" size="lg">
