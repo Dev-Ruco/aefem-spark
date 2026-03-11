@@ -400,11 +400,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.about': 'About Us',
     'nav.news': 'News',
     'nav.gallery': 'Gallery',
-    'nav.donations': 'Donations',
     'nav.contact': 'Contact',
     'nav.become_member': 'Become a Member',
     'nav.member_area': 'Member Area',
-    'nav.mutiyane': 'Mutiyane',
+    'nav.projects': 'Projects',
+    'nav.publications': 'Publications',
     
     // Hero
     'hero.featured': 'Featured News',
