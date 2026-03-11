@@ -1,68 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Hero Editorial — Carrossel Split por Publicação
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### Conceito
-Cada slide = 1 publicação. Lado esquerdo branco com título. Lado direito com imagem. Tudo muda junto no carrossel.
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-### Estrutura de cada slide
+### Esquema de Fundos (de cima para baixo)
 
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+
+### Detalhes das Alteracoes
+
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
+
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
+
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
+
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
+
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
+
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
+
+### Padrao Visual Resultante
 ```text
-┌────────────────────┬────────────────────────────────┐
-│                    │                                │
-│   Fundo branco     │   Imagem destacada             │
-│                    │   do artigo                    │
-│   [Categoria]      │                                │
-│                    │                                │
-│   TÍTULO DO        │                                │
-│   ARTIGO           │                                │
-│                    │                                │
-│   data · Ler mais →│                                │
-│                    │                                │
-│   ● ● ● ○ ○       │                                │
-│                    │                                │
-└────────────────────┴────────────────────────────────┘
-        ~40%                    ~60%
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
 ```
 
-Mobile: empilhado — imagem em cima (50% altura), título em baixo sobre fundo branco.
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
-### Implementacao
-
-**`src/components/home/HeroSlider.tsx`** — reescrita completa:
-
-- Mesma query existente: `articles` published, order by `published_at DESC`, limit 8
-- Filtrar artigos sem `featured_image` (ou fallback com gradient)
-- Cada slide: `div` com flex row (desktop) / flex col (mobile)
-  - Esquerda: fundo branco, titulo grande (`font-display`, 3xl-6xl), categoria como badge pequeno com cor primaria, data formatada, link "Ler mais" com seta
-  - Direita: imagem `object-cover` a 100% da area, com leve overlay gradiente na borda esquerda para transicao suave
-- Transicao entre slides: fade + translateX suave (700ms)
-- Auto-advance a cada 6s, pausa no hover
-- Setas de navegacao: posicionadas centradas verticalmente, estilo clean
-- Progress dots: na area esquerda, em baixo, com animacao de progresso
-- Loading skeleton: split layout com placeholders
-- Fallback sem artigos: hero institucional estatico (manter o existente)
-
-**`src/index.css`** — sem alteracoes necessarias (keyframes existentes suficientes)
-
-**`src/contexts/LanguageContext.tsx`** — adicionar traducao `hero.read_more_article` se necessario (ja existe `hero.read_more`)
-
-### Detalhes visuais
-- Separacao entre areas: borda diagonal sutil ou clip-path na imagem para efeito premium
-- Titulo: `font-display` bold, cor `foreground`, tamanho grande
-- Categoria: badge pequeno magenta/roxo, uppercase, tracking wide
-- Data: texto muted, tamanho pequeno
-- Link "Ler mais": texto primario com seta animada no hover
-- Imagem: `object-cover`, `object-position: center 20%` para priorizar rostos
-- Cantos: arredondados suaves onde aplicavel
-
-### Responsivo
-- Desktop (lg+): flex-row, 40/60 split
-- Tablet (md): flex-row, 45/55 split
-- Mobile: flex-col, imagem em cima (250px altura), texto em baixo
-
-### Ficheiros
-| Ficheiro | Alteracao |
-|----------|-----------|
-| `src/components/home/HeroSlider.tsx` | Reescrita completa — carrossel editorial split |
-
+### Ficheiros a Modificar
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
