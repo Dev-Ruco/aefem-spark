@@ -15,11 +15,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.about': 'Sobre Nós',
     'nav.news': 'Notícias',
     'nav.gallery': 'Galeria',
-    'nav.donations': 'Doações',
     'nav.contact': 'Contacto',
     'nav.become_member': 'Tornar-se Membro',
     'nav.member_area': 'Área de Membro',
-    'nav.mutiyane': 'Mutiyane',
+    'nav.projects': 'Projectos',
+    'nav.publications': 'Publicações',
     
     // Hero
     'hero.featured': 'Notícia em Destaque',
@@ -378,6 +378,21 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.title': 'Acompanhe as Nossas Actividades',
     'videos.description': 'Veja os momentos mais marcantes do nosso trabalho no terreno',
     'videos.watch': 'Assistir Vídeo',
+
+    // Projects Page
+    'projects.title': 'Projectos da AEFEM',
+    'projects.badge': 'Os Nossos Projectos',
+    'projects.description': 'Conheça os projectos que a AEFEM desenvolve para promover o empoderamento económico das mulheres em Moçambique.',
+    'projects.meta_desc': 'Projectos da AEFEM para o empoderamento feminino em Moçambique.',
+
+    // Publications Page
+    'publications.title': 'Publicações',
+    'publications.badge': 'Documentos',
+    'publications.description': 'Consulte e descarregue os nossos relatórios, estudos e publicações.',
+    'publications.meta_desc': 'Publicações e documentos da AEFEM sobre empoderamento feminino.',
+    'publications.empty': 'Nenhuma publicação disponível de momento.',
+    'publications.preview': 'Pré-visualizar',
+    'publications.download': 'Descarregar',
   },
   en: {
     // Navigation
@@ -385,11 +400,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.about': 'About Us',
     'nav.news': 'News',
     'nav.gallery': 'Gallery',
-    'nav.donations': 'Donations',
     'nav.contact': 'Contact',
     'nav.become_member': 'Become a Member',
     'nav.member_area': 'Member Area',
-    'nav.mutiyane': 'Mutiyane',
+    'nav.projects': 'Projects',
+    'nav.publications': 'Publications',
     
     // Hero
     'hero.featured': 'Featured News',
@@ -748,6 +763,21 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.title': 'Follow Our Activities',
     'videos.description': 'Watch the most remarkable moments of our work in the field',
     'videos.watch': 'Watch Video',
+
+    // Projects Page
+    'projects.title': 'AEFEM Projects',
+    'projects.badge': 'Our Projects',
+    'projects.description': 'Discover the projects AEFEM develops to promote the economic empowerment of women in Mozambique.',
+    'projects.meta_desc': 'AEFEM projects for women\'s empowerment in Mozambique.',
+
+    // Publications Page
+    'publications.title': 'Publications',
+    'publications.badge': 'Documents',
+    'publications.description': 'Browse and download our reports, studies and publications.',
+    'publications.meta_desc': 'AEFEM publications and documents on women\'s empowerment.',
+    'publications.empty': 'No publications available at the moment.',
+    'publications.preview': 'Preview',
+    'publications.download': 'Download',
   }
 };
 

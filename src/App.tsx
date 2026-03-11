@@ -8,7 +8,8 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import Index from "./pages/Index";
 import NewsPage from "./pages/NewsPage";
 import ArticlePage from "./pages/ArticlePage";
-import DonationsPage from "./pages/DonationsPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import PublicationsPage from "./pages/PublicationsPage";
 import GalleryPage from "./pages/GalleryPage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
@@ -16,7 +17,6 @@ import NotFound from "./pages/NotFound";
 import MemberRegistration from "./pages/MemberRegistration";
 import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
-import MutiyanePage from "./pages/MutiyanePage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ResetPassword from "./pages/member/ResetPassword";
 
@@ -32,6 +32,8 @@ import TeamMembersList from "./pages/admin/TeamMembersList";
 import MembersList from "./pages/admin/MembersList";
 import MemberQuotasAdmin from "./pages/admin/MemberQuotasAdmin";
 import PartnersList from "./pages/admin/PartnersList";
+import PublicationsList from "./pages/admin/PublicationsList";
+import PublicationEditor from "./pages/admin/PublicationEditor";
 import NewsletterList from "./pages/admin/NewsletterList";
 import ContactMessages from "./pages/admin/ContactMessages";
 import Settings from "./pages/admin/Settings";
@@ -54,15 +56,18 @@ const App = () => (
               <Route path="/artigo/:slug" element={<ArticlePage />} />
               <Route path="/noticias/:slug" element={<ArticlePage />} />
               <Route path="/privacidade" element={<PrivacyPolicyPage />} />
-              <Route path="/doacoes" element={<DonationsPage />} />
+              <Route path="/projectos" element={<ProjectsPage />} />
+              <Route path="/publicacoes" element={<PublicationsPage />} />
               <Route path="/galeria" element={<GalleryPage />} />
               <Route path="/contacto" element={<ContactPage />} />
               <Route path="/sobre" element={<AboutPage />} />
-              <Route path="/mutiyane" element={<MutiyanePage />} />
               <Route path="/tornar-se-membro" element={<MemberRegistration />} />
               <Route path="/membro/login" element={<MemberLogin />} />
               <Route path="/membro" element={<MemberDashboard />} />
               <Route path="/membro/recuperar-password" element={<ResetPassword />} />
+              
+              {/* Legacy redirects */}
+              <Route path="/mutiyane" element={<ProjectsPage />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
@@ -79,6 +84,9 @@ const App = () => (
                 <Route path="membros" element={<MembersList />} />
                 <Route path="quotas" element={<MemberQuotasAdmin />} />
                 <Route path="parceiros" element={<PartnersList />} />
+                <Route path="publicacoes" element={<PublicationsList />} />
+                <Route path="publicacoes/novo" element={<PublicationEditor />} />
+                <Route path="publicacoes/:id" element={<PublicationEditor />} />
                 <Route path="newsletter" element={<NewsletterList />} />
                 <Route path="mensagens" element={<ContactMessages />} />
                 <Route path="configuracoes" element={<Settings />} />

@@ -451,6 +451,45 @@ export type Database = {
         }
         Relationships: []
       }
+      publications: {
+        Row: {
+          created_at: string
+          description: string | null
+          description_en: string | null
+          file_url: string
+          id: string
+          is_active: boolean
+          published_at: string | null
+          thumbnail_url: string | null
+          title: string
+          title_en: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          file_url: string
+          id?: string
+          is_active?: boolean
+          published_at?: string | null
+          thumbnail_url?: string | null
+          title: string
+          title_en?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          file_url?: string
+          id?: string
+          is_active?: boolean
+          published_at?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          title_en?: string | null
+        }
+        Relationships: []
+      }
       team_members: {
         Row: {
           bio: string | null

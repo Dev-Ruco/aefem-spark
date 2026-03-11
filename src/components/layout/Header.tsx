@@ -10,10 +10,10 @@ import logo from '@/assets/logo-aefem.png';
 const getNavLinks = (t: (key: string) => string) => [
   { href: '/', label: t('nav.home') },
   { href: '/sobre', label: t('nav.about') },
-  { href: '/mutiyane', label: t('nav.mutiyane') },
+  { href: '/projectos', label: t('nav.projects') },
   { href: '/noticias', label: t('nav.news') },
+  { href: '/publicacoes', label: t('nav.publications') },
   { href: '/galeria', label: t('nav.gallery') },
-  { href: '/doacoes', label: t('nav.donations') },
   { href: '/contacto', label: t('nav.contact') },
   { href: '/tornar-se-membro', label: t('nav.become_member') },
 ];
@@ -78,11 +78,11 @@ export function Header() {
           {/* CTA Button & Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
             <LanguageSelector />
-            <Link to="/doacoes" className="hidden sm:block">
+            <Link to="/tornar-se-membro" className="hidden sm:block">
               <Button
                 className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105"
               >
-                {t('footer.support')}
+                {t('nav.become_member')}
               </Button>
             </Link>
 
@@ -125,9 +125,9 @@ export function Header() {
             <div className="flex items-center justify-between pt-2 px-4">
               <LanguageSelector />
             </div>
-            <Link to="/doacoes" className="block pt-2">
+            <Link to="/tornar-se-membro" className="block pt-2">
               <Button className="w-full gradient-primary text-primary-foreground">
-                {t('footer.support')}
+                {t('nav.become_member')}
               </Button>
             </Link>
           </div>
