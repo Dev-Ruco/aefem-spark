@@ -381,10 +381,19 @@ export default function MembersList() {
                           <TableCell className="hidden lg:table-cell">
                             {format(new Date(member.created_at), "dd MMM yyyy", { locale: pt })}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell className="text-right space-x-1">
                             <Button size="sm" variant="ghost" onClick={() => { setSelectedMember(member); setDetailsOpen(true); }}>
                               <Eye className="h-4 w-4" />
                             </Button>
+                            {member.status === 'active' ? (
+                              <Button size="sm" variant="outline" className="text-yellow-600 border-yellow-300 hover:bg-yellow-50" onClick={() => updateStatus(member.id, 'inactive')}>
+                                Inativar
+                              </Button>
+                            ) : (
+                              <Button size="sm" variant="outline" className="text-green-600 border-green-300 hover:bg-green-50" onClick={() => updateStatus(member.id, 'active')}>
+                                Activar
+                              </Button>
+                            )}
                           </TableCell>
                         </TableRow>
                       );
