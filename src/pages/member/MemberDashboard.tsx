@@ -7,19 +7,19 @@ import { Badge } from '@/components/ui/badge';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { User, CreditCard, Bell, Calendar, LogOut, Loader2 } from 'lucide-react';
+import { User, CreditCard, Bell, LogOut, Loader2, Briefcase } from 'lucide-react';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 
 interface MemberData {
   id: string;
   full_name: string;
-  gender: string;
-  birth_year: number;
   province: string;
   whatsapp_number: string;
   status: string;
   created_at: string;
+  profession: string | null;
+  age: number | null;
 }
 
 interface Quota {
@@ -38,36 +38,23 @@ export default function MemberDashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/membro/login');
-    }
+    if (!authLoading && !user) navigate('/membro/login');
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    if (user) {
-      fetchMemberData();
-    }
+    if (user) fetchMemberData();
   }, [user]);
 
   const fetchMemberData = async () => {
     if (!user) return;
-
     const { data: memberData } = await supabase
-      .from('members')
-      .select('*')
-      .eq('user_id', user.id)
-      .maybeSingle();
+      .from('members').select('*').eq('user_id', user.id).maybeSingle();
 
     if (memberData) {
       setMember(memberData);
-      
       const { data: quotaData } = await supabase
-        .from('member_quotas')
-        .select('*')
-        .eq('member_id', memberData.id)
-        .order('reference_month', { ascending: false })
-        .limit(6);
-      
+        .from('member_quotas').select('*').eq('member_id', memberData.id)
+        .order('reference_month', { ascending: false }).limit(6);
       setQuotas(quotaData || []);
     }
     setIsLoading(false);
@@ -79,13 +66,7 @@ export default function MemberDashboard() {
   };
 
   if (authLoading || isLoading) {
-    return (
-      <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </Layout>
-    );
+    return <Layout><div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div></Layout>;
   }
 
   if (!member) {
@@ -103,9 +84,7 @@ export default function MemberDashboard() {
 
   return (
     <>
-      <Helmet>
-        <title>Painel de Membro | AEFEM</title>
-      </Helmet>
+      <Helmet><title>Painel de Membro | AEFEM</title></Helmet>
       <Layout>
         <section className="pt-28 pb-20 min-h-screen bg-secondary/20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,18 +96,16 @@ export default function MemberDashboard() {
                 <p className="text-muted-foreground">Bem-vindo à sua área de membro</p>
               </div>
               <Button variant="outline" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Sair
+                <LogOut className="h-4 w-4 mr-2" />Sair
               </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Profile Card */}
+              {/* Profile */}
               <Card className="md:col-span-2 lg:col-span-1">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5 text-primary" />
-                    O Meu Perfil
+                    <User className="h-5 w-5 text-primary" />O Meu Perfil
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -136,7 +113,21 @@ export default function MemberDashboard() {
                     <p className="text-sm text-muted-foreground">Nome</p>
                     <p className="font-medium">{member.full_name}</p>
                   </div>
+                  {member.profession && (
+                    <div>
+                      <p className="text-sm text-muted-foreground">Profissão</p>
+                      <p className="font-medium flex items-center gap-1">
+                        <Briefcase className="h-3.5 w-3.5" /> {member.profession}
+                      </p>
+                    </div>
+                  )}
                   <div className="grid grid-cols-2 gap-4">
+                    {member.age && (
+                      <div>
+                        <p className="text-sm text-muted-foreground">Idade</p>
+                        <p className="font-medium">{member.age} anos</p>
+                      </div>
+                    )}
                     <div>
                       <p className="text-sm text-muted-foreground">Província</p>
                       <p className="font-medium">{member.province}</p>
@@ -158,12 +149,11 @@ export default function MemberDashboard() {
                 </CardContent>
               </Card>
 
-              {/* Quotas Card */}
+              {/* Quotas */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5 text-primary" />
-                    Quotas
+                    <CreditCard className="h-5 w-5 text-primary" />Quotas
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -171,39 +161,30 @@ export default function MemberDashboard() {
                     <p className="text-sm text-muted-foreground">Nenhuma quota registada.</p>
                   ) : (
                     <div className="space-y-3">
-                      {quotas.slice(0, 3).map((quota) => (
-                        <div key={quota.id} className="flex justify-between items-center">
-                          <span className="text-sm">
-                            {format(new Date(quota.reference_month), 'MMM yyyy', { locale: pt })}
-                          </span>
-                          <Badge variant={quota.payment_status === 'paid' ? 'default' : 'destructive'}>
-                            {quota.payment_status === 'paid' ? 'Pago' : 'Pendente'}
+                      {quotas.slice(0, 3).map((q) => (
+                        <div key={q.id} className="flex justify-between items-center">
+                          <span className="text-sm">{format(new Date(q.reference_month), 'MMM yyyy', { locale: pt })}</span>
+                          <Badge variant={q.payment_status === 'paid' ? 'default' : 'destructive'}>
+                            {q.payment_status === 'paid' ? 'Pago' : 'Pendente'}
                           </Badge>
                         </div>
                       ))}
                     </div>
                   )}
-                  <p className="text-xs text-muted-foreground mt-4">
-                    Quota mensal: 500 MT
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-4">Quota mensal: 500 MT</p>
                 </CardContent>
               </Card>
 
-              {/* Info Card */}
+              {/* Info */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Bell className="h-5 w-5 text-primary" />
-                    Informações
+                    <Bell className="h-5 w-5 text-primary" />Informações
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm text-muted-foreground space-y-3">
-                  <p>
-                    Para a manutenção das actividades da AEFEM, o pagamento da quota mensal de 500 MT deve ser efectuado entre os dias 25 e 5 do mês seguinte.
-                  </p>
-                  <p className="text-xs">
-                    Integração M-Pesa em breve disponível.
-                  </p>
+                  <p>Para a manutenção das actividades da AEFEM, o pagamento da quota mensal de 500 MT deve ser efectuado entre os dias 25 e 5 do mês seguinte.</p>
+                  <p className="text-xs">Integração M-Pesa em breve disponível.</p>
                 </CardContent>
               </Card>
             </div>

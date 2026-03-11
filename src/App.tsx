@@ -18,6 +18,7 @@ import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import MutiyanePage from "./pages/MutiyanePage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import ResetPassword from "./pages/member/ResetPassword";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
