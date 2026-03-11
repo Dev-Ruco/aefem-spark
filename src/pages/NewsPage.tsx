@@ -128,7 +128,7 @@ export default function NewsPage() {
       <Layout>
         {/* Hero */}
         <section className="pt-32 pb-16 gradient-hero">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
               subtitle={t('newspage.subtitle')}
               title={t('newspage.title')}
