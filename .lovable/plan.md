@@ -1,72 +1,105 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Plano: Layout Editorial de Artigos + Sistema de Adesao de Membros
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+### Parte 1: Redesign da Pagina de Artigos (ArticlePage.tsx)
 
-### Esquema de Fundos (de cima para baixo)
+**Problema actual:** A imagem de capa corta rostos (50vh com object-cover), o conteudo esta dentro de um card branco com `-mt-32` que sobrepoe a imagem, e o texto nao tem largura editorial confortavel.
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+**Novo layout editorial:**
 
-### Detalhes das Alteracoes
-
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
-
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
-
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
-
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
-
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
-
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
-
-### Padrao Visual Resultante
 ```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+┌─────────────────────────────────────────┐
+│  ← Voltar as Noticias    [Parcerias]    │  (nav bar)
+│                                         │
+│  TITULO DO ARTIGO GRANDE                │
+│  📅 12 de Marco, 2026    [Partilhar]    │
+├─────────────────────────────────────────┤
+│                                         │
+│  ┌─────────────────────────────────┐    │
+│  │                                 │    │
+│  │   IMAGEM DE CAPA COMPLETA      │    │  aspect-[16/9]
+│  │   (sem corte, bem enquadrada)   │    │
+│  │                                 │    │
+│  └─────────────────────────────────┘    │
+│                                         │
+│  ┌───────── max-w-[720px] ─────────┐    │
+│  │  Paragrafo 1 com bom line-height│    │
+│  │                                 │    │
+│  │  Paragrafo 2 bem separado       │    │
+│  │                                 │    │
+│  │  Paragrafo 3...                 │    │
+│  └─────────────────────────────────┘    │
+│                                         │
+└─────────────────────────────────────────┘
 ```
 
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
+**Alteracoes no `src/pages/ArticlePage.tsx`:**
+- Remover o card branco com `-mt-32` que sobrepoe a imagem
+- Mover categoria, titulo e metadata para ANTES da imagem
+- Imagem de capa: `aspect-[16/9]` com `object-cover object-center`, `rounded-xl`, dentro do container (`max-w-4xl`)
+- Corpo do artigo: `max-w-[720px] mx-auto` com `prose prose-lg`
+- Adicionar estilos editoriais: `leading-relaxed`, paragrafos com `mb-6`, headings com `mt-10 mb-4`
+- Remover fundo de card - usar fundo limpo da pagina
 
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
+---
+
+### Parte 2: Sistema de Adesao de Membros
+
+#### 2A: Seccao "Tornar-se Membro" na Homepage
+
+Adicionar uma nova seccao no `src/pages/Index.tsx` entre VideosSection e TeamSection. Criar componente `src/components/home/JoinSection.tsx`:
+
+- Fundo com gradiente suave (gradient-hero)
+- Icone UserPlus, titulo "Junte-se a AEFEM", descricao breve
+- 3 beneficios em cards simples (rede de apoio, capacitacao, voz activa)
+- Botao CTA grande "Juntar-me Agora" que navega para `/tornar-se-membro`
+
+#### 2B: Simplificar Formulario de Registo
+
+O formulario actual pede: nome, genero, ano nascimento, provincia, WhatsApp, email, password.
+
+O utilizador quer campos mais simples: **nome completo, profissao, idade, WhatsApp, provincia, codigo de acesso**.
+
+**Problema:** A tabela `members` actual tem colunas `gender`, `birth_year`, `whatsapp_number` mas NAO tem `profissao` nem `codigo_acesso`. Tambem nao tem `idade` (tem `birth_year`).
+
+**Solucao tecnica:**
+1. Adicionar colunas `profession` (text, nullable) e `access_code` (text, nullable) a tabela `members`
+2. Tornar `gender` e `birth_year` nullable (para nao quebrar registos existentes), substituir `birth_year` por campo `age` (integer, nullable)
+3. Remover campos email/password do formulario visivel - criar registo SEM autenticacao (guardar como candidatura simples)
+
+**Decisao importante:** O sistema actual cria um utilizador auth + member + role. O utilizador quer um formulario simples sem email/password. A melhor abordagem e:
+- Criar uma tabela `membership_applications` separada (sem auth) para inscricoes publicas
+- Campos: `full_name`, `profession`, `age`, `whatsapp_number`, `province`, `access_code`, `status`, `created_at`
+- RLS: INSERT publico, SELECT/UPDATE/DELETE so admins
+- O formulario grava directamente nesta tabela sem necessidade de autenticacao
+- Manter a pagina actual de registo com auth para membros que querem acesso ao painel
+
+#### 2C: Reescrever `MemberRegistration.tsx`
+
+- Formulario limpo com 6 campos: Nome completo, Profissao, Idade (input numerico), WhatsApp, Provincia (select), Codigo de acesso
+- Campos grandes, labels claras em portugues
+- Sem email, sem password
+- Botao "Submeter Inscricao"
+- Mensagem de sucesso: "A sua inscricao foi recebida com sucesso. Em breve entraremos em contacto."
+- Mobile-first: inputs `h-12`, texto `text-base`, espacamento generoso
+
+---
+
+### Ficheiros
+
+| Ficheiro | Accao |
+|----------|-------|
+| `src/pages/ArticlePage.tsx` | Redesign completo com layout editorial |
+| `src/components/home/JoinSection.tsx` | **Criar** - seccao "Tornar-se Membro" na home |
+| `src/pages/Index.tsx` | Adicionar JoinSection |
+| `src/pages/MemberRegistration.tsx` | Simplificar formulario (sem auth) |
+| **Migracao BD** | Criar tabela `membership_applications` |
+
+### Sequencia
+
+1. Criar tabela `membership_applications` na base de dados
+2. Redesign do ArticlePage com layout editorial
+3. Criar JoinSection para homepage
+4. Reescrever formulario de registo simplificado
+
