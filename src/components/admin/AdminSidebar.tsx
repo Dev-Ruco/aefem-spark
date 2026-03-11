@@ -31,6 +31,7 @@ const menuItems = [
   { to: '/admin/membros', icon: UserCheck, label: 'Membros' },
   { to: '/admin/quotas', icon: CreditCard, label: 'Quotas' },
   { to: '/admin/parceiros', icon: Users, label: 'Parceiros' },
+  { to: '/admin/publicacoes', icon: FileText, label: 'Publicações' },
   { to: '/admin/newsletter', icon: Mail, label: 'Newsletter' },
   { to: '/admin/mensagens', icon: MessageSquare, label: 'Mensagens' },
 ];
