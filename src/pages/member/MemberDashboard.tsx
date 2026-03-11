@@ -73,9 +73,16 @@ export default function MemberDashboard() {
     return (
       <Layout>
         <div className="pt-32 pb-20 min-h-screen">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="font-display text-2xl font-bold mb-4">Perfil não encontrado</h1>
-            <Button onClick={() => navigate('/tornar-se-membro')}>Completar Registo</Button>
+          <div className="container mx-auto px-4 text-center space-y-4">
+            <h1 className="font-display text-2xl font-bold">Perfil de membro não encontrado</h1>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              A sua conta de utilizador não está associada a um perfil de membro. 
+              Isto pode acontecer se ainda não completou o registo ou se a sua candidatura está em análise.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Button onClick={() => navigate('/tornar-se-membro')}>Completar Registo</Button>
+              <Button variant="outline" onClick={handleLogout}>Sair</Button>
+            </div>
           </div>
         </div>
       </Layout>
