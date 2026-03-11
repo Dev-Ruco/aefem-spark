@@ -10,10 +10,10 @@ import logo from '@/assets/logo-aefem.png';
 const getNavLinks = (t: (key: string) => string) => [
   { href: '/', label: t('nav.home') },
   { href: '/sobre', label: t('nav.about') },
-  { href: '/mutiyane', label: t('nav.mutiyane') },
+  { href: '/projectos', label: t('nav.projects') },
   { href: '/noticias', label: t('nav.news') },
+  { href: '/publicacoes', label: t('nav.publications') },
   { href: '/galeria', label: t('nav.gallery') },
-  { href: '/doacoes', label: t('nav.donations') },
   { href: '/contacto', label: t('nav.contact') },
   { href: '/tornar-se-membro', label: t('nav.become_member') },
 ];
