@@ -1,72 +1,64 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Diagnostico: Porque o Registo Falha
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+Identifiquei **3 problemas criticos** ao analisar a base de dados e os logs:
 
-### Esquema de Fundos (de cima para baixo)
+### Problema 1: Email requer confirmacao — bloqueia tudo
+Os logs mostram que quando PAULA MACAVE se registou, o sistema enviou `user_confirmation_requested`. O utilizador auth e criado mas **sem sessao activa** (porque nao confirmou email). O codigo tenta inserir na tabela `members` logo a seguir, mas sem sessao activa, `auth.uid()` e `null` — a politica RLS bloqueia o INSERT. Resultado: auth user criado, mas membro **nunca** guardado.
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+### Problema 2: CHECK constraints bloqueiam dados
+A tabela `members` tem CHECK constraints da migracao original:
+- `gender CHECK (gender IN ('masculino', 'feminino', 'outro'))` — o form envia `null`
+- `birth_year CHECK (birth_year >= 1940 AND birth_year <= 2010)` — o form envia `null`  
+- `status CHECK (status IN ('pending', 'active', 'suspended'))` — o admin usa `'inactive'` que viola o CHECK
 
-### Detalhes das Alteracoes
+Embora `null` passe CHECKs em PostgreSQL, o valor `'inactive'` no status falha.
 
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
+### Problema 3: Tabela members VAZIA
+Confirmado pela query directa: **0 registos** na tabela `members`. A candidatura aprovada de FELISBERTO RUCO existe em `membership_applications` com status "approved" mas nunca foi copiada para `members` (provavelmente falhou pelo mesmo motivo de RLS/constraints).
 
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
+### Dados actuais na BD
+- `members`: 0 registos
+- `membership_applications`: 1 registo (FELISBERTO RUCO, aprovado)
+- `user_roles`: 1 admin (felisberto.ruco10@gmail.com)
+- Auth: PAULA MACAVE registou-se mas nao confirmou email
 
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
+---
 
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
+### Plano de Correcao
 
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
+#### 1. Activar auto-confirmacao de email
+O utilizador quer entrada imediata. Activar auto-confirm para que apos signUp, o utilizador tenha sessao activa imediatamente — sem esperar email de confirmacao.
 
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
+#### 2. Remover CHECK constraints restritivos
+Migracao para remover os CHECKs antigos em `gender`, `birth_year` e `status` que impedem os novos fluxos de funcionar.
 
-### Padrao Visual Resultante
-```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
-```
+#### 3. Corrigir `MemberRegistration.tsx`
+- Adicionar logging detalhado nos erros de insert
+- Verificar se a sessao esta activa antes de inserir
+- Mostrar mensagem de erro real ao utilizador
 
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
+#### 4. Corrigir `MembersList.tsx` — aprovacao funcional
+- A funcao `confirmApproveApplication` envia `user_id: null as any` mas a politica RLS exige `auth.uid() = user_id OR is_admin_or_editor()`. Como o admin esta autenticado, a segunda condicao deveria funcionar. Verificar e garantir que funciona.
 
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
+#### 5. Migrar dados existentes
+Inserir a candidatura aprovada de FELISBERTO RUCO na tabela `members`.
+
+---
+
+### Ficheiros
+
+| Ficheiro | Alteracao |
+|----------|-----------|
+| **Auth config** | Activar auto-confirm email |
+| **Migracao BD** | Remover CHECKs em gender, birth_year, status |
+| **Insert dados** | Copiar candidatura aprovada para members |
+| `src/pages/MemberRegistration.tsx` | Melhorar tratamento de erros e logging |
+
+### Sequencia
+1. Activar auto-confirm
+2. Migracao: remover CHECK constraints
+3. Inserir dados pendentes
+4. Corrigir codigo de registo
+
