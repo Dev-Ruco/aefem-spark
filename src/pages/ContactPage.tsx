@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       <Layout>
         <section className="pt-32 pb-16 gradient-hero">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
               subtitle={t('contact.subtitle')}
               title={t('contact.title')}
