@@ -1,72 +1,92 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Plano: Criar Pagina Projectos, Pagina Publicacoes, Remover Doacoes
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+### Resumo das Alteracoes
 
-### Esquema de Fundos (de cima para baixo)
+**3 grandes mudancas:**
+1. **Criar pagina `/projectos`** — com Mutiyane como primeiro projecto (conteudo actual migrado)
+2. **Remover pagina `/doacoes`** — substituir botao "Apoiar" por "Tornar-se Membro" em todo o site
+3. **Criar pagina `/publicacoes`** — para documentos PDF com preview integrado
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+### Estrutura da Pagina de Projectos
 
-### Detalhes das Alteracoes
+A pagina `/projectos` tera um layout com lista de projectos. Inicialmente apenas o Mutiyane, mas extensivel para futuros projectos.
 
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
+- Hero com titulo "Projectos da AEFEM"
+- Cards dos projectos com imagem, nome e breve descricao
+- Ao clicar num projecto, expande ou navega para seccao com o conteudo completo (accordion/tabs)
+- Todo o conteudo actual de `MutiyanePage.tsx` sera integrado como seccao do projecto Mutiyane dentro desta pagina
 
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
+### Estrutura da Pagina de Publicacoes
 
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
+A pagina `/publicacoes` mostrara documentos PDF carregados no sistema:
+- Criar tabela `publications` na BD (titulo, descricao, ficheiro PDF URL, data, thumbnail)
+- Na pagina publica: grid de cards com preview do PDF (primeira pagina como thumbnail ou icone PDF)
+- Ao clicar: abre preview inline com `<iframe>` ou `<embed>` para visualizar o PDF
+- Botao de download disponivel
+- Storage bucket `publications` para uploads
+- No admin: pagina para gerir publicacoes (CRUD)
 
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
+### Remocao de Doacoes
 
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
+- Eliminar `src/pages/DonationsPage.tsx`
+- Remover rota `/doacoes` do `App.tsx`
+- Remover import de `DonationsPage`
 
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
+### Substituicao do Botao "Apoiar"
 
-### Padrao Visual Resultante
-```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
-```
+Em todos os ficheiros que referenciam `/doacoes`:
 
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
+| Ficheiro | Alteracao |
+|----------|-----------|
+| `Header.tsx` | Botao CTA: `/doacoes` → `/tornar-se-membro`, label "Apoiar" → "Tornar-se Membro" |
+| `Footer.tsx` | Botao e quick link: remover `/doacoes`, botao → `/tornar-se-membro` |
+| `HeroSlider.tsx` | Link `/doacoes` → `/tornar-se-membro` |
+| `SupportSection.tsx` | CTA `/doacoes` → `/tornar-se-membro` |
 
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
+### Navegacao Actualizada
+
+Menu principal:
+- Inicio | Sobre Nos | **Projectos** | Noticias | **Publicacoes** | Galeria | Contacto | Tornar-se Membro
+
+(Remover "Mutiyane" e "Doacoes" do menu, adicionar "Projectos" e "Publicacoes")
+
+### Migracoes BD
+
+1. Criar tabela `publications`:
+   - id, title, title_en, description, description_en, file_url, thumbnail_url, published_at, created_at, is_active
+   - RLS: publico pode ler activas, admin pode gerir
+
+2. Criar bucket `publications` (publico)
+
+### Ficheiros a Criar/Modificar
+
+| Ficheiro | Accao |
+|----------|-------|
+| `src/pages/ProjectsPage.tsx` | **Criar** — pagina de projectos com Mutiyane integrado |
+| `src/pages/PublicationsPage.tsx` | **Criar** — pagina de publicacoes com preview PDF |
+| `src/pages/admin/PublicationsList.tsx` | **Criar** — admin CRUD de publicacoes |
+| `src/pages/admin/PublicationEditor.tsx` | **Criar** — editor de publicacao (upload PDF + thumbnail) |
+| `src/App.tsx` | Remover rota doacoes, adicionar rotas projectos/publicacoes/admin |
+| `src/components/layout/Header.tsx` | Actualizar nav: remover doacoes/mutiyane, adicionar projectos/publicacoes, botao CTA → membro |
+| `src/components/layout/Footer.tsx` | Remover ref doacoes, botao → tornar-se-membro |
+| `src/components/home/HeroSlider.tsx` | Link doacoes → tornar-se-membro |
+| `src/components/home/SupportSection.tsx` | CTA → tornar-se-membro |
+| `src/components/admin/AdminSidebar.tsx` | Adicionar item "Publicacoes" |
+| `src/contexts/LanguageContext.tsx` | Adicionar traducoes projectos/publicacoes, actualizar nav |
+| `src/pages/DonationsPage.tsx` | **Eliminar** |
+| `src/pages/MutiyanePage.tsx` | **Eliminar** (conteudo migrado para ProjectsPage) |
+| Migracao SQL | Criar tabela publications + bucket storage |
+
+### Sequencia de Implementacao
+1. Migracao BD (tabela + bucket + RLS)
+2. Criar ProjectsPage com conteudo Mutiyane
+3. Criar PublicationsPage com preview PDF
+4. Criar admin PublicationsList + PublicationEditor
+5. Actualizar navegacao (Header, Footer, AdminSidebar)
+6. Actualizar traducoes
+7. Actualizar App.tsx (rotas)
+8. Remover ficheiros obsoletos (DonationsPage, MutiyanePage)
+9. Limpar todas as referencias a `/doacoes`
+
