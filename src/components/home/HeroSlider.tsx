@@ -67,8 +67,20 @@ export function HeroSlider() {
     setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length);
   }, [articles.length]);
 
-  // Default hero content when no articles
-  if (isLoading || articles.length === 0) {
+  // Loading skeleton — dark placeholder matching the slider aesthetic
+  if (isLoading) {
+    return (
+      <section className="relative min-h-[500px] h-[70vh] mt-[72px] flex items-center justify-center overflow-hidden bg-foreground">
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/90 via-foreground/80 to-foreground/95" />
+        <div className="relative z-10 flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-2 border-primary/40 border-t-primary rounded-full animate-spin" />
+        </div>
+      </section>
+    );
+  }
+
+  // Static hero when no articles exist
+  if (articles.length === 0) {
     return (
       <section className="relative min-h-[500px] h-[70vh] mt-[72px] flex items-center justify-center overflow-hidden gradient-hero">
         <div className="absolute inset-0 overflow-hidden">
@@ -138,12 +150,16 @@ export function HeroSlider() {
                   )
             )}
           >
-            {/* Background Image with lazy loading */}
+            {/* Background Image */}
             {article.featured_image && (
-              <div
-                className="absolute inset-0 bg-cover bg-top"
-                style={{ backgroundImage: `url(${article.featured_image})` }}
-              >
+              <div className="absolute inset-0">
+                <img
+                  src={article.featured_image}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ objectPosition: 'center 20%' }}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
                 <div className="absolute inset-0 bg-gradient-to-b from-foreground/80 via-foreground/70 to-foreground/85" />
               </div>
             )}
@@ -155,17 +171,14 @@ export function HeroSlider() {
             <div className="relative h-full flex items-center justify-center pt-8">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center text-background">
-                  {/* Institutional micro-copy */}
                   <span className="inline-block text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 text-background/70">
                     {t('hero.our_work')}
                   </span>
                   
-                  {/* Activities badge */}
                   <span className="block text-xs sm:text-sm font-semibold uppercase tracking-wider mb-4 bg-primary/90 text-primary-foreground px-4 py-1.5 rounded-full shadow-lg mx-auto w-fit">
                     {t('hero.activities_label')}
                   </span>
                   
-                  {/* Title */}
                   <h1 
                     className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight px-2"
                     style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
