@@ -53,27 +53,35 @@ export function PartnersSection() {
         >
           {partners.length > 0 ? (
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-              {partners.map((partner) => (
-                <a
-                  key={partner.id}
-                  href={partner.website_url || '#'}
-                  target={partner.website_url ? '_blank' : undefined}
-                  rel="noopener noreferrer"
-                  className="group"
-                >
-                  {partner.logo_url ? (
-                    <img
-                      src={partner.logo_url}
-                      alt={partner.name}
-                      className="h-16 w-auto grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"
-                    />
-                  ) : (
-                    <div className="h-16 px-6 bg-muted rounded-lg flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
-                      {partner.name}
-                    </div>
-                  )}
-                </a>
-              ))}
+              {partners.map((partner) => {
+                const content = partner.logo_url ? (
+                  <img
+                    src={partner.logo_url}
+                    alt={partner.name}
+                    className="h-16 w-auto grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                  />
+                ) : (
+                  <div className="h-16 px-6 bg-muted rounded-lg flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
+                    {partner.name}
+                  </div>
+                );
+
+                return partner.website_url ? (
+                  <a
+                    key={partner.id}
+                    href={partner.website_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <span key={partner.id} className="group">
+                    {content}
+                  </span>
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-12 bg-card rounded-2xl">
