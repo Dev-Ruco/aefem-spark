@@ -15,11 +15,11 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.about': 'Sobre Nós',
     'nav.news': 'Notícias',
     'nav.gallery': 'Galeria',
-    'nav.donations': 'Doações',
     'nav.contact': 'Contacto',
     'nav.become_member': 'Tornar-se Membro',
     'nav.member_area': 'Área de Membro',
-    'nav.mutiyane': 'Mutiyane',
+    'nav.projects': 'Projectos',
+    'nav.publications': 'Publicações',
     
     // Hero
     'hero.featured': 'Notícia em Destaque',
