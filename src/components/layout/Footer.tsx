@@ -25,7 +25,7 @@ export function Footer() {
     { href: '/sobre', label: t('nav.about') },
     { href: '/noticias', label: t('nav.news') },
     { href: '/galeria', label: t('nav.gallery') },
-    { href: '/doacoes', label: t('nav.donations') },
+    { href: '/publicacoes', label: t('nav.publications') },
     { href: '/contacto', label: t('nav.contact') },
   ];
 
