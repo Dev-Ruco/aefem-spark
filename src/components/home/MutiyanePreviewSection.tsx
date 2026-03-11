@@ -44,7 +44,7 @@ export function MutiyanePreviewSection() {
               </div>
             </div>
 
-            <Link to="/mutiyane">
+            <Link to="/projectos">
               <Button
                 size="lg"
                 className="gradient-primary text-primary-foreground font-medium shadow-brand-md hover:shadow-brand-lg transition-all duration-300"
