@@ -78,11 +78,11 @@ export function Header() {
           {/* CTA Button & Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
             <LanguageSelector />
-            <Link to="/doacoes" className="hidden sm:block">
+            <Link to="/tornar-se-membro" className="hidden sm:block">
               <Button
                 className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105"
               >
-                {t('footer.support')}
+                {t('nav.become_member')}
               </Button>
             </Link>
 
