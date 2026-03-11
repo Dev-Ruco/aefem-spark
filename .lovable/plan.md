@@ -1,96 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Auditoria Completa: Navegação, Rotas e Layout
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### Parte 1: Problemas de Navegação e Rotas Identificados
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-#### Problema Critico 1: Links de artigos apontam para rota inexistente
-- **HeroSlider.tsx (linha 198):** `<Link to={/noticias/${article.slug}}>` — rota **inexistente**
-- **ActivitiesSection.tsx (linha 118):** `<Link to={/noticias/${article.slug}}>` — rota **inexistente**
-- **NewsPage.tsx (linha 195):** `<Link to={/noticias/${article.slug}}>` — rota **inexistente**
-- **Rota real no App.tsx:** `/artigo/:slug` (não `/noticias/:slug`)
-- **Resultado:** Todos os links de artigos geram 404
+### Esquema de Fundos (de cima para baixo)
 
-**Correcao:** Alterar todos os links para `/artigo/${article.slug}` OU adicionar a rota `/noticias/:slug` no App.tsx. A melhor opcao e adicionar uma segunda rota no App.tsx para `/noticias/:slug` que aponte para ArticlePage, mantendo compatibilidade.
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
 
-#### Problema 2: Footer — Link de "Privacidade" aponta para `#`
-- **Footer.tsx (linha 190):** `<a href="#">` — link morto
+### Detalhes das Alteracoes
 
-**Correcao:** Criar uma pagina simples de Politica de Privacidade ou remover o link.
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
 
-#### Problema 3: Footer — Redes sociais apontam para `#`
-- **Footer.tsx:** Todos os `socialLinks` têm `href: '#'`
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
 
-**Correcao:** Manter os links mas remover o `href="#"` e usar `cursor-default` ou abrir numa nova aba quando URLs reais forem adicionadas via admin.
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
 
-#### Problema 4: Botoes sem destino na pagina de Doacoes
-- **DonationsPage.tsx (linha 121):** Botao "Voluntariado" sem link — nao navega para lado nenhum
-- **DonationsPage.tsx (linha 134):** Botao "Parcerias" sem link — nao navega para lado nenhum
-- **DonationsPage.tsx (linha 152):** Botao CTA final "Doar Agora" sem link — nao navega para lado nenhum
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
 
-**Correcao:** Ligar Voluntariado e Parcerias ao `/contacto`, e o CTA final deve fazer scroll para a seccao de metodos de doacao.
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
 
-#### Problema 5: PartnersSection — Link com `href: '#'` quando parceiro nao tem website
-- **PartnersSection.tsx (linha 59):** `href={partner.website_url || '#'}`
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
 
-**Correcao:** Quando nao ha URL, usar `<span>` em vez de `<a>`.
+### Padrao Visual Resultante
+```text
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+```
 
-#### Problema 6: Vercel config para SPA routing
-- **vercel.json** ja foi corrigido no ultimo diff com `{ "handle": "filesystem" }` — OK
-- **public/_redirects** existe para Netlify — OK
-
----
-
-### Parte 2: Melhorias de Layout e Espacamento
-
-#### 2.1 Container e margens laterais
-O site ja usa `container mx-auto px-4` na maioria das seccoes. O Tailwind `container` tem `max-width: 1280px` por defeito, o que e adequado. Algumas seccoes usam `px-4` apenas — vou padronizar para `px-4 sm:px-6 lg:px-8` em todas.
-
-#### 2.2 Espacamento vertical entre seccoes
-Actualmente o `py-20 md:py-28` e usado em muitas seccoes, o que e bom. Vou padronizar:
-- Seccoes normais: `py-20 md:py-28`
-- Sub-seccoes internas (hero de pagina): `pt-32 pb-16` (ja usado)
-
-#### 2.3 Mobile — conteudo encosta as bordas
-Vou adicionar padding lateral mais generoso (`px-5 sm:px-6 lg:px-8`) para evitar que conteudo encoste as bordas em mobile.
-
-#### 2.4 App.css — código morto
-O ficheiro `src/App.css` contem estilos Vite default que nao sao usados. Sera limpo.
-
----
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
 ### Ficheiros a Modificar
-
-| Ficheiro | Alteracoes |
-|----------|-----------|
-| `src/App.tsx` | Adicionar rota `/noticias/:slug` para ArticlePage |
-| `src/components/home/HeroSlider.tsx` | Corrigir link de `/noticias/` para `/artigo/` |
-| `src/components/home/ActivitiesSection.tsx` | Corrigir link de `/noticias/` para `/artigo/` |
-| `src/pages/NewsPage.tsx` | Corrigir link de `/noticias/` para `/artigo/` |
-| `src/components/layout/Footer.tsx` | Remover link `#` de privacidade, corrigir redes sociais |
-| `src/pages/DonationsPage.tsx` | Ligar botoes a destinos reais (`/contacto`) |
-| `src/components/home/PartnersSection.tsx` | Nao usar `<a>` quando parceiro nao tem URL |
-| `src/App.css` | Limpar estilos Vite nao usados |
-| `src/components/home/AboutSection.tsx` | Padronizar padding lateral |
-| `src/components/home/ImpactStorySection.tsx` | Padronizar padding lateral |
-| `src/components/home/PillarsSection.tsx` | Padronizar padding lateral |
-| `src/components/home/StatisticsSection.tsx` | Padronizar padding lateral |
-| `src/components/home/VideosSection.tsx` | Padronizar padding lateral |
-| `src/pages/DonationsPage.tsx` | Padronizar padding lateral |
-| `src/pages/ContactPage.tsx` | Padronizar padding lateral |
-| `src/pages/NewsPage.tsx` | Padronizar padding lateral |
-
-### Ficheiros a Criar
-
-| Ficheiro | Descricao |
-|----------|-----------|
-| `src/pages/PrivacyPolicyPage.tsx` | Pagina simples de politica de privacidade |
-
-### Sequencia
-
-1. Corrigir todas as rotas de artigos (bug critico)
-2. Adicionar rota no App.tsx + pagina de privacidade
-3. Corrigir botoes sem destino (Doacoes, Footer, Partners)
-4. Padronizar padding lateral em todas as seccoes
-5. Limpar App.css
-
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros

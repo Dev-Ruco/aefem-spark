@@ -195,7 +195,7 @@ export function HeroSlider() {
                     </p>
                   )}
                   
-                  <Link to={`/noticias/${article.slug}`}>
+                  <Link to={`/artigo/${article.slug}`}>
                     <Button
                       size="lg"
                       className="bg-background text-primary hover:bg-background/90 hover:scale-105 transition-all duration-300 px-8 shadow-xl"

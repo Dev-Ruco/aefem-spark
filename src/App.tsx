@@ -17,6 +17,7 @@ import MemberRegistration from "./pages/MemberRegistration";
 import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import MutiyanePage from "./pages/MutiyanePage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -50,6 +51,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/noticias" element={<NewsPage />} />
               <Route path="/artigo/:slug" element={<ArticlePage />} />
+              <Route path="/noticias/:slug" element={<ArticlePage />} />
+              <Route path="/privacidade" element={<PrivacyPolicyPage />} />
               <Route path="/doacoes" element={<DonationsPage />} />
               <Route path="/galeria" element={<GalleryPage />} />
               <Route path="/contacto" element={<ContactPage />} />

@@ -9,10 +9,10 @@ import logo from '@/assets/logo-aefem.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Facebook, href: 'https://www.facebook.com/aefem', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/aefem', label: 'Instagram' },
+  { icon: Twitter, href: '', label: 'Twitter' },
+  { icon: Linkedin, href: '', label: 'LinkedIn' },
 ];
 
 export function Footer() {
@@ -156,10 +156,12 @@ export function Footer() {
             <div>
               <h4 className="font-display text-lg font-semibold mb-6">{t('footer.follow_us')}</h4>
               <div className="flex gap-3 mb-8">
-                {socialLinks.map((social) => (
+                {socialLinks.filter(s => s.href).map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
@@ -187,9 +189,9 @@ export function Footer() {
               <Link to="/admin" className="hover:text-primary transition-colors">
                 Admin
               </Link>
-              <a href="#" className="hover:text-primary transition-colors">
+              <Link to="/privacidade" className="hover:text-primary transition-colors">
                 {t('footer.privacy')}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -128,7 +128,7 @@ export default function NewsPage() {
       <Layout>
         {/* Hero */}
         <section className="pt-32 pb-16 gradient-hero">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
               subtitle={t('newspage.subtitle')}
               title={t('newspage.title')}
@@ -175,7 +175,7 @@ export default function NewsPage() {
 
         {/* Articles Grid */}
         <section className="py-16">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -192,7 +192,7 @@ export default function NewsPage() {
             ) : articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.map((article) => (
-                  <Link key={article.id} to={`/noticias/${article.slug}`}>
+                  <Link key={article.id} to={`/artigo/${article.slug}`}>
                     <Card className="overflow-hidden group cursor-pointer h-full transition-all duration-300 hover:shadow-brand-lg">
                       <div className="aspect-video overflow-hidden relative">
                         {article.featured_image ? (

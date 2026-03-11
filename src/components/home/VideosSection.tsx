@@ -14,7 +14,7 @@ export function VideosSection() {
 
   return (
     <section className="py-20 md:py-28 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(280 25% 12%), hsl(288 45% 20%))' }}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           subtitle={t('videos.subtitle')}
           title={t('videos.title')}

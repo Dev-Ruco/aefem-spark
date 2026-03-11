@@ -12,7 +12,7 @@ export function AboutSection() {
     <section className="py-20 md:py-28 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-secondary/50 to-transparent" />
       
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div
             ref={ref}
