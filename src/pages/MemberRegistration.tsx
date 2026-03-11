@@ -113,6 +113,13 @@ export default function MemberRegistration() {
         return;
       }
 
+      // Wait briefly for session to be established (auto-confirm is enabled)
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        // If no session yet, wait and retry
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
       // 2. Insert into members table
       const { error: memberError } = await supabase.from('members').insert({
         user_id: authData.user.id,
@@ -121,15 +128,15 @@ export default function MemberRegistration() {
         age: ageNum,
         whatsapp_number: form.whatsapp_number.trim(),
         province: form.province,
-        gender: null,
-        birth_year: null,
-        status: 'pending',
+        status: 'active',
       });
 
       if (memberError) {
-        console.error('Member insert error:', memberError);
-        // Auth user was created but member insert failed - still show success
-        // as the admin can fix this manually
+        console.error('Member insert error:', memberError.message, memberError.details, memberError.hint);
+        setError(isEn 
+          ? 'Account created but profile save failed. Please contact support.' 
+          : 'Conta criada mas o perfil não foi guardado. Contacte o suporte.');
+        return;
       }
 
       // 3. Assign member role
@@ -169,8 +176,8 @@ export default function MemberRegistration() {
                 </h1>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                   {isEn
-                    ? 'Please check your email to verify your account. After verification, you can log in to your member area.'
-                    : 'Por favor, verifique o seu email para confirmar a sua conta. Após a verificação, poderá aceder à sua área de membro.'}
+                    ? 'Your account has been created successfully. You can now log in to your member area.'
+                    : 'A sua conta foi criada com sucesso. Já pode aceder à sua área de membro.'}
                 </p>
                 <Link to="/membro/login">
                   <Button variant="outline" size="lg">
