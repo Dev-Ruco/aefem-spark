@@ -187,7 +187,7 @@ export default function ArticlePage() {
 
               {/* Article Body */}
               <div
-                className="max-w-[720px] mx-auto prose prose-lg prose-headings:font-display prose-headings:text-foreground prose-headings:mt-10 prose-headings:mb-4 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-img:rounded-lg prose-img:my-8"
+                className="max-w-[720px] mx-auto prose prose-lg prose-headings:font-display prose-headings:text-foreground prose-headings:mt-10 prose-headings:mb-4 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-img:rounded-lg prose-img:my-8 prose-blockquote:border-primary prose-strong:text-foreground prose-li:text-muted-foreground prose-ul:my-4 prose-ol:my-4"
                 dangerouslySetInnerHTML={{ __html: getContent() }}
               />
             </div>

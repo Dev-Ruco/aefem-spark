@@ -303,6 +303,21 @@
   animation: progress linear forwards;
 }
 
+/* Prose / Typography overrides */
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+.prose p:empty {
+  margin-bottom: 0.75em;
+  min-height: 0.75em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2em;
+}
+
 /* Scroll-triggered animations */
 .scroll-animate {
   opacity: 0;
