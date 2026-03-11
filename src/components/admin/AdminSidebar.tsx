@@ -1,7 +1,8 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  FileText, 
+  FileText,
+  FileText as FileTextIcon,
   FolderOpen, 
   Images, 
   Users, 

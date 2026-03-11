@@ -122,9 +122,9 @@ export function HeroSlider() {
                   {t('hero.cta_work')}
                 </Button>
               </Link>
-              <Link to="/doacoes">
+              <Link to="/tornar-se-membro">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary/50 hover:bg-primary/10 px-8">
-                  {t('hero.cta_support')}
+                  {t('nav.become_member')}
                 </Button>
               </Link>
             </div>

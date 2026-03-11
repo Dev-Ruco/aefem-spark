@@ -169,10 +169,10 @@ export function Footer() {
                   </a>
                 ))}
               </div>
-              <Link to="/doacoes">
+              <Link to="/tornar-se-membro">
                 <Button className="w-full gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300">
                   <Heart className="h-4 w-4 mr-2" />
-                  {t('footer.support')}
+                  {t('nav.become_member')}
                 </Button>
               </Link>
             </div>

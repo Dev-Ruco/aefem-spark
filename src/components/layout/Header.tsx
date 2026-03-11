@@ -125,9 +125,9 @@ export function Header() {
             <div className="flex items-center justify-between pt-2 px-4">
               <LanguageSelector />
             </div>
-            <Link to="/doacoes" className="block pt-2">
+            <Link to="/tornar-se-membro" className="block pt-2">
               <Button className="w-full gradient-primary text-primary-foreground">
-                {t('footer.support')}
+                {t('nav.become_member')}
               </Button>
             </Link>
           </div>

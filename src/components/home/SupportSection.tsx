@@ -35,13 +35,13 @@ export function SupportSection() {
         </div>
 
         <div className="text-center">
-          <Link to="/doacoes">
+          <Link to="/tornar-se-membro">
             <Button
               size="lg"
               className="gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300 hover:scale-105 px-12"
             >
               <Heart className="mr-2 h-5 w-5" />
-              {t('support.cta')}
+              {t('nav.become_member')}
             </Button>
           </Link>
         </div>
