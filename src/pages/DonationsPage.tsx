@@ -118,9 +118,11 @@ export default function DonationsPage() {
                   <p className="text-background/70 mb-6">
                     {t('donations.volunteer_desc')}
                   </p>
-                  <Button variant="outline" className="border-background/30 text-background hover:bg-background/10">
-                    {t('donations.volunteer_cta')}
-                  </Button>
+                  <Link to="/contacto">
+                    <Button variant="outline" className="border-background/30 text-background hover:bg-background/10">
+                      {t('donations.volunteer_cta')}
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
 
