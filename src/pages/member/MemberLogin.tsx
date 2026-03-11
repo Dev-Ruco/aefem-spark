@@ -31,7 +31,26 @@ export default function MemberLogin() {
       });
 
       if (authError) {
-        setError('Email ou palavra-passe incorrectos.');
+        if (authError.message?.includes('Email not confirmed')) {
+          setError('O seu email ainda não foi confirmado. Verifique a sua caixa de entrada.');
+        } else if (authError.message?.includes('Invalid login credentials')) {
+          setError('Email ou palavra-passe incorrectos. Se acabou de se registar, verifique se usou a mesma password.');
+        } else {
+          setError('Email ou palavra-passe incorrectos.');
+        }
+        return;
+      }
+
+      // Check if member profile exists
+      const { data: memberData } = await supabase
+        .from('members')
+        .select('id, status')
+        .eq('user_id', (await supabase.auth.getUser()).data.user?.id || '')
+        .maybeSingle();
+
+      if (memberData?.status === 'inactive') {
+        setError('A sua conta está inactiva. Contacte a administração da AEFEM.');
+        await supabase.auth.signOut();
         return;
       }
 

@@ -514,11 +514,22 @@ export default function MembersList() {
                   <p className="font-medium">{selectedMember.whatsapp_number}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Estado</p>
-                  <Badge variant={selectedMember.status === 'active' ? 'default' : 'secondary'}>
-                    {selectedMember.status === 'active' ? 'Activo' : 'Pendente'}
-                  </Badge>
-                </div>
+                   <p className="text-sm text-muted-foreground">Estado</p>
+                   <div className="flex items-center gap-2">
+                     <Badge variant={selectedMember.status === 'active' ? 'default' : selectedMember.status === 'inactive' ? 'destructive' : 'secondary'}>
+                       {selectedMember.status === 'active' ? 'Activo' : selectedMember.status === 'inactive' ? 'Inactivo' : 'Pendente'}
+                     </Badge>
+                     {selectedMember.status === 'active' ? (
+                       <Button size="sm" variant="outline" className="text-yellow-600 text-xs h-7" onClick={() => { updateStatus(selectedMember.id, 'inactive'); setSelectedMember({ ...selectedMember, status: 'inactive' }); }}>
+                         Inativar
+                       </Button>
+                     ) : (
+                       <Button size="sm" variant="outline" className="text-green-600 text-xs h-7" onClick={() => { updateStatus(selectedMember.id, 'active'); setSelectedMember({ ...selectedMember, status: 'active' }); }}>
+                         Activar
+                       </Button>
+                     )}
+                   </div>
+                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Quota</p>
                   {(() => {
