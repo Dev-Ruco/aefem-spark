@@ -295,7 +295,7 @@ export type Database = {
           province: string
           status: string | null
           updated_at: string | null
-          user_id: string
+          user_id: string | null
           whatsapp_number: string
         }
         Insert: {
@@ -309,7 +309,7 @@ export type Database = {
           province: string
           status?: string | null
           updated_at?: string | null
-          user_id: string
+          user_id?: string | null
           whatsapp_number: string
         }
         Update: {
@@ -323,7 +323,7 @@ export type Database = {
           province?: string
           status?: string | null
           updated_at?: string | null
-          user_id?: string
+          user_id?: string | null
           whatsapp_number?: string
         }
         Relationships: []
