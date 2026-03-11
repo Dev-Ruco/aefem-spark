@@ -1,64 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Auditoria Tecnica - 4 Correcoes
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### 1. Flash no Hero Section (carregamento duplicado)
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-**Causa:** O HeroSlider tem dois renders completamente diferentes - um hero estatico (linhas 71-112) enquanto `isLoading` e `true`, e depois o slider real. Quando a pagina carrega, o estado `isLoading` comeca como `true`, mostrando o hero estatico com gradiente e texto. Quando os artigos chegam da base de dados (milissegundos depois), o componente troca abruptamente para o slider com imagens. Isto cria o efeito de "flash" ou sobreposicao.
+### Esquema de Fundos (de cima para baixo)
 
-**Solucao:** Remover o hero estatico como estado de loading. Em vez disso:
-- Mostrar um placeholder escuro com skeleton/spinner discreto enquanto carrega
-- Manter o hero estatico apenas quando `articles.length === 0` (sem artigos na BD), nao durante o loading
-- Adicionar `min-h-[500px] h-[70vh]` ao placeholder para evitar layout shift
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
 
-**Ficheiro:** `src/components/home/HeroSlider.tsx`
+### Detalhes das Alteracoes
 
----
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
 
-### 2. Imagens cortam rostos no Hero
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
 
-**Causa:** As imagens usam `bg-cover bg-top` (linha 144). O `bg-top` alinha a imagem ao topo, o que pode cortar conteudo central dependendo da proporcao da imagem.
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
 
-**Solucao:** Alterar de `background-image` com `bg-cover bg-top` para um elemento `<img>` com:
-- `object-fit: cover` e `object-position: center 20%` (prioriza a zona superior-central onde ficam os rostos)
-- Isto garante que rostos nao sao cortados na maioria dos casos
-- Usar tag `<img>` em vez de `background-image` para melhor semantica e lazy loading nativo
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
 
-**Ficheiro:** `src/components/home/HeroSlider.tsx`
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
 
----
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
 
-### 3. Erro 404 em acesso directo a rotas
+### Padrao Visual Resultante
+```text
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+```
 
-**Causa:** Este e um projecto React SPA (Single Page Application) com React Router. Quando se acede directamente a uma rota como `/sobre`, o servidor tenta encontrar um ficheiro `/sobre/index.html` que nao existe. O Lovable precisa de um ficheiro de rewrite para servir `index.html` em todas as rotas.
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
-**Solucao:** Este problema e resolvido na plataforma de hosting. Para o Lovable/Netlify, verificar se existe um `_redirects` ou configuracao equivalente. No Vite, nao ha nada a fazer no codigo - e uma questao de configuracao do servidor. Vou criar um ficheiro `public/_redirects` com a regra `/* /index.html 200` para garantir que todas as rotas sao servidas correctamente.
-
-**Ficheiro novo:** `public/_redirects`
-
----
-
-### 4. Substituir cards de video por video YouTube unico
-
-**Solucao:** Reescrever completamente o `VideosSection`:
-- Remover o array de 4 videos Facebook e o modal Dialog
-- Colocar um unico video YouTube embed com ID `E0uI8f-2P3E`
-- Mostrar thumbnail do YouTube (`https://img.youtube.com/vi/E0uI8f-2P3E/maxresdefault.jpg`) como preview
-- Botao play central sobre a thumbnail
-- Ao clicar, substituir a thumbnail pelo iframe do YouTube com autoplay
-- Aspect ratio 16:9 responsivo usando `aspect-video`
-- Manter o fundo escuro e o SectionHeader existentes
-- Largura maxima do video: `max-w-4xl` centrado
-
-**Ficheiro:** `src/components/home/VideosSection.tsx`
-
----
-
-### Resumo de Ficheiros
-
-| Ficheiro | Accao |
-|----------|-------|
-| `src/components/home/HeroSlider.tsx` | Corrigir flash de loading + centralizar imagens |
-| `src/components/home/VideosSection.tsx` | Reescrever com video YouTube unico |
-| `public/_redirects` | Criar para resolver 404 em rotas directas |
-
+### Ficheiros a Modificar
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
