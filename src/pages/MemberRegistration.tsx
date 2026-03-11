@@ -97,8 +97,13 @@ export default function MemberRegistration() {
       if (authError) {
         if (authError.message.includes('already registered')) {
           setError(isEn ? 'This email is already registered.' : 'Este email já está registado.');
+        } else if (authError.message.includes('signup_disabled') || authError.message.includes('Signups not allowed')) {
+          setError(isEn ? 'Registration is temporarily unavailable. Please try again later.' : 'O registo está temporariamente indisponível. Tente mais tarde.');
+        } else if (authError.message.includes('invalid') && authError.message.includes('email')) {
+          setError(isEn ? 'Please enter a valid email address.' : 'Por favor, introduza um endereço de email válido.');
         } else {
           setError(isEn ? 'Registration error. Please try again.' : 'Erro no registo. Tente novamente.');
+          console.error('Auth signup error:', authError.message);
         }
         return;
       }

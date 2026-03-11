@@ -1,55 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Problemas Identificados e Plano de Correcao
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### 3 Problemas Criticos
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-**1. Registos de membros falham porque os signups estao desactivados**
-Os logs de autenticacao mostram `signup_disabled` (erro 422). O formulario chama `supabase.auth.signUp()` mas o sistema de autenticacao nao permite novos registos. Todos os registos falham silenciosamente.
+### Esquema de Fundos (de cima para baixo)
 
-**2. Aprovar candidatura nao cria membro**
-Quando o admin aprova uma candidatura na tab "Candidaturas", o codigo so muda o campo `status` na tabela `membership_applications`. Nao cria utilizador auth nem insere na tabela `members`. Por isso, candidaturas aprovadas nunca aparecem na tab "Membros Registados".
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
 
-**3. Admin nao ve estado de quotas na lista de membros**
-A pagina de membros nao mostra informacao sobre pagamento de quotas. O admin tem de ir a uma pagina separada (Quotas) sem ligacao directa ao membro.
+### Detalhes das Alteracoes
 
----
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
 
-### Plano de Correcao
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
 
-#### 1. Activar signups na autenticacao
-Usar `configure_auth` para activar registo de novos utilizadores. Isto resolve o erro 422 no formulario de registo.
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
 
-#### 2. Reescrever `MemberRegistration.tsx` para tratar erros correctamente
-Melhorar o tratamento de erro para mostrar a mensagem real quando o signup falha (incluindo "Signups not allowed").
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
 
-#### 3. Adicionar funcionalidade de "aprovar candidatura" real no `MembersList.tsx`
-Quando o admin clica "Aprovada" numa candidatura:
-- Mostrar um dialog a pedir email e password temporaria (ou gerar automaticamente)
-- OU: mover a candidatura para a tabela `members` sem auth (membro sem login)
-- **Melhor opcao**: Como candidaturas sao registos sem auth (formulario antigo), o admin deve poder converter manualmente: copiar dados para `members` com status "active" — sem criar conta auth (o membro pode depois registar-se com auth se quiser aceder ao painel)
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
 
-**Decisao tecnica**: Criar uma funcao no admin que ao aprovar uma candidatura, insere automaticamente na tabela `members` (sem user_id, que sera nullable) e marca a candidatura como "approved". Isto requer tornar `user_id` nullable na tabela `members` OU criar o registo com um placeholder.
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
 
-**Melhor abordagem**: Tornar `user_id` nullable na tabela `members` para permitir membros sem conta de login. Quando o membro quiser aceder ao painel, regista-se com auth e o admin liga os registos.
+### Padrao Visual Resultante
+```text
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+```
 
-#### 4. Mostrar estado de quotas na lista de membros
-Adicionar ao `MembersList.tsx` uma coluna ou indicador visual do estado da ultima quota de cada membro, fazendo join com `member_quotas`.
-
----
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
 ### Ficheiros a Modificar
-
-| Ficheiro | Alteracao |
-|----------|-----------|
-| **Auth config** | Activar signups |
-| **Migracao BD** | Tornar `members.user_id` nullable |
-| `src/pages/MemberRegistration.tsx` | Melhorar tratamento de erros |
-| `src/pages/admin/MembersList.tsx` | Adicionar accao "Aprovar e criar membro" nas candidaturas + mostrar estado de quotas nos membros |
-
-### Sequencia
-1. Activar signups na autenticacao
-2. Migracao BD: `user_id` nullable
-3. Actualizar MembersList com aprovacao funcional e quotas
-4. Melhorar tratamento de erros no registo
-
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
