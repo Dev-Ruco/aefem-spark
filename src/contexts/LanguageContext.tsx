@@ -378,6 +378,21 @@ const translations: Record<Language, Record<string, string>> = {
     'videos.title': 'Acompanhe as Nossas Actividades',
     'videos.description': 'Veja os momentos mais marcantes do nosso trabalho no terreno',
     'videos.watch': 'Assistir Vídeo',
+
+    // Projects Page
+    'projects.title': 'Projectos da AEFEM',
+    'projects.badge': 'Os Nossos Projectos',
+    'projects.description': 'Conheça os projectos que a AEFEM desenvolve para promover o empoderamento económico das mulheres em Moçambique.',
+    'projects.meta_desc': 'Projectos da AEFEM para o empoderamento feminino em Moçambique.',
+
+    // Publications Page
+    'publications.title': 'Publicações',
+    'publications.badge': 'Documentos',
+    'publications.description': 'Consulte e descarregue os nossos relatórios, estudos e publicações.',
+    'publications.meta_desc': 'Publicações e documentos da AEFEM sobre empoderamento feminino.',
+    'publications.empty': 'Nenhuma publicação disponível de momento.',
+    'publications.preview': 'Pré-visualizar',
+    'publications.download': 'Descarregar',
   },
   en: {
     // Navigation
