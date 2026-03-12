@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LanguageSelector } from '@/components/ui/LanguageSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
-import logo from '@/assets/logo-aefem.png';
+import logo from '@/assets/aefem-icon-optimized.png';
 
 const getNavLinks = (t: (key: string) => string) => [
   { href: '/', label: t('nav.home') },
@@ -39,15 +39,15 @@ export function Header() {
             <img
               src={logo}
               alt="AEFEM Logo"
-              className="h-10 lg:h-11 xl:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              className="h-11 lg:h-12 xl:h-14 w-auto rounded-full transition-transform duration-300 group-hover:scale-105"
             />
             <div className="hidden xl:block">
-              <span className="font-display text-xl font-bold gradient-text">
-                AEFEM
-              </span>
-              <p className="text-xs text-muted-foreground">
-                Empoderamento Feminino
+              <p className="text-xs font-semibold text-foreground/80 leading-tight">
+                Associação do Empoderamento Feminino
               </p>
+              <span className="font-display text-lg font-bold gradient-text">
+                (AEFEM)
+              </span>
             </div>
           </Link>
 

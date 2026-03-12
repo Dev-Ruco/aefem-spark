@@ -159,7 +159,10 @@ export function HeroSlider() {
           >
             <div className="h-full flex flex-col-reverse lg:flex-row">
               {/* Left — Magenta gradient area with title */}
-              <div className="lg:w-[40%] w-full gradient-primary flex items-center relative z-10">
+              <div
+                className="lg:w-[45%] w-full gradient-primary flex items-center relative z-10"
+                style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0 100%)' }}
+              >
                 <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20 py-8 lg:py-0">
                   <div className="max-w-lg mx-auto lg:mx-0 space-y-5">
                     {/* Category badge */}
@@ -252,13 +255,6 @@ export function HeroSlider() {
                   </div>
                 </div>
 
-                {/* Diagonal edge on the right side (desktop only) */}
-                <div className="hidden lg:block absolute top-0 -right-12 w-24 h-full z-20"
-                  style={{
-                    clipPath: 'polygon(0 0, 60% 0, 100% 100%, 0 100%)',
-                    background: 'linear-gradient(180deg, hsl(328, 85%, 52%), hsl(288, 55%, 35%))'
-                  }}
-                />
               </div>
 
               {/* Right — Image area */}
