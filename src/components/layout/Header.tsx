@@ -39,9 +39,9 @@ export function Header() {
             <img
               src={logo}
               alt="AEFEM Logo"
-              className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              className="h-10 lg:h-11 xl:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="hidden sm:block">
+            <div className="hidden xl:block">
               <span className="font-display text-xl font-bold gradient-text">
                 AEFEM
               </span>
