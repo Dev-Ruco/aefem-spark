@@ -1,72 +1,37 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Plano: Logo do Header + Coerência de Cores no Hero
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+### 1. Header — Novo logótipo e texto
 
-### Esquema de Fundos (de cima para baixo)
+**Problema**: O logo actual (`logo-aefem.png`) é menos detalhado. O texto lateral diz apenas "AEFEM / Empoderamento Feminino".
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+**Solução**:
+- Copiar `aefem_otimizado_icon_512x512.png` para `src/assets/`
+- Substituir o import do logo no `Header.tsx`
+- Alterar o texto lateral para duas linhas:
+  - Linha 1: **"Associação do Empoderamento Feminino"** (font-semibold, text-sm)
+  - Linha 2: **(AEFEM)** em gradient-text, font-bold
 
-### Detalhes das Alteracoes
+**Ficheiro**: `src/components/layout/Header.tsx` (linhas 8, 38-51)
 
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
+### 2. Hero — Incoerência de cores na diagonal
 
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
+**Problema identificado**: A área esquerda do hero usa a classe `gradient-primary` que aplica um gradiente a **135°** (diagonal), mas o recorte diagonal (clip-path, linha 256-261) usa um gradiente inline a **180°** (vertical) com cores ligeiramente diferentes. Esta diferença de ângulo e tonalidade cria uma costura visível — como se houvesse duas camadas sobrepostas com cores que não batem.
 
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
+**Solução**:
+- Remover o `div` do recorte diagonal separado (linhas 256-261)
+- Em vez disso, aplicar o recorte diagonal directamente no container esquerdo usando `clip-path` no próprio `div` pai, garantindo que o gradiente é **um só** sem costuras
+- O clip-path do container esquerdo passa a ser: `polygon(0 0, 100% 0, 85% 100%, 0 100%)` em desktop, criando a diagonal sem elemento sobreposto
+- A largura do painel esquerdo aumenta ligeiramente (`lg:w-[45%]`) para compensar o recorte
 
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
+**Ficheiro**: `src/components/home/HeroSlider.tsx` (linhas 162, 255-261)
 
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
+### Ficheiros a modificar
 
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
+| Ficheiro | Alteração |
+|----------|-----------|
+| `src/components/layout/Header.tsx` | Novo logo + texto "Associação do Empoderamento Feminino (AEFEM)" |
+| `src/components/home/HeroSlider.tsx` | Eliminar div diagonal sobreposto, usar clip-path no container principal |
+| Copiar asset | `aefem_otimizado_icon_512x512.png` → `src/assets/` |
 
-### Padrao Visual Resultante
-```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
-```
-
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
-
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
