@@ -13,6 +13,12 @@ export function AboutSection() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-secondary/50 to-transparent" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <SectionHeader
+          subtitle={t('about.subtitle')}
+          title={t('about.title')}
+          align="left"
+          className="mb-8 lg:hidden"
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div
             ref={ref}
@@ -51,7 +57,7 @@ export function AboutSection() {
               subtitle={t('about.subtitle')}
               title={t('about.title')}
               align="left"
-              className="mb-8"
+              className="mb-8 hidden lg:block"
             />
             
             <div className="space-y-6 text-muted-foreground">
