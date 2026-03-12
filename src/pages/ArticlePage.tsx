@@ -213,7 +213,7 @@ export default function ArticlePage() {
               {/* Related Articles */}
               <RelatedArticles
                 currentArticleId={article.id}
-                categoryId={article.categories ? undefined as unknown as string : null}
+                categoryId={article.category_id}
               />
             </div>
           </div>
