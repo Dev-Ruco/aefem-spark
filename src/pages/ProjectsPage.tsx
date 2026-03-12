@@ -24,8 +24,10 @@ export default function ProjectsPage() {
   return (
     <>
       <Helmet>
-        <title>{t('projects.title')} - AEFEM</title>
-        <meta name="description" content={t('projects.meta_desc')} />
+        <title>Projectos | AEFEM</title>
+        <meta name="description" content="Descobre os projectos da AEFEM de capacitação económica, liderança feminina e direitos das mulheres em Moçambique." />
+        <link rel="canonical" href="https://www.aefem.org.mz/projectos" />
+        <meta property="og:url" content="https://www.aefem.org.mz/projectos" />
       </Helmet>
 
       <Layout>

@@ -66,8 +66,10 @@ export default function ContactPage() {
   return (
     <>
       <Helmet>
-        <title>{t('contact.title')} | AEFEM</title>
-        <meta name="description" content={t('contact.meta_desc')} />
+        <title>Contacto | AEFEM</title>
+        <meta name="description" content="Entre em contacto com a AEFEM em Maputo, Moçambique." />
+        <link rel="canonical" href="https://www.aefem.org.mz/contacto" />
+        <meta property="og:url" content="https://www.aefem.org.mz/contacto" />
       </Helmet>
 
       <Layout>
