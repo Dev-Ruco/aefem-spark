@@ -117,8 +117,22 @@ export default function ContactPage() {
                   </Card>
                 ))}
 
-                <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
-                  <span className="text-muted-foreground">{t('contact.map_soon')}</span>
+                <div className="mt-6">
+                  <h3 className="font-semibold mb-4">{t('footer.follow_us')}</h3>
+                  <div className="flex gap-3">
+                    {socialLinks.map((social) => (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.label}
+                        className="w-11 h-11 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                      >
+                        <social.icon className="h-5 w-5" />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
 
