@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Facebook, Instagram } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -14,6 +14,7 @@ import SectionHeader from '@/components/ui/section-header';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useLanguage } from '@/contexts/LanguageContext';
+import WhatsAppChannelSection from '@/components/home/WhatsAppChannelSection';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -29,9 +30,14 @@ export default function ContactPage() {
   const { t } = useLanguage();
 
   const contactInfo = [
-    { icon: MapPin, title: t('contact.address_label'), value: 'Maputo, Moçambique' },
-    { icon: Phone, title: t('contact.phone_label'), value: '+258 84 000 0000', href: 'tel:+258840000000' },
+    { icon: MapPin, title: t('contact.address_label'), value: 'Av. Samora Machel, Prédio Rubi, Entrada Ara-Sul, 2.º Andar, n.º 7, Maputo – Moçambique' },
+    { icon: Phone, title: t('contact.phone_label'), value: '+258 86 356 6904', href: 'tel:+258863566904' },
     { icon: Mail, title: t('contact.email_label'), value: 'info@aefem.org.mz', href: 'mailto:info@aefem.org.mz' },
+  ];
+
+  const socialLinks = [
+    { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61577015711119', label: 'Facebook' },
+    { icon: Instagram, href: 'https://www.instagram.com/aefemmoz/', label: 'Instagram' },
   ];
 
   const form = useForm<ContactFormValues>({
@@ -111,8 +117,22 @@ export default function ContactPage() {
                   </Card>
                 ))}
 
-                <div className="aspect-video bg-muted rounded-xl flex items-center justify-center">
-                  <span className="text-muted-foreground">{t('contact.map_soon')}</span>
+                <div className="mt-6">
+                  <h3 className="font-semibold mb-4">{t('footer.follow_us')}</h3>
+                  <div className="flex gap-3">
+                    {socialLinks.map((social) => (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.label}
+                        className="w-11 h-11 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                      >
+                        <social.icon className="h-5 w-5" />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -206,6 +226,7 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+        <WhatsAppChannelSection />
       </Layout>
     </>
   );

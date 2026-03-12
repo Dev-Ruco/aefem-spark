@@ -9,8 +9,8 @@ import logo from '@/assets/logo-aefem.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
-  { icon: Facebook, href: 'https://www.facebook.com/aefem', label: 'Facebook' },
-  { icon: Instagram, href: 'https://www.instagram.com/aefem', label: 'Instagram' },
+  { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61577015711119', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/aefemmoz/', label: 'Instagram' },
 ];
 
 export function Footer() {
@@ -130,16 +130,16 @@ export function Footer() {
               <h4 className="font-display text-lg font-semibold mb-6">{t('footer.contacts')}</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-primary mt-0.5" />
+                  <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <span className="text-background/70 text-sm">
-                    Maputo, Moçambique
+                    Av. Samora Machel, Prédio Rubi, Entrada Ara-Sul, 2.º Andar, n.º 7, Maputo – Moçambique
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <span className="text-background/70 text-sm">
-                    {t('footer.contacts')}
-                  </span>
+                  <Phone className="h-5 w-5 text-primary shrink-0" />
+                  <a href="tel:+258863566904" className="text-background/70 hover:text-primary transition-colors text-sm">
+                    +258 86 356 6904
+                  </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary" />
