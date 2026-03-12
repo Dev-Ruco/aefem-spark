@@ -158,8 +158,8 @@ export function HeroSlider() {
             )}
           >
             <div className="h-full relative">
-              {/* Background — Image covers entire slide */}
-              <div className="absolute inset-0">
+              {/* Background — Image on the right side with partial overlap */}
+              <div className="absolute top-0 bottom-0 right-0 w-full lg:w-[65%]">
                 {article.featured_image ? (
                   <img
                     src={article.featured_image}
@@ -171,13 +171,11 @@ export function HeroSlider() {
                 ) : (
                   <div className="absolute inset-0 gradient-primary opacity-80" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-foreground/10 to-transparent" />
               </div>
 
               {/* Left — Magenta gradient overlay with diagonal cut (desktop only) */}
               <div
-                className="relative lg:absolute lg:inset-y-0 lg:left-0 lg:w-[55%] w-full gradient-primary flex items-center z-10"
-                style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0 100%)' }}
+                className="relative lg:absolute lg:inset-y-0 lg:left-0 lg:w-[50%] w-full gradient-primary flex items-center z-10 lg:[clip-path:polygon(0_0,100%_0,75%_100%,0_100%)]"
               >
                 <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20 py-8 lg:py-0">
                   <div className="max-w-lg mx-auto lg:mx-0 space-y-5">
