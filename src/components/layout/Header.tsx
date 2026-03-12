@@ -79,7 +79,7 @@ export function Header() {
             <LanguageSelector />
             <Link to="/tornar-se-membro" className="hidden sm:block">
               <Button
-                className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105"
+                className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105 text-sm px-4 xl:px-6"
               >
                 {t('nav.become_member')}
               </Button>
