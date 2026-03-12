@@ -74,7 +74,7 @@ const DigitalDivideChart = () => {
 
         {/* Signal Bars Comparison */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="grid grid-cols-2 gap-6 mb-4">
               {/* Men */}
               <div className="text-center">

@@ -43,7 +43,7 @@ export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await (supabase.auth as any).signOut();
   };
 
   return (

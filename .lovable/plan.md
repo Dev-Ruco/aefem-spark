@@ -1,61 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Plano: Corrigir Erros de Build (Radix UI + Dependências)
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### Diagnóstico
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-O problema central é que as versões instaladas dos pacotes Radix UI são **mais recentes** do que as declaradas no `package.json`. As versões v2+ do Radix removeram `className`, `children` e `asChild` dos tipos TypeScript (agora usam `data-*` attributes e Slots). O lockfile (`bun.lock`) ficou dessincronizado.
+### Esquema de Fundos (de cima para baixo)
 
-### Estratégia
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
 
-Em vez de tentar fazer downgrade dos pacotes (que falhou anteriormente), vamos **reescrever os componentes UI** para serem compatíveis com as versões actuais, usando casting de tipos onde necessário. Isto é mais resiliente.
+### Detalhes das Alteracoes
 
-### Alterações
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
 
-#### 1. Todos os componentes UI com Radix — adicionar cast de props
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
 
-Ficheiros afectados: `accordion.tsx`, `alert-dialog.tsx`, `avatar.tsx`, `dialog.tsx`, `scroll-area.tsx`, `sheet.tsx`, `slider.tsx`, `tooltip.tsx`
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
 
-Solução: Substituir `React.ComponentPropsWithoutRef<typeof X>` por `React.ComponentPropsWithoutRef<typeof X> & React.HTMLAttributes<HTMLElement>` para permitir `className` e `children`. Ou mais simples: usar type assertion inline.
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
 
-Abordagem escolhida — **cast genérico**: Cada componente Radix que recebe `className` passa a usar o tipo explícito `React.HTMLAttributes<HTMLElement>` intersectado, garantindo compatibilidade sem mudar a API.
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
 
-#### 2. `TooltipTrigger asChild` — 4 infographics
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
 
-Ficheiros: `AgricultureChart.tsx`, `DigitalDivideChart.tsx`, `EmploymentGapChart.tsx`, `FinancialExclusionChart.tsx`
+### Padrao Visual Resultante
+```text
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+```
 
-Solução: Remover `asChild` do `TooltipTrigger` e envolver o conteúdo num `<button>` ou `<span>` nativo.
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
-#### 3. `AdminSidebar.tsx` — `signOut`
-
-Linha 46: `supabase.auth.signOut()` — se o tipo não reconhece, usar: `await (supabase.auth as any).signOut()`
-
-#### 4. `ConfirmDialog.tsx` — props `onClick`, `children` em AlertDialog
-
-Mesma causa que os outros Radix. Corrigido automaticamente quando alert-dialog.tsx for actualizado.
-
-#### 5. `ImageUploader.tsx` — `htmlFor` em Label
-
-Mesma causa. Corrigido quando o componente Label aceitar HTMLAttributes.
-
-#### 6. `App.tsx` — `QueryClient` e `react-helmet-async`
-
-`QueryClient` e `react-helmet-async` estão no `package.json` mas podem não estar instalados. Se o problema persistir após rebuild, remover `HelmetProvider` temporariamente ou usar import dinâmico.
-
-### Ficheiros a modificar
-
-| Ficheiro | Alteração |
-|----------|-----------|
-| `src/components/ui/accordion.tsx` | Props type cast para aceitar className/children |
-| `src/components/ui/alert-dialog.tsx` | Props type cast |
-| `src/components/ui/avatar.tsx` | Props type cast |
-| `src/components/ui/dialog.tsx` | Props type cast |
-| `src/components/ui/scroll-area.tsx` | Props type cast |
-| `src/components/ui/sheet.tsx` | Props type cast |
-| `src/components/ui/slider.tsx` | Props type cast |
-| `src/components/ui/tooltip.tsx` | Props type cast |
-| `src/components/ui/label.tsx` | Props type cast para aceitar htmlFor |
-| `src/components/home/infographics/*.tsx` (4 ficheiros) | Remover `asChild` do TooltipTrigger |
-| `src/components/admin/AdminSidebar.tsx` | Cast `signOut` |
-| `src/components/admin/ConfirmDialog.tsx` | Sem alteração directa (resolvido via alert-dialog fix) |
-
+### Ficheiros a Modificar
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros

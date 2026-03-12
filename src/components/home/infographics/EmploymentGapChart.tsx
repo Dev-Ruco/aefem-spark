@@ -68,7 +68,7 @@ const EmploymentGapChart = () => {
 
         {/* Women Bar */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="mb-2">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
