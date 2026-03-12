@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LanguageSelector } from '@/components/ui/LanguageSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
-import logo from '@/assets/logo-aefem.png';
+import logo from '@/assets/aefem-icon-optimized.png';
 
 const getNavLinks = (t: (key: string) => string) => [
   { href: '/', label: t('nav.home') },
