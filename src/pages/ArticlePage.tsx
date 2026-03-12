@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { pt, enUS } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { useLanguage } from '@/contexts/LanguageContext';
+import RelatedArticles from '@/components/RelatedArticles';
 
 interface Article {
   id: string;
