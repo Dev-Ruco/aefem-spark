@@ -49,7 +49,7 @@ function MobileHeroCards({
   dateLocale: Locale;
   dateFormat: string;
 }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
@@ -60,7 +60,6 @@ function MobileHeroCards({
     return () => { emblaApi.off('select', onSelect); };
   }, [emblaApi]);
 
-  // Auto-scroll
   useEffect(() => {
     if (!emblaApi) return;
     const timer = setInterval(() => emblaApi.scrollNext(), 5000);
@@ -68,22 +67,19 @@ function MobileHeroCards({
   }, [emblaApi]);
 
   return (
-    <section className="mt-[72px] pt-4 pb-6 bg-secondary/30">
-      <div ref={emblaRef} className="overflow-hidden px-4">
-        <div className="flex gap-4">
+    <section className="mt-[72px]">
+      <div ref={emblaRef} className="overflow-hidden">
+        <div className="flex">
           {articles.map((article, index) => {
             const title = language === 'en' && article.title_en ? article.title_en : article.title;
             return (
               <div
                 key={article.id}
-                className="flex-[0_0_85%] min-w-0 sm:flex-[0_0_70%]"
+                className="flex-[0_0_100%] min-w-0"
               >
-                <Link
-                  to={`/artigo/${article.slug}`}
-                  className="block rounded-2xl overflow-hidden shadow-brand-md bg-card transition-transform duration-300 hover:scale-[1.02]"
-                >
+                <Link to={`/artigo/${article.slug}`} className="block">
                   {/* Image */}
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="relative aspect-[16/10]">
                     {article.featured_image ? (
                       <img
                         src={article.featured_image}
@@ -94,22 +90,20 @@ function MobileHeroCards({
                     ) : (
                       <div className="w-full h-full gradient-primary" />
                     )}
-                    {/* Gradient overlay at bottom of image */}
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
-                    {/* Category badge on image */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
                     {article.categories && (
-                      <Badge className="absolute top-3 left-3 text-[10px] uppercase tracking-widest font-semibold gradient-primary text-primary-foreground border-0 shadow-sm">
+                      <Badge className="absolute top-3 left-4 text-[10px] uppercase tracking-widest font-semibold gradient-primary text-primary-foreground border-0 shadow-sm">
                         {article.categories.name}
                       </Badge>
                     )}
                   </div>
 
-                  {/* Content */}
-                  <div className="p-4 space-y-2">
-                    <h2 className="font-display text-base sm:text-lg font-bold text-foreground leading-snug line-clamp-2">
+                  {/* Content block */}
+                  <div className="gradient-primary px-5 py-4 space-y-2">
+                    <h2 className="font-display text-lg sm:text-xl font-bold text-white leading-snug line-clamp-2">
                       {title}
                     </h2>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <div className="flex items-center justify-between text-xs text-white/70">
                       {article.published_at && (
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
@@ -118,11 +112,30 @@ function MobileHeroCards({
                           </time>
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1 text-primary font-semibold">
+                      <span className="inline-flex items-center gap-1 text-white font-semibold">
                         {t('hero.read_more')}
                         <ArrowRight className="h-3 w-3" />
                       </span>
                     </div>
+
+                    {/* Dots inside the gradient block */}
+                    {articles.length > 1 && (
+                      <div className="flex justify-center gap-1.5 pt-2">
+                        {articles.map((_, i) => (
+                          <button
+                            key={i}
+                            onClick={(e) => { e.preventDefault(); emblaApi?.scrollTo(i); }}
+                            className={cn(
+                              'h-1.5 rounded-full transition-all duration-300',
+                              i === selectedIndex
+                                ? 'w-6 bg-white'
+                                : 'w-1.5 bg-white/30 hover:bg-white/50'
+                            )}
+                            aria-label={`Go to slide ${i + 1}`}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </Link>
               </div>
@@ -130,25 +143,6 @@ function MobileHeroCards({
           })}
         </div>
       </div>
-
-      {/* Dots */}
-      {articles.length > 1 && (
-        <div className="flex justify-center gap-1.5 mt-4">
-          {articles.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => emblaApi?.scrollTo(i)}
-              className={cn(
-                'h-1.5 rounded-full transition-all duration-300',
-                i === selectedIndex
-                  ? 'w-6 bg-primary'
-                  : 'w-1.5 bg-primary/25 hover:bg-primary/40'
-              )}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
     </section>
   );
 }
@@ -388,14 +382,12 @@ export function HeroSlider() {
   // Loading skeleton
   if (isLoading) {
     return isMobile ? (
-      <section className="mt-[72px] pt-4 pb-6 bg-secondary/30">
-        <div className="px-4">
-          <div className="rounded-2xl overflow-hidden bg-card shadow-brand-md animate-pulse">
-            <div className="aspect-[16/10] bg-muted" />
-            <div className="p-4 space-y-3">
-              <div className="h-4 bg-muted rounded w-3/4" />
-              <div className="h-3 bg-muted rounded w-1/2" />
-            </div>
+      <section className="mt-[72px]">
+        <div className="animate-pulse">
+          <div className="aspect-[16/10] bg-muted" />
+          <div className="gradient-primary px-5 py-4 space-y-3">
+            <div className="h-5 bg-white/20 rounded w-3/4" />
+            <div className="h-3 bg-white/20 rounded w-1/2" />
           </div>
         </div>
       </section>

@@ -1,42 +1,72 @@
 
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-## Plano: Hero Mobile Full-Screen Slides
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-### Problema
-O hero mobile actual usa cards com margens laterais e fundo claro — não preenche o ecrã. O utilizador quer um hero que ocupe toda a largura, com a imagem a preencher o painel e o título/metadata sobre um bloco de cor (estilo do desktop adaptado).
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
-### Nova estrutura mobile
+### Esquema de Fundos (de cima para baixo)
 
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+
+### Detalhes das Alteracoes
+
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
+
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
+
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
+
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
+
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
+
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
+
+### Padrao Visual Resultante
 ```text
-┌─────────────────────────────────┐
-│                                 │
-│      IMAGEM FULL-WIDTH          │
-│      (preenche ~60% altura)     │
-│      com gradient overlay       │
-│      [CATEGORIA badge]          │
-│                                 │
-├─────────────────────────────────┤
-│  ████ BLOCO GRADIENT-PRIMARY ███│
-│  Título da Publicação           │
-│  (line-clamp-2, branco)         │
-│  📅 Data       Ler Mais →      │
-│  ● ● ● ● ●  (dots)             │
-│  ███████████████████████████████│
-└─────────────────────────────────┘
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
 ```
 
-### Alterações em `HeroSlider.tsx` — componente `MobileHeroCards`
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
-1. **Remover o estilo card** — eliminar `rounded-2xl`, `shadow-brand-md`, `bg-card`, margens laterais `px-4`, `gap-4`, e `flex-[0_0_85%]`
-2. **Full-width slides** — cada slide ocupa `flex-[0_0_100%]`, sem gap entre slides
-3. **Secção full-bleed** — remover `pt-4 pb-6 bg-secondary/30`, manter apenas `mt-[72px]`
-4. **Imagem full-width** — manter `aspect-[16/10]` ou usar altura fixa (`h-[55vh]`) para maior impacto
-5. **Bloco de texto com gradient-primary** — substituir o `p-4 bg-card` por um bloco com `gradient-primary` (magenta→roxo), texto branco, padding generoso
-6. **Mover dots para dentro do bloco colorido** — ficam integrados no painel
-7. **Embla config** — mudar `align: 'center'` para `align: 'start'`, manter `loop: true`
-8. **Auto-scroll e swipe** — manter comportamento actual
-
-### Ficheiro a alterar
-- `src/components/home/HeroSlider.tsx` — apenas o componente `MobileHeroCards` (linhas 39-145)
-- Desktop inalterado
-
+### Ficheiros a Modificar
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
