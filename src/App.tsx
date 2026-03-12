@@ -19,6 +19,7 @@ import MemberLogin from "./pages/member/MemberLogin";
 import MemberDashboard from "./pages/member/MemberDashboard";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ResetPassword from "./pages/member/ResetPassword";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin";
