@@ -58,7 +58,7 @@ export function Header() {
                 key={link.href}
                 to={link.href}
                 className={cn(
-                  'relative text-sm font-medium transition-colors duration-200',
+                  'relative text-xs lg:text-[13px] xl:text-sm font-medium transition-colors duration-200',
                   'hover:text-primary',
                   location.pathname === link.href
                     ? 'text-primary'
