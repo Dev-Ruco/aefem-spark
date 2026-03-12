@@ -45,7 +45,6 @@ export function HeroSlider() {
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
-        // Prefer articles with images, but keep all
         setArticles(data || []);
       }
       setIsLoading(false);
@@ -80,14 +79,14 @@ export function HeroSlider() {
     return (
       <section className="relative mt-[72px] min-h-[500px] h-[70vh]">
         <div className="h-full flex flex-col lg:flex-row">
-          <div className="lg:w-[40%] w-full bg-background flex items-center justify-center p-8 lg:p-16">
+          <div className="lg:w-[40%] w-full gradient-primary flex items-center justify-center p-8 lg:p-16">
             <div className="space-y-6 w-full max-w-md animate-pulse">
-              <div className="h-5 w-24 bg-muted rounded-full" />
+              <div className="h-5 w-24 bg-white/20 rounded-full" />
               <div className="space-y-3">
-                <div className="h-10 bg-muted rounded w-full" />
-                <div className="h-10 bg-muted rounded w-3/4" />
+                <div className="h-10 bg-white/20 rounded w-full" />
+                <div className="h-10 bg-white/20 rounded w-3/4" />
               </div>
-              <div className="h-4 w-40 bg-muted rounded" />
+              <div className="h-4 w-40 bg-white/20 rounded" />
             </div>
           </div>
           <div className="lg:w-[60%] w-full bg-muted flex-1" />
@@ -159,15 +158,16 @@ export function HeroSlider() {
             )}
           >
             <div className="h-full flex flex-col-reverse lg:flex-row">
-              {/* Left — White area with title */}
-              <div className="lg:w-[40%] w-full bg-background flex items-center relative z-10">
+              {/* Left — Magenta gradient area with title */}
+              <div className="lg:w-[40%] w-full gradient-primary flex items-center relative z-10">
                 <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20 py-8 lg:py-0">
                   <div className="max-w-lg mx-auto lg:mx-0 space-y-5">
                     {/* Category badge */}
                     {article.categories && (
                       <Badge
+                        variant="secondary"
                         className={cn(
-                          'text-xs uppercase tracking-widest font-semibold',
+                          'text-xs uppercase tracking-widest font-semibold bg-white/15 text-white border-white/20',
                           prefersReducedMotion.current
                             ? ''
                             : cn(
@@ -183,7 +183,7 @@ export function HeroSlider() {
                     {/* Title */}
                     <h1
                       className={cn(
-                        'font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground leading-tight',
+                        'font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight',
                         prefersReducedMotion.current
                           ? ''
                           : cn(
@@ -208,7 +208,7 @@ export function HeroSlider() {
                       )}
                     >
                       {article.published_at && (
-                        <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <span className="flex items-center gap-1.5 text-white/70">
                           <Calendar className="h-3.5 w-3.5" />
                           <time dateTime={article.published_at}>
                             {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
@@ -217,7 +217,7 @@ export function HeroSlider() {
                       )}
                       <Link
                         to={`/artigo/${article.slug}`}
-                        className="inline-flex items-center gap-1 text-primary font-semibold hover:gap-2 transition-all duration-300 group"
+                        className="inline-flex items-center gap-1 text-white font-bold hover:text-white/80 transition-all duration-300 group"
                       >
                         {t('hero.read_more')}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -234,14 +234,14 @@ export function HeroSlider() {
                             className={cn(
                               'h-2 rounded-full transition-all duration-300 relative overflow-hidden',
                               dotIndex === currentSlide
-                                ? 'w-10 bg-primary/20'
-                                : 'w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40'
+                                ? 'w-10 bg-white/25'
+                                : 'w-2 bg-white/20 hover:bg-white/40'
                             )}
                             aria-label={`Go to slide ${dotIndex + 1}`}
                           >
                             {dotIndex === currentSlide && !prefersReducedMotion.current && (
                               <span
-                                className="absolute inset-0 bg-primary origin-left animate-progress rounded-full"
+                                className="absolute inset-0 bg-white origin-left animate-progress rounded-full"
                                 style={{ animationDuration: '6s' }}
                               />
                             )}
@@ -252,9 +252,12 @@ export function HeroSlider() {
                   </div>
                 </div>
 
-                {/* Diagonal edge on the right side of white area (desktop only) */}
-                <div className="hidden lg:block absolute top-0 -right-12 w-24 h-full bg-background z-20"
-                  style={{ clipPath: 'polygon(0 0, 60% 0, 100% 100%, 0 100%)' }}
+                {/* Diagonal edge on the right side (desktop only) */}
+                <div className="hidden lg:block absolute top-0 -right-12 w-24 h-full z-20"
+                  style={{
+                    clipPath: 'polygon(0 0, 60% 0, 100% 100%, 0 100%)',
+                    background: 'linear-gradient(180deg, hsl(328, 85%, 52%), hsl(288, 55%, 35%))'
+                  }}
                 />
               </div>
 
@@ -284,7 +287,7 @@ export function HeroSlider() {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-2 lg:left-[calc(40%-60px)] top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-foreground/10 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-foreground/20 transition-all duration-300 z-20"
+            className="absolute left-2 lg:left-[calc(40%-60px)] top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/25 transition-all duration-300 z-20"
             aria-label="Previous slide"
           >
             <ChevronLeft className="h-5 w-5" />

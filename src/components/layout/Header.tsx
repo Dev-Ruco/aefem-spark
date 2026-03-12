@@ -15,7 +15,6 @@ const getNavLinks = (t: (key: string) => string) => [
   { href: '/publicacoes', label: t('nav.publications') },
   { href: '/galeria', label: t('nav.gallery') },
   { href: '/contacto', label: t('nav.contact') },
-  { href: '/tornar-se-membro', label: t('nav.become_member') },
 ];
 
 export function Header() {
@@ -33,16 +32,16 @@ export function Header() {
     <header
       className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm py-3"
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <img
               src={logo}
               alt="AEFEM Logo"
-              className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              className="h-10 lg:h-11 xl:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="hidden sm:block">
+            <div className="hidden xl:block">
               <span className="font-display text-xl font-bold gradient-text">
                 AEFEM
               </span>
@@ -53,13 +52,13 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-3 lg:gap-4 xl:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
                 className={cn(
-                  'relative text-sm font-medium transition-colors duration-200',
+                  'relative text-xs lg:text-[13px] xl:text-sm font-medium transition-colors duration-200',
                   'hover:text-primary',
                   location.pathname === link.href
                     ? 'text-primary'
@@ -80,7 +79,7 @@ export function Header() {
             <LanguageSelector />
             <Link to="/tornar-se-membro" className="hidden sm:block">
               <Button
-                className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105"
+                className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105 text-sm px-4 xl:px-6"
               >
                 {t('nav.become_member')}
               </Button>
