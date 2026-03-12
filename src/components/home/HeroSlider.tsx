@@ -382,14 +382,12 @@ export function HeroSlider() {
   // Loading skeleton
   if (isLoading) {
     return isMobile ? (
-      <section className="mt-[72px] pt-4 pb-6 bg-secondary/30">
-        <div className="px-4">
-          <div className="rounded-2xl overflow-hidden bg-card shadow-brand-md animate-pulse">
-            <div className="aspect-[16/10] bg-muted" />
-            <div className="p-4 space-y-3">
-              <div className="h-4 bg-muted rounded w-3/4" />
-              <div className="h-3 bg-muted rounded w-1/2" />
-            </div>
+      <section className="mt-[72px]">
+        <div className="animate-pulse">
+          <div className="aspect-[16/10] bg-muted" />
+          <div className="gradient-primary px-5 py-4 space-y-3">
+            <div className="h-5 bg-white/20 rounded w-3/4" />
+            <div className="h-3 bg-white/20 rounded w-1/2" />
           </div>
         </div>
       </section>
