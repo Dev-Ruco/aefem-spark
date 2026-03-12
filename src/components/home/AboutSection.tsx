@@ -25,8 +25,11 @@ export function AboutSection() {
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-brand-lg">
                 <img
                    src={aboutImage}
-                   alt="Grupo AEFEM - Associação para o Empoderamento Económico e Financeiro da Mulher"
+                   alt="Mulheres da AEFEM em sessão de capacitação em Maputo, Moçambique"
                    className="w-full h-full object-cover"
+                   width={800}
+                   height={600}
+                   loading="lazy"
                  />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-card rounded-xl shadow-brand-md p-6 animate-float">
