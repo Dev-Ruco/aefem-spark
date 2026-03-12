@@ -157,11 +157,27 @@ export function HeroSlider() {
                   )
             )}
           >
-            <div className="h-full flex flex-col-reverse lg:flex-row">
-              {/* Left — Magenta gradient area with title */}
+            <div className="h-full relative">
+              {/* Background — Image covers entire slide */}
+              <div className="absolute inset-0">
+                {article.featured_image ? (
+                  <img
+                    src={article.featured_image}
+                    alt={title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ objectPosition: 'center 20%' }}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                ) : (
+                  <div className="absolute inset-0 gradient-primary opacity-80" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-r from-foreground/10 to-transparent" />
+              </div>
+
+              {/* Left — Magenta gradient overlay with diagonal cut (desktop only) */}
               <div
-                className="lg:w-[45%] w-full gradient-primary flex items-center relative z-10"
-                style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0 100%)' }}
+                className="relative lg:absolute lg:inset-y-0 lg:left-0 lg:w-[55%] w-full gradient-primary flex items-center z-10"
+                style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0 100%)' }}
               >
                 <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20 py-8 lg:py-0">
                   <div className="max-w-lg mx-auto lg:mx-0 space-y-5">
@@ -254,24 +270,6 @@ export function HeroSlider() {
                     )}
                   </div>
                 </div>
-
-              </div>
-
-              {/* Right — Image area */}
-              <div className="lg:w-[60%] w-full h-[250px] sm:h-[300px] lg:h-full relative">
-                {article.featured_image ? (
-                  <img
-                    src={article.featured_image}
-                    alt={title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{ objectPosition: 'center 20%' }}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                  />
-                ) : (
-                  <div className="absolute inset-0 gradient-primary opacity-80" />
-                )}
-                {/* Subtle overlay for premium feel */}
-                <div className="absolute inset-0 bg-gradient-to-r from-foreground/10 to-transparent" />
               </div>
             </div>
           </div>
