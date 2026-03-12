@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { pt, enUS } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { useLanguage } from '@/contexts/LanguageContext';
+import RelatedArticles from '@/components/RelatedArticles';
 
 interface Article {
   id: string;
@@ -21,6 +22,7 @@ interface Article {
   excerpt_en: string | null;
   featured_image: string | null;
   published_at: string | null;
+  category_id: string | null;
   categories: { name: string; slug: string } | null;
 }
 
@@ -39,7 +41,7 @@ export default function ArticlePage() {
         .select(`
           id, title, title_en, content, content_en,
           excerpt, excerpt_en, featured_image, published_at,
-          categories (name, slug)
+          category_id, categories (name, slug)
         `)
         .eq('slug', slug)
         .eq('status', 'published')
@@ -206,6 +208,12 @@ export default function ArticlePage() {
               <div
                 className="max-w-[720px] mx-auto prose prose-lg prose-headings:font-display prose-headings:text-foreground prose-headings:mt-10 prose-headings:mb-4 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-img:rounded-lg prose-img:my-8 prose-blockquote:border-primary prose-strong:text-foreground prose-li:text-muted-foreground prose-ul:my-4 prose-ol:my-4"
                 dangerouslySetInnerHTML={{ __html: getContent() }}
+              />
+
+              {/* Related Articles */}
+              <RelatedArticles
+                currentArticleId={article.id}
+                categoryId={article.category_id}
               />
             </div>
           </div>
