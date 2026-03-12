@@ -6,8 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { format } from 'date-fns';
+import { format, type Locale } from 'date-fns';
 import { pt, enUS } from 'date-fns/locale';
+import useEmblaCarousel from 'embla-carousel-react';
 
 interface Article {
   id: string;
@@ -21,6 +22,316 @@ interface Article {
   categories: { name: string; slug: string } | null;
 }
 
+function useIsMobile(breakpoint = 1024) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const onChange = () => setIsMobile(mql.matches);
+    mql.addEventListener('change', onChange);
+    setIsMobile(mql.matches);
+    return () => mql.removeEventListener('change', onChange);
+  }, [breakpoint]);
+  return isMobile;
+}
+
+// ─── Mobile Hero: Editorial Cards Carousel ───────────────────────────
+
+function MobileHeroCards({
+  articles,
+  language,
+  t,
+  dateLocale,
+  dateFormat,
+}: {
+  articles: Article[];
+  language: string;
+  t: (key: string) => string;
+  dateLocale: Locale;
+  dateFormat: string;
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on('select', onSelect);
+    onSelect();
+    return () => { emblaApi.off('select', onSelect); };
+  }, [emblaApi]);
+
+  // Auto-scroll
+  useEffect(() => {
+    if (!emblaApi) return;
+    const timer = setInterval(() => emblaApi.scrollNext(), 5000);
+    return () => clearInterval(timer);
+  }, [emblaApi]);
+
+  return (
+    <section className="mt-[72px] pt-4 pb-6 bg-secondary/30">
+      <div ref={emblaRef} className="overflow-hidden px-4">
+        <div className="flex gap-4">
+          {articles.map((article, index) => {
+            const title = language === 'en' && article.title_en ? article.title_en : article.title;
+            return (
+              <div
+                key={article.id}
+                className="flex-[0_0_85%] min-w-0 sm:flex-[0_0_70%]"
+              >
+                <Link
+                  to={`/artigo/${article.slug}`}
+                  className="block rounded-2xl overflow-hidden shadow-brand-md bg-card transition-transform duration-300 hover:scale-[1.02]"
+                >
+                  {/* Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    {article.featured_image ? (
+                      <img
+                        src={article.featured_image}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                      />
+                    ) : (
+                      <div className="w-full h-full gradient-primary" />
+                    )}
+                    {/* Gradient overlay at bottom of image */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
+                    {/* Category badge on image */}
+                    {article.categories && (
+                      <Badge className="absolute top-3 left-3 text-[10px] uppercase tracking-widest font-semibold gradient-primary text-primary-foreground border-0 shadow-sm">
+                        {article.categories.name}
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4 space-y-2">
+                    <h2 className="font-display text-base sm:text-lg font-bold text-foreground leading-snug line-clamp-2">
+                      {title}
+                    </h2>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      {article.published_at && (
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          <time dateTime={article.published_at}>
+                            {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
+                          </time>
+                        </span>
+                      )}
+                      <span className="inline-flex items-center gap-1 text-primary font-semibold">
+                        {t('hero.read_more')}
+                        <ArrowRight className="h-3 w-3" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Dots */}
+      {articles.length > 1 && (
+        <div className="flex justify-center gap-1.5 mt-4">
+          {articles.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={cn(
+                'h-1.5 rounded-full transition-all duration-300',
+                i === selectedIndex
+                  ? 'w-6 bg-primary'
+                  : 'w-1.5 bg-primary/25 hover:bg-primary/40'
+              )}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ─── Desktop Hero: Split Layout (existing) ───────────────────────────
+
+function DesktopHeroSplit({
+  articles,
+  currentSlide,
+  setCurrentSlide,
+  language,
+  t,
+  dateLocale,
+  dateFormat,
+  isPaused,
+  setIsPaused,
+  prefersReducedMotion,
+  nextSlide,
+  prevSlide,
+}: {
+  articles: Article[];
+  currentSlide: number;
+  setCurrentSlide: (n: number) => void;
+  language: string;
+  t: (key: string) => string;
+  dateLocale: Locale;
+  dateFormat: string;
+  isPaused: boolean;
+  setIsPaused: (v: boolean) => void;
+  prefersReducedMotion: boolean;
+  nextSlide: () => void;
+  prevSlide: () => void;
+}) {
+  return (
+    <section
+      className="relative mt-[72px] min-h-[500px] h-[70vh] overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {articles.map((article, index) => {
+        const title = language === 'en' && article.title_en ? article.title_en : article.title;
+        const isActive = index === currentSlide;
+
+        return (
+          <div
+            key={article.id}
+            className={cn(
+              'absolute inset-0',
+              prefersReducedMotion
+                ? (isActive ? 'opacity-100 z-10' : 'opacity-0 z-0')
+                : cn(
+                    'transition-all duration-700 ease-in-out',
+                    isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  )
+            )}
+          >
+            <div className="h-full relative">
+              <div className="absolute top-0 bottom-0 right-0 w-[65%]">
+                {article.featured_image ? (
+                  <img
+                    src={article.featured_image}
+                    alt={title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ objectPosition: 'center 20%' }}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                ) : (
+                  <div className="absolute inset-0 gradient-primary opacity-80" />
+                )}
+              </div>
+
+              <div className="absolute inset-y-0 left-0 w-[50%] gradient-primary flex items-center z-10 [clip-path:polygon(0_0,100%_0,75%_100%,0_100%)]">
+                <div className="w-full px-14 xl:px-20">
+                  <div className="max-w-lg space-y-5">
+                    {article.categories && (
+                      <Badge
+                        variant="secondary"
+                        className={cn(
+                          'text-xs uppercase tracking-widest font-semibold bg-white/15 text-white border-white/20',
+                          !prefersReducedMotion && cn(
+                            'transition-all duration-500 delay-200',
+                            isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                          )
+                        )}
+                      >
+                        {article.categories.name}
+                      </Badge>
+                    )}
+
+                    <h1
+                      className={cn(
+                        'font-display text-4xl xl:text-5xl font-bold text-white leading-tight',
+                        !prefersReducedMotion && cn(
+                          'transition-all duration-700 delay-300',
+                          isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                        )
+                      )}
+                    >
+                      {title}
+                    </h1>
+
+                    <div
+                      className={cn(
+                        'flex items-center gap-4 text-sm',
+                        !prefersReducedMotion && cn(
+                          'transition-all duration-500 delay-500',
+                          isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        )
+                      )}
+                    >
+                      {article.published_at && (
+                        <span className="flex items-center gap-1.5 text-white/70">
+                          <Calendar className="h-3.5 w-3.5" />
+                          <time dateTime={article.published_at}>
+                            {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
+                          </time>
+                        </span>
+                      )}
+                      <Link
+                        to={`/artigo/${article.slug}`}
+                        className="inline-flex items-center gap-1 text-white font-bold hover:text-white/80 transition-all duration-300 group"
+                      >
+                        {t('hero.read_more')}
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+
+                    {articles.length > 1 && (
+                      <div className="flex gap-2.5 pt-4">
+                        {articles.map((_, dotIndex) => (
+                          <button
+                            key={dotIndex}
+                            onClick={() => setCurrentSlide(dotIndex)}
+                            className={cn(
+                              'h-2 rounded-full transition-all duration-300 relative overflow-hidden',
+                              dotIndex === currentSlide
+                                ? 'w-10 bg-white/25'
+                                : 'w-2 bg-white/20 hover:bg-white/40'
+                            )}
+                            aria-label={`Go to slide ${dotIndex + 1}`}
+                          >
+                            {dotIndex === currentSlide && !prefersReducedMotion && (
+                              <span
+                                className="absolute inset-0 bg-white origin-left animate-progress rounded-full"
+                                style={{ animationDuration: '6s' }}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {articles.length > 1 && (
+        <>
+          <button
+            onClick={prevSlide}
+            className="absolute left-[calc(40%-60px)] top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/25 transition-all duration-300 z-20"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/30 backdrop-blur-sm flex items-center justify-center text-background hover:bg-background/40 transition-all duration-300 z-20"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </>
+      )}
+    </section>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────
+
 export function HeroSlider() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,6 +339,7 @@ export function HeroSlider() {
   const [isPaused, setIsPaused] = useState(false);
   const { t, language } = useLanguage();
   const prefersReducedMotion = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -53,15 +365,14 @@ export function HeroSlider() {
     fetchArticles();
   }, []);
 
+  // Desktop auto-slide
   useEffect(() => {
-    if (articles.length === 0 || isPaused || prefersReducedMotion.current) return;
-
+    if (isMobile || articles.length === 0 || isPaused || prefersReducedMotion.current) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % articles.length);
     }, 6000);
-
     return () => clearInterval(timer);
-  }, [articles.length, isPaused]);
+  }, [articles.length, isPaused, isMobile]);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % articles.length);
@@ -76,10 +387,22 @@ export function HeroSlider() {
 
   // Loading skeleton
   if (isLoading) {
-    return (
+    return isMobile ? (
+      <section className="mt-[72px] pt-4 pb-6 bg-secondary/30">
+        <div className="px-4">
+          <div className="rounded-2xl overflow-hidden bg-card shadow-brand-md animate-pulse">
+            <div className="aspect-[16/10] bg-muted" />
+            <div className="p-4 space-y-3">
+              <div className="h-4 bg-muted rounded w-3/4" />
+              <div className="h-3 bg-muted rounded w-1/2" />
+            </div>
+          </div>
+        </div>
+      </section>
+    ) : (
       <section className="relative mt-[72px] min-h-[500px] h-[70vh]">
-        <div className="h-full flex flex-col lg:flex-row">
-          <div className="lg:w-[40%] w-full gradient-primary flex items-center justify-center p-8 lg:p-16">
+        <div className="h-full flex">
+          <div className="w-[40%] gradient-primary flex items-center justify-center p-16">
             <div className="space-y-6 w-full max-w-md animate-pulse">
               <div className="h-5 w-24 bg-white/20 rounded-full" />
               <div className="space-y-3">
@@ -89,7 +412,7 @@ export function HeroSlider() {
               <div className="h-4 w-40 bg-white/20 rounded" />
             </div>
           </div>
-          <div className="lg:w-[60%] w-full bg-muted flex-1" />
+          <div className="w-[60%] bg-muted flex-1" />
         </div>
       </section>
     );
@@ -133,167 +456,35 @@ export function HeroSlider() {
     );
   }
 
+  // ─── Render ────────────────────────────────────────────────────────
+
+  if (isMobile) {
+    return (
+      <MobileHeroCards
+        articles={articles}
+        language={language}
+        t={t}
+        dateLocale={dateLocale}
+        dateFormat={dateFormat}
+      />
+    );
+  }
+
   return (
-    <section
-      className="relative mt-[72px] min-h-[500px] h-[70vh] overflow-hidden"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {/* Slides */}
-      {articles.map((article, index) => {
-        const title = language === 'en' && article.title_en ? article.title_en : article.title;
-        const isActive = index === currentSlide;
-
-        return (
-          <div
-            key={article.id}
-            className={cn(
-              'absolute inset-0',
-              prefersReducedMotion.current
-                ? (isActive ? 'opacity-100 z-10' : 'opacity-0 z-0')
-                : cn(
-                    'transition-all duration-700 ease-in-out',
-                    isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                  )
-            )}
-          >
-            <div className="h-full relative">
-              {/* Background — Image on the right side with partial overlap */}
-              <div className="absolute top-0 bottom-0 right-0 w-full lg:w-[65%]">
-                {article.featured_image ? (
-                  <img
-                    src={article.featured_image}
-                    alt={title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{ objectPosition: 'center 20%' }}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                  />
-                ) : (
-                  <div className="absolute inset-0 gradient-primary opacity-80" />
-                )}
-              </div>
-
-              {/* Left — Magenta gradient overlay with diagonal cut (desktop only) */}
-              <div
-                className="relative lg:absolute lg:inset-y-0 lg:left-0 lg:w-[50%] w-full gradient-primary flex items-center z-10 lg:[clip-path:polygon(0_0,100%_0,75%_100%,0_100%)]"
-              >
-                <div className="w-full px-6 sm:px-10 lg:px-14 xl:px-20 py-8 lg:py-0">
-                  <div className="max-w-lg mx-auto lg:mx-0 space-y-5">
-                    {/* Category badge */}
-                    {article.categories && (
-                      <Badge
-                        variant="secondary"
-                        className={cn(
-                          'text-xs uppercase tracking-widest font-semibold bg-white/15 text-white border-white/20',
-                          prefersReducedMotion.current
-                            ? ''
-                            : cn(
-                                'transition-all duration-500 delay-200',
-                                isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                              )
-                        )}
-                      >
-                        {article.categories.name}
-                      </Badge>
-                    )}
-
-                    {/* Title */}
-                    <h1
-                      className={cn(
-                        'font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight',
-                        prefersReducedMotion.current
-                          ? ''
-                          : cn(
-                              'transition-all duration-700 delay-300',
-                              isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                            )
-                      )}
-                    >
-                      {title}
-                    </h1>
-
-                    {/* Date + Read more */}
-                    <div
-                      className={cn(
-                        'flex items-center gap-4 text-sm',
-                        prefersReducedMotion.current
-                          ? ''
-                          : cn(
-                              'transition-all duration-500 delay-500',
-                              isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                            )
-                      )}
-                    >
-                      {article.published_at && (
-                        <span className="flex items-center gap-1.5 text-white/70">
-                          <Calendar className="h-3.5 w-3.5" />
-                          <time dateTime={article.published_at}>
-                            {format(new Date(article.published_at), dateFormat, { locale: dateLocale })}
-                          </time>
-                        </span>
-                      )}
-                      <Link
-                        to={`/artigo/${article.slug}`}
-                        className="inline-flex items-center gap-1 text-white font-bold hover:text-white/80 transition-all duration-300 group"
-                      >
-                        {t('hero.read_more')}
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </div>
-
-                    {/* Progress dots */}
-                    {articles.length > 1 && (
-                      <div className="flex gap-2.5 pt-4">
-                        {articles.map((_, dotIndex) => (
-                          <button
-                            key={dotIndex}
-                            onClick={() => setCurrentSlide(dotIndex)}
-                            className={cn(
-                              'h-2 rounded-full transition-all duration-300 relative overflow-hidden',
-                              dotIndex === currentSlide
-                                ? 'w-10 bg-white/25'
-                                : 'w-2 bg-white/20 hover:bg-white/40'
-                            )}
-                            aria-label={`Go to slide ${dotIndex + 1}`}
-                          >
-                            {dotIndex === currentSlide && !prefersReducedMotion.current && (
-                              <span
-                                className="absolute inset-0 bg-white origin-left animate-progress rounded-full"
-                                style={{ animationDuration: '6s' }}
-                              />
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* Navigation Arrows */}
-      {articles.length > 1 && (
-        <>
-          <button
-            onClick={prevSlide}
-            className="absolute left-2 lg:left-[calc(40%-60px)] top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/25 transition-all duration-300 z-20"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-background/30 backdrop-blur-sm flex items-center justify-center text-background hover:bg-background/40 transition-all duration-300 z-20"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        </>
-      )}
-    </section>
+    <DesktopHeroSplit
+      articles={articles}
+      currentSlide={currentSlide}
+      setCurrentSlide={setCurrentSlide}
+      language={language}
+      t={t}
+      dateLocale={dateLocale}
+      dateFormat={dateFormat}
+      isPaused={isPaused}
+      setIsPaused={setIsPaused}
+      prefersReducedMotion={prefersReducedMotion.current}
+      nextSlide={nextSlide}
+      prevSlide={prevSlide}
+    />
   );
 }
 

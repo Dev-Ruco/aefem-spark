@@ -1,142 +1,72 @@
-## Plano: Redesign Mobile — Header e Hero
 
-### 1. Header Mobile — Proposta
+## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-**Problema actual:** No mobile, o nome da associação está escondido (`hidden lg:block`), o logo fica pequeno e solto, e o selector de idioma com o menu hamburger ficam apertados sem hierarquia clara.
+### Problema Actual
+Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
 
-**Nova estrutura mobile (< 1024px):**
+### Solucao
+Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
 
+### Esquema de Fundos (de cima para baixo)
+
+| # | Seccao | Fundo Actual | Novo Fundo |
+|---|--------|-------------|------------|
+| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
+| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
+| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
+| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
+| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
+| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
+| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
+| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
+| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+
+### Detalhes das Alteracoes
+
+#### 1. StatisticsSection - Fundo Escuro Dramatico
+- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
+- Texto do titulo e subtitulo: branco (`text-white`)
+- Badge: fundo `bg-white/10` com texto branco
+- Cards mantêm o estilo actual (ja têm `bg-card`)
+- Fonte de dados: `bg-white/10` com texto `text-white/70`
+- Cria impacto visual forte apos a seccao About
+
+#### 2. PillarsSection - Lavanda Suave
+- Adicionar `bg-secondary/40` ao section
+- Manter tudo o resto igual
+- Contrasta com a ImpactStorySection (branca com gradientes) acima
+
+#### 3. ActivitiesSection - Fundo Branco Limpo
+- Remover `bg-secondary/30`, deixar fundo branco
+- Contrasta com PillarsSection (lavanda) acima
+
+#### 4. VideosSection - Fundo Escuro
+- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
+- Texto e titulos em branco
+- Cards de video: bordas mais visíveis com `border-white/10`
+- Botao play: manter o estilo actual (ja esta bom)
+- Cria drama visual e destaca os videos
+
+#### 5. TeamSection - Fundo Branco
+- Remover `bg-secondary/30`, deixar fundo branco
+- Cards dos membros ja têm `bg-card` proprio
+
+#### 6. PartnersSection - Muted Suave
+- Alterar de `bg-secondary/30` para `bg-muted/20`
+- Adicionar borda superior decorativa sutil
+
+### Padrao Visual Resultante
 ```text
-┌─────────────────────────────────────────┐
-│  [Logo 40px] AEFEM    🇵🇹|🇬🇧  [☰]  │
-│   ↑ esquerda           ↑ direita        │
-└─────────────────────────────────────────┘
+Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
 ```
 
-Alterações em `Header.tsx`:
+Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
 
-- Mostrar o nome abreviado "AEFEM" ao lado do logo em todas as resoluções (não apenas `lg:block`). Usar texto pequeno (`text-xs sm:text-sm`) em mobile, e o nome completo apenas em `xl:`.
-- Logo: manter `h-10` em mobile com `rounded-full`.
-- LanguageSelector: versão compacta em mobile — apenas as bandeiras sem texto (já faz isso parcialmente com `hidden sm:inline`). Reduzir padding para `px-1.5 py-0.5`.
-- Menu hamburger: adicionar `rounded-full bg-secondary/50` para dar peso visual coerente, tamanho `h-5 w-5` para o ícone.
-- Garantir `px-4` lateral e `py-2.5` vertical no header mobile para boa respiração.
-- No menu dropdown mobile: manter o design actual (já está bem com card arredondado e shadow).
-
-**Desktop inalterado:** Todas as alterações condicionadas a breakpoints `< lg`.
-
----
-
-### 2. Hero Mobile — Proposta (Cards com Carousel)
-
-**Problema actual:** O hero split (magenta esquerda + imagem direita com clip-path) funciona bem em desktop mas em mobile o texto ocupa toda a área, a imagem quase desaparece, e o impacto visual perde-se.
-
-**Nova abordagem:** Manter o layout split para `lg:` (desktop inalterado). Para mobile (`< lg`), renderizar um carousel Embla de cards editoriais.
-
-**Estrutura de cada card mobile:**
-
-```text
-┌──────────────────────────────┐
-│                              │
-│     IMAGEM (60% altura)      │
-│     aspect-[16/10]           │
-│                              │
-├──────────────────────────────┤
-│  gradient overlay sutil      │
-│  ┌──────────────────────┐    │
-│  │ CATEGORIA  •  DATA   │    │
-│  │ Título da Publicação │    │
-│  │ (line-clamp-2)       │    │
-│  │         Ler Mais →   │    │
-│  └──────────────────────┘    │
-└──────────────────────────────┘
-```
-
-- Imagem ocupa a parte superior do card (~60%) com `object-cover`
-- Gradiente escuro na base da imagem para proteger texto
-- Categoria como badge magenta pequeno
-- Título com `line-clamp-2`, font-display bold
-- Data discreta
-- CTA "Ler Mais" com seta
-- Card com `rounded-2xl`, `shadow-brand-md`, margens laterais de `mx-4`
-- Dots de paginação abaixo dos cards
-- Auto-scroll a cada 5s + swipe manual via Embla
-
-**Alterações em `HeroSlider.tsx`:**
-
-- Importar `useIsMobile` hook
-- Renderização condicional: `isMobile ? <MobileHeroCards /> : <DesktopHeroSplit />`
-- Desktop: código actual intacto (o bloco split com clip-path)
-- Mobile: usar Embla carousel (já instalado) com cards
-
-**Loading skeleton mobile:** Card skeleton em vez do split skeleton.
-
-**Fallback (sem artigos):** Manter o fallback actual mas com padding ajustado para mobile.
-
----
-
-### 3. Lógica Responsiva
-
-
-| Breakpoint          | Header                                 | Hero                   |
-| ------------------- | -------------------------------------- | ---------------------- |
-| < 768px (mobile)    | Logo + "AEFEM" + bandeiras + hamburger | Cards carousel         |
-| 768-1023px (tablet) | Igual mobile (menu hamburger)          | Cards carousel         |
-| ≥ 1024px (desktop)  | Layout completo actual                 | Split magenta + imagem |
-
-
----
-
-### 4. Ficheiros a alterar
-
-1. `**src/components/layout/Header.tsx**` — Mostrar nome abreviado em mobile, refinar espaçamentos e pesos visuais do selector de idioma e hamburger
-2. `**src/components/home/HeroSlider.tsx**` — Adicionar renderização condicional mobile com cards Embla carousel, manter desktop intacto
-3. `**src/index.css**` — Nenhuma alteração necessária (utilitários existentes são suficientes)
-
-Sem alterações de cores, tipografia base, ou identidade visual.  
-  
-  
-Preciso ajustar o **header do site** para melhorar a leitura e o equilíbrio visual da marca **Associação de Empoderamento Feminino**.
-
-### 1. Versão Desktop
-
-O nome da organização está **demasiado longo numa única linha**.  
-Quero que o texto seja **quebrado em duas linhas**, mantendo boa hierarquia tipográfica.
-
-Estrutura desejada:
-
-Associação de  
-Empoderamento Feminino
-
-Regras:
-
-- A quebra deve acontecer **depois de “Associação de”**.
-- A segunda linha (**Empoderamento Feminino**) deve ter **mais destaque tipográfico**.
-- O alinhamento deve ficar **equilibrado ao lado do logótipo**.
-- Manter boa distância entre **logótipo e texto**.
-- Evitar que o header fique demasiado horizontal.
-
-### 2. Versão Mobile
-
-No **mobile não mostrar o nome completo da organização no header**.
-
-Mostrar apenas:
-
-- **logótipo**
-- **menu hamburger**
-
-Objectivo:
-
-- header **mais limpo**
-- melhor uso do espaço
-- evitar que o topo fique apertado ou desproporcional.
-
-### 3. Ajustes visuais
-
-Verificar também:
-
-- altura do header
-- espaçamento lateral
-- alinhamento vertical do logótipo
-- responsividade entre desktop / tablet / mobile.
-
-O resultado deve parecer **institucional, moderno e equilibrado**, semelhante a sites de organizações internacionais.
+### Ficheiros a Modificar
+- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
+- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
+- `src/components/home/ActivitiesSection.tsx` - remover fundo
+- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
+- `src/components/home/TeamSection.tsx` - remover fundo
+- `src/components/home/PartnersSection.tsx` - alterar fundo
+- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
