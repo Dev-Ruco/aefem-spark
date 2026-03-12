@@ -226,6 +226,7 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+        <WhatsAppChannelSection />
       </Layout>
     </>
   );

@@ -90,6 +90,7 @@ const Index = () => {
         <PillarsSection />
         <ActivitiesSection />
         <VideosSection />
+        <WhatsAppChannelSection />
         <JoinSection />
         <TeamSection />
         <PartnersSection />
