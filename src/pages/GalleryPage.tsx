@@ -55,6 +55,8 @@ export default function GalleryPage() {
       <Helmet>
         <title>Galeria | AEFEM</title>
         <meta name="description" content="Veja fotos dos nossos eventos, formações e actividades de empoderamento feminino." />
+        <link rel="canonical" href="https://www.aefem.org.mz/galeria" />
+        <meta property="og:url" content="https://www.aefem.org.mz/galeria" />
       </Helmet>
 
       <Layout>

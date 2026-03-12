@@ -14,8 +14,11 @@ export default function AboutPage() {
   return (
     <>
       <Helmet>
-        <title>{t('aboutpage.title')} | AEFEM</title>
-        <meta name="description" content={t('aboutpage.meta_desc')} />
+        <title>Sobre a AEFEM | Empoderamento Feminino em Moçambique</title>
+        <meta name="description" content="Conheça a AEFEM, a nossa missão, visão e equipa dedicada ao empoderamento feminino em Moçambique." />
+        <link rel="canonical" href="https://www.aefem.org.mz/sobre" />
+        <meta property="og:url" content="https://www.aefem.org.mz/sobre" />
+        <meta property="og:title" content="Sobre a AEFEM | Empoderamento Feminino em Moçambique" />
       </Helmet>
 
       <Layout>

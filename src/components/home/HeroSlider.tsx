@@ -109,8 +109,8 @@ export function HeroSlider() {
               {t('hero.tagline')}
             </span>
             <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 animate-fade-up leading-tight">
-              {t('hero.title')}{' '}
-              <span className="gradient-text">{t('hero.title_highlight')}</span>
+              Empoderamento Feminino{' '}
+              <span className="gradient-text">em Moçambique</span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-up delay-200 leading-relaxed">
               {t('hero.description')}

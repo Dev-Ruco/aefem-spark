@@ -39,8 +39,10 @@ export function ImpactStorySection() {
               <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                 <img
                   src={impactImage}
-                  alt={t('impact.title')}
+                  alt="Mulheres da AEFEM em programa de empoderamento feminino em Moçambique"
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  width={800}
+                  height={533}
                   loading="lazy"
                 />
                 {/* Overlay gradient */}

@@ -131,8 +131,25 @@ export default function ArticlePage() {
   return (
     <>
       <Helmet>
-        <title>{getTitle()} | AEFEM</title>
+        <title>{`${getTitle()} | AEFEM`}</title>
         <meta name="description" content={getExcerpt()} />
+        <link rel="canonical" href={`https://www.aefem.org.mz/artigo/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://www.aefem.org.mz/artigo/${slug}`} />
+        <meta property="og:title" content={getTitle()} />
+        {article.featured_image && <meta property="og:image" content={article.featured_image} />}
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": getTitle(),
+          "image": article.featured_image || undefined,
+          "datePublished": article.published_at || undefined,
+          "publisher": {
+            "@type": "NGO",
+            "name": "AEFEM",
+            "url": "https://www.aefem.org.mz"
+          }
+        })}</script>
       </Helmet>
 
       <Layout>

@@ -121,8 +121,10 @@ export default function NewsPage() {
   return (
     <>
       <Helmet>
-        <title>{t('newspage.title')} | AEFEM</title>
-        <meta name="description" content={t('newspage.meta_desc')} />
+        <title>Notícias | AEFEM</title>
+        <meta name="description" content="Acompanha as últimas notícias e publicações da AEFEM sobre empoderamento feminino em Moçambique." />
+        <link rel="canonical" href="https://www.aefem.org.mz/noticias" />
+        <meta property="og:url" content="https://www.aefem.org.mz/noticias" />
       </Helmet>
 
       <Layout>

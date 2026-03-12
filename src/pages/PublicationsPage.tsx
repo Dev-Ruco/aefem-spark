@@ -45,8 +45,10 @@ export default function PublicationsPage() {
   return (
     <>
       <Helmet>
-        <title>{t('publications.title')} - AEFEM</title>
-        <meta name="description" content={t('publications.meta_desc')} />
+        <title>Publicações | AEFEM</title>
+        <meta name="description" content="Relatórios, estudos e publicações da AEFEM sobre empoderamento feminino e género em Moçambique." />
+        <link rel="canonical" href="https://www.aefem.org.mz/publicacoes" />
+        <meta property="og:url" content="https://www.aefem.org.mz/publicacoes" />
       </Helmet>
 
       <Layout>
