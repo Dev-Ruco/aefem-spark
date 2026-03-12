@@ -9,8 +9,8 @@ import logo from '@/assets/logo-aefem.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
-  { icon: Facebook, href: 'https://www.facebook.com/aefem', label: 'Facebook' },
-  { icon: Instagram, href: 'https://www.instagram.com/aefem', label: 'Instagram' },
+  { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61577015711119', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/aefemmoz/', label: 'Instagram' },
 ];
 
 export function Footer() {
