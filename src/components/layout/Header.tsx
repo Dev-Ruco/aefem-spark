@@ -29,22 +29,23 @@ export function Header() {
   }, [location.pathname]);
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm py-3"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm py-3">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo + Org Name */}
           <Link to="/" className="flex items-center gap-3 group">
             <img
               src={logo}
               alt="AEFEM Logo"
-              className="h-11 lg:h-12 xl:h-14 w-auto rounded-full transition-transform duration-300 group-hover:scale-105"
+              className="h-10 lg:h-12 xl:h-14 w-auto rounded-full transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="hidden lg:block">
-              <p className="text-sm font-bold text-foreground/80 leading-snug">
-                <span className="hidden xl:inline">{t('org.name')}</span>
-                <span className="xl:hidden">{t('org.name_short')}</span>
+            {/* Desktop: two-line org name */}
+            <div className="hidden lg:block leading-tight">
+              <p className="text-xs xl:text-sm text-muted-foreground font-medium">
+                Associação de
+              </p>
+              <p className="text-sm xl:text-base font-bold text-foreground tracking-tight">
+                Empoderamento Feminino
               </p>
             </div>
           </Link>
@@ -72,8 +73,8 @@ export function Header() {
             ))}
           </div>
 
-          {/* CTA Button & Mobile Menu Toggle */}
-          <div className="flex items-center gap-3">
+          {/* CTA + Language + Mobile Toggle */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSelector />
             <Link to="/tornar-se-membro" className="hidden sm:block">
               <Button
@@ -85,13 +86,13 @@ export function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
+              className="lg:hidden p-2.5 rounded-full bg-secondary/60 hover:bg-secondary transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5 text-foreground" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5 text-foreground" />
               )}
             </button>
           </div>
