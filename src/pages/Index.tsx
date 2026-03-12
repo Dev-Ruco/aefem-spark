@@ -10,6 +10,7 @@ import StatisticsSection from '@/components/home/StatisticsSection';
 import TeamSection from '@/components/home/TeamSection';
 import VideosSection from '@/components/home/VideosSection';
 import JoinSection from '@/components/home/JoinSection';
+import WhatsAppChannelSection from '@/components/home/WhatsAppChannelSection';
 import { SEO } from '@/config/seo';
 
 const Index = () => {
