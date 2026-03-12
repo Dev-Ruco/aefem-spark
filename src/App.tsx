@@ -41,7 +41,6 @@ import { AdminLayout } from "./components/admin/AdminLayout";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <TooltipProvider>
