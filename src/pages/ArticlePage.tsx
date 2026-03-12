@@ -41,7 +41,7 @@ export default function ArticlePage() {
         .select(`
           id, title, title_en, content, content_en,
           excerpt, excerpt_en, featured_image, published_at,
-          categories (name, slug)
+          category_id, categories (name, slug)
         `)
         .eq('slug', slug)
         .eq('status', 'published')
