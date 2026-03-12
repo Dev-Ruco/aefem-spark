@@ -10,6 +10,10 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   pt: {
+    // Organization
+    'org.name': 'Associação de Empoderamento Feminino',
+    'org.name_short': 'AEFEM',
+
     // Navigation
     'nav.home': 'Início',
     'nav.about': 'Sobre Nós',
