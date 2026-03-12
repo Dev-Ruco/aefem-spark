@@ -116,6 +116,7 @@ const App = () => {
       </LanguageProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+  );
+};
 
 export default App;
