@@ -15,7 +15,6 @@ const getNavLinks = (t: (key: string) => string) => [
   { href: '/publicacoes', label: t('nav.publications') },
   { href: '/galeria', label: t('nav.gallery') },
   { href: '/contacto', label: t('nav.contact') },
-  { href: '/tornar-se-membro', label: t('nav.become_member') },
 ];
 
 export function Header() {
