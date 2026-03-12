@@ -75,7 +75,7 @@ const FinancialExclusionChart = () => {
 
         {/* Counters Grid */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="grid grid-cols-3 gap-3">
               {stats.map((stat, index) => (
                 <div

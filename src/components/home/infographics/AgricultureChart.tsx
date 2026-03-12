@@ -51,7 +51,7 @@ const AgricultureChart = () => {
 
         {/* Icons Grid */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="flex flex-wrap justify-center gap-2 mb-4">
               {Array.from({ length: totalIcons }).map((_, index) => {
                 const isUnpaid = index >= totalIcons - unpaidIcons;
