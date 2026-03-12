@@ -57,7 +57,7 @@ export function AboutSection() {
               subtitle={t('about.subtitle')}
               title={t('about.title')}
               align="left"
-              className="mb-8"
+              className="mb-8 hidden lg:block"
             />
             
             <div className="space-y-6 text-muted-foreground">
