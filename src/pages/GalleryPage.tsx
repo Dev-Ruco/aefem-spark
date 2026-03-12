@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Calendar, X } from 'lucide-react';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Layout from '@/components/layout/Layout';
@@ -75,16 +76,8 @@ export default function GalleryPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <Card key={i} className="overflow-hidden animate-pulse">
-                    <div className="aspect-video bg-muted" />
-                    <CardContent className="p-6 space-y-2">
-                      <div className="h-6 bg-muted rounded w-2/3" />
-                      <div className="h-4 bg-muted rounded w-1/3" />
-                    </CardContent>
-                  </Card>
-                ))}
+              <div className="flex items-center justify-center py-20">
+                <LoadingSpinner size="lg" />
               </div>
             ) : events.length > 0 ? (
               <div className="space-y-16">

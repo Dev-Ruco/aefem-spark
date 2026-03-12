@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { LoadingSpinner } from "./components/ui/LoadingSpinner";
+import { useState, useEffect } from "react";
 import Index from "./pages/Index";
 import NewsPage from "./pages/NewsPage";
 import ArticlePage from "./pages/ArticlePage";
@@ -42,14 +44,27 @@ import { AdminLayout } from "./components/admin/AdminLayout";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+      {showSplash && (
+                <div className={`transition-opacity duration-500 ${showSplash ? 'opacity-100' : 'opacity-0'}`}>
+                  <LoadingSpinner size="lg" fullScreen />
+                </div>
+              )}
+              <BrowserRouter>
             <ScrollToTop />
             <Routes>
               {/* Public Routes */}
@@ -101,6 +116,7 @@ const App = () => (
       </LanguageProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+  );
+};
 
 export default App;
