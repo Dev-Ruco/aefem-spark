@@ -255,13 +255,6 @@ export function HeroSlider() {
                   </div>
                 </div>
 
-                {/* Diagonal edge on the right side (desktop only) */}
-                <div className="hidden lg:block absolute top-0 -right-12 w-24 h-full z-20"
-                  style={{
-                    clipPath: 'polygon(0 0, 60% 0, 100% 100%, 0 100%)',
-                    background: 'linear-gradient(180deg, hsl(328, 85%, 52%), hsl(288, 55%, 35%))'
-                  }}
-                />
               </div>
 
               {/* Right — Image area */}
