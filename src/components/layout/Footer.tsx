@@ -137,9 +137,9 @@ export function Footer() {
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-primary" />
-                  <a href="tel:+258840000000" className="text-background/70 hover:text-primary transition-colors text-sm">
-                    +258 84 000 0000
-                  </a>
+                  <span className="text-background/70 text-sm">
+                    {t('footer.contacts')}
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary" />
