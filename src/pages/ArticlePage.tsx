@@ -22,6 +22,7 @@ interface Article {
   excerpt_en: string | null;
   featured_image: string | null;
   published_at: string | null;
+  category_id: string | null;
   categories: { name: string; slug: string } | null;
 }
 
