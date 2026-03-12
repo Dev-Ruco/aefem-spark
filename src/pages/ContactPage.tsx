@@ -30,9 +30,14 @@ export default function ContactPage() {
   const { t } = useLanguage();
 
   const contactInfo = [
-    { icon: MapPin, title: t('contact.address_label'), value: 'Maputo, Moçambique' },
-    { icon: Phone, title: t('contact.phone_label'), value: '+258 84 000 0000', href: 'tel:+258840000000' },
+    { icon: MapPin, title: t('contact.address_label'), value: 'Av. Samora Machel, Prédio Rubi, Entrada Ara-Sul, 2.º Andar, n.º 7, Maputo – Moçambique' },
+    { icon: Phone, title: t('contact.phone_label'), value: '+258 86 356 6904', href: 'tel:+258863566904' },
     { icon: Mail, title: t('contact.email_label'), value: 'info@aefem.org.mz', href: 'mailto:info@aefem.org.mz' },
+  ];
+
+  const socialLinks = [
+    { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61577015711119', label: 'Facebook' },
+    { icon: Instagram, href: 'https://www.instagram.com/aefemmoz/', label: 'Instagram' },
   ];
 
   const form = useForm<ContactFormValues>({
