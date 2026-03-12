@@ -1,72 +1,25 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Situação actual
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+Todas as canonical tags, titles e meta descriptions já estão implementadas nas 4 páginas (AboutPage, ProjectsPage, NewsPage, ContactPage). A única tarefa pendente é a criação da imagem OG.
 
-### Esquema de Fundos (de cima para baixo)
+## Plano: Criar placeholder OG image
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+### Abordagem
+Não é possível gerar ficheiros binários (JPG) directamente no código. Existem duas alternativas:
 
-### Detalhes das Alteracoes
+**Opção A — SVG placeholder** (implementável agora)
+Criar `public/og-image.svg` como placeholder com as cores da AEFEM, o nome "AEFEM" e o texto "Associação do Empoderamento Feminino de Moçambique" em dimensões 1200x630. Actualizar as referências em `Index.tsx` e `seo.ts` para apontar para `.svg`.
 
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
+**Opção B — Imagem real** (recomendado)
+Tu carregas manualmente um ficheiro `og-image.jpg` (1200x630px) criado no Canva ou similar, com o logo real da AEFEM. As referências no código já apontam para `https://www.aefem.org.mz/og-image.jpg`.
 
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
+### Recomendação
+A Opção A dá-te um placeholder funcional imediatamente. A Opção B é o ideal para redes sociais (Facebook/LinkedIn preferem JPG/PNG). Posso implementar a Opção A agora e substituís depois pelo JPG real.
 
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
+### Alterações (Opção A)
+1. **Criar** `public/og-image.svg` — imagem 1200x630 com fundo gradiente nas cores do site, texto "AEFEM" e subtítulo
+2. **Editar** `src/pages/Index.tsx` — mudar `og-image.jpg` → `og-image.svg`
+3. **Editar** `src/config/seo.ts` — mudar `og-image.jpg` → `og-image.svg`
 
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
-
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
-
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
-
-### Padrao Visual Resultante
-```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
-```
-
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
-
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
