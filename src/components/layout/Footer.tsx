@@ -100,7 +100,7 @@ export function Footer() {
             <div className="space-y-6">
               <Link to="/" className="flex items-center gap-3">
                 <img src={logo} alt="AEFEM Logo" className="h-12 w-auto brightness-0 invert" />
-                <span className="font-display text-xl font-bold">AEFEM</span>
+                <span className="font-display text-xl font-bold">{t('org.name_short')}</span>
               </Link>
               <p className="text-background/70 text-sm leading-relaxed">
                 {t('footer.about_text')}

@@ -43,7 +43,8 @@ export function Header() {
             />
             <div className="hidden lg:block">
               <p className="text-sm font-bold text-foreground/80 leading-snug">
-                Associação do Empoderamento Feminino
+                <span className="hidden xl:inline">{t('org.name')}</span>
+                <span className="xl:hidden">{t('org.name_short')}</span>
               </p>
             </div>
           </Link>

@@ -399,6 +399,10 @@ const translations: Record<Language, Record<string, string>> = {
     'publications.download': 'Descarregar',
   },
   en: {
+    // Organization
+    'org.name': "Women's Empowerment Association",
+    'org.name_short': 'AEFEM',
+
     // Navigation
     'nav.home': 'Home',
     'nav.about': 'About Us',
