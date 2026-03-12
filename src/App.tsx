@@ -59,7 +59,12 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+      {showSplash && (
+                <div className={`transition-opacity duration-500 ${showSplash ? 'opacity-100' : 'opacity-0'}`}>
+                  <LoadingSpinner size="lg" fullScreen />
+                </div>
+              )}
+              <BrowserRouter>
             <ScrollToTop />
             <Routes>
               {/* Public Routes */}
