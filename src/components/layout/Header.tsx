@@ -41,13 +41,10 @@ export function Header() {
               alt="AEFEM Logo"
               className="h-11 lg:h-12 xl:h-14 w-auto rounded-full transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="hidden xl:block">
-              <p className="text-xs font-semibold text-foreground/80 leading-tight">
+            <div className="hidden lg:block">
+              <p className="text-sm font-bold text-foreground/80 leading-snug">
                 Associação do Empoderamento Feminino
               </p>
-              <span className="font-display text-lg font-bold gradient-text">
-                (AEFEM)
-              </span>
             </div>
           </Link>
 
