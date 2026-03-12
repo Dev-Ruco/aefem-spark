@@ -11,8 +11,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const socialLinks = [
   { icon: Facebook, href: 'https://www.facebook.com/aefem', label: 'Facebook' },
   { icon: Instagram, href: 'https://www.instagram.com/aefem', label: 'Instagram' },
-  { icon: Twitter, href: '', label: 'Twitter' },
-  { icon: Linkedin, href: '', label: 'LinkedIn' },
 ];
 
 export function Footer() {
