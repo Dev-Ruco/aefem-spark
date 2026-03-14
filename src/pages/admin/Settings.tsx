@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { UserPlus, Trash2, Shield, Loader2, AlertTriangle } from 'lucide-react';
+import { UserPlus, Trash2, Shield, Loader2, Link as LinkIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface UserRole {
@@ -22,9 +22,6 @@ interface UserRole {
   user_id: string;
   role: 'admin' | 'editor' | 'member';
   created_at: string;
-  profiles?: {
-    full_name: string | null;
-  } | null;
   email?: string;
 }
 
@@ -35,10 +32,13 @@ export default function Settings() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [newEmail, setNewEmail] = useState('');
   const [newRole, setNewRole] = useState<'admin' | 'editor'>('editor');
+  const [whatsappLink, setWhatsappLink] = useState('');
+  const [isSavingLink, setIsSavingLink] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchUserRoles();
+    fetchWhatsAppLink();
   }, []);
 
   const fetchUserRoles = async () => {
@@ -49,71 +49,90 @@ export default function Settings() {
         .order('created_at');
 
       if (error) throw error;
-      setUserRoles((data || []).map(r => ({ ...r, profiles: null })));
+      setUserRoles(data || []);
     } catch (error: any) {
-      toast({
-        title: 'Erro',
-        description: 'Erro ao carregar utilizadores.',
-        variant: 'destructive'
-      });
+      toast({ title: 'Erro', description: 'Erro ao carregar utilizadores.', variant: 'destructive' });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchWhatsAppLink = async () => {
+    const { data } = await supabase
+      .from('site_settings' as any)
+      .select('value')
+      .eq('key', 'whatsapp_group_link')
+      .maybeSingle();
+    if (data) setWhatsappLink((data as any).value || '');
+  };
+
+  const handleSaveWhatsAppLink = async () => {
+    setIsSavingLink(true);
+    try {
+      const { error } = await supabase
+        .from('site_settings' as any)
+        .upsert({ key: 'whatsapp_group_link', value: whatsappLink } as any, { onConflict: 'key' });
+      if (error) throw error;
+      toast({ title: 'Sucesso', description: 'Link do grupo WhatsApp guardado.' });
+    } catch {
+      toast({ title: 'Erro', description: 'Erro ao guardar link.', variant: 'destructive' });
+    } finally {
+      setIsSavingLink(false);
     }
   };
 
   const handleAddRole = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!newEmail.trim()) {
-      toast({
-        title: 'Erro',
-        description: 'Insira o ID do utilizador.',
-        variant: 'destructive'
-      });
+    if (!newEmail.trim() || !newEmail.includes('@')) {
+      toast({ title: 'Erro', description: 'Insira um email válido.', variant: 'destructive' });
       return;
     }
 
     setIsSaving(true);
 
     try {
-      // Check if role already exists
-      const { data: existing } = await supabase
-        .from('user_roles')
-        .select('id')
-        .eq('user_id', newEmail)
-        .maybeSingle();
+      // Look up user by email via edge function
+      const { data, error } = await supabase.functions.invoke('lookup-user-by-email', {
+        body: { email: newEmail.trim() },
+      });
 
-      if (existing) {
+      if (error || data?.error) {
         toast({
-          title: 'Aviso',
-          description: 'Este utilizador já tem uma role atribuída.',
+          title: 'Erro',
+          description: data?.error || 'Utilizador não encontrado com este email.',
           variant: 'destructive'
         });
         setIsSaving(false);
         return;
       }
 
-      const { error } = await supabase
+      const userId = data.user_id;
+
+      // Check if role already exists
+      const { data: existing } = await supabase
         .from('user_roles')
-        .insert({
-          user_id: newEmail,
-          role: newRole
-        });
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (existing) {
+        toast({ title: 'Aviso', description: 'Este utilizador já tem uma role atribuída.', variant: 'destructive' });
+        setIsSaving(false);
+        return;
+      }
 
-      toast({
-        title: 'Sucesso',
-        description: 'Role atribuída com sucesso.'
-      });
+      const { error: insertError } = await supabase
+        .from('user_roles')
+        .insert({ user_id: userId, role: newRole });
+
+      if (insertError) throw insertError;
+
+      toast({ title: 'Sucesso', description: `Role "${newRole}" atribuída a ${newEmail}.` });
       setNewEmail('');
       fetchUserRoles();
     } catch (error: any) {
-      toast({
-        title: 'Erro',
-        description: 'Erro ao atribuir role. Verifique se o ID do utilizador é válido.',
-        variant: 'destructive'
-      });
+      toast({ title: 'Erro', description: 'Erro ao atribuir role.', variant: 'destructive' });
     } finally {
       setIsSaving(false);
     }
@@ -121,26 +140,13 @@ export default function Settings() {
 
   const handleDelete = async () => {
     if (!deleteId) return;
-
     try {
-      const { error } = await supabase
-        .from('user_roles')
-        .delete()
-        .eq('id', deleteId);
-
+      const { error } = await supabase.from('user_roles').delete().eq('id', deleteId);
       if (error) throw error;
-
       setUserRoles(userRoles.filter(r => r.id !== deleteId));
-      toast({
-        title: 'Sucesso',
-        description: 'Role removida.'
-      });
-    } catch (error: any) {
-      toast({
-        title: 'Erro',
-        description: 'Erro ao remover role.',
-        variant: 'destructive'
-      });
+      toast({ title: 'Sucesso', description: 'Role removida.' });
+    } catch {
+      toast({ title: 'Erro', description: 'Erro ao remover role.', variant: 'destructive' });
     } finally {
       setDeleteId(null);
     }
@@ -152,10 +158,7 @@ export default function Settings() {
       header: 'Utilizador',
       render: (role) => (
         <div>
-          <span className="font-medium">
-            {role.profiles?.full_name || 'Utilizador'}
-          </span>
-          <p className="text-xs text-muted-foreground font-mono">{role.user_id}</p>
+          <p className="text-xs text-muted-foreground font-mono truncate max-w-[200px]">{role.user_id}</p>
         </div>
       )
     },
@@ -175,7 +178,7 @@ export default function Settings() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-display font-bold text-foreground">Configurações</h1>
-        <p className="text-muted-foreground mt-1">Gerir utilizadores e permissões</p>
+        <p className="text-muted-foreground mt-1">Gerir utilizadores, permissões e definições</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -193,16 +196,17 @@ export default function Settings() {
           <CardContent>
             <form onSubmit={handleAddRole} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="user_id">ID do Utilizador</Label>
+                <Label htmlFor="user_email">Email do Utilizador</Label>
                 <Input
-                  id="user_id"
+                  id="user_email"
+                  type="email"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="UUID do utilizador"
-                  className="font-mono text-sm"
+                  placeholder="utilizador@email.com"
+                  className="text-sm"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Copie o UUID da tabela auth.users no Supabase
+                  Introduza o email do utilizador registado no site
                 </p>
               </div>
 
@@ -248,8 +252,8 @@ export default function Settings() {
               isLoading={isLoading}
               emptyMessage="Ainda não existem utilizadores com roles atribuídas."
               actions={(role) => (
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="icon"
                   onClick={() => setDeleteId(role.id)}
                   className="text-destructive hover:text-destructive"
@@ -262,20 +266,31 @@ export default function Settings() {
         </Card>
       </div>
 
-      {/* Instructions */}
-      <Card className="border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-950/30">
-        <CardContent className="pt-6">
-          <div className="flex gap-4">
-            <AlertTriangle className="h-6 w-6 text-yellow-600 flex-shrink-0" />
-            <div className="space-y-2">
-              <h3 className="font-semibold text-yellow-800 dark:text-yellow-200">Como adicionar o primeiro administrador</h3>
-              <ol className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1 list-decimal list-inside">
-                <li>Registe-se no site através do formulário de registo (se existir) ou crie um utilizador no Supabase Dashboard</li>
-                <li>Copie o UUID do utilizador da tabela <code className="bg-yellow-100 dark:bg-yellow-900 px-1 rounded">auth.users</code></li>
-                <li>Cole o UUID no campo "ID do Utilizador" acima e seleccione a role "Administrador"</li>
-                <li>Clique em "Adicionar Role" para activar as permissões</li>
-              </ol>
+      {/* WhatsApp Group Link */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <LinkIcon className="h-5 w-5" />
+            Link do Grupo de WhatsApp dos Membros
+          </CardTitle>
+          <CardDescription>
+            Este link será mostrado no painel de cada membro
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-3 items-end">
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="wa_link">Link do Grupo</Label>
+              <Input
+                id="wa_link"
+                value={whatsappLink}
+                onChange={(e) => setWhatsappLink(e.target.value)}
+                placeholder="https://chat.whatsapp.com/..."
+              />
             </div>
+            <Button onClick={handleSaveWhatsAppLink} disabled={isSavingLink}>
+              {isSavingLink ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Guardar'}
+            </Button>
           </div>
         </CardContent>
       </Card>

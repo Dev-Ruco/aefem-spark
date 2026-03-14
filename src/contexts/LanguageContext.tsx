@@ -11,7 +11,7 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   pt: {
     // Organization
-    'org.name': 'Associação de Empoderamento Feminino',
+    'org.name': 'Associação do Empoderamento Feminino',
     'org.name_short': 'AEFEM',
 
     // Navigation
@@ -370,7 +370,7 @@ const translations: Record<Language, Record<string, string>> = {
     'impact.badge': 'História de Destaque',
     'impact.title': 'Empoderar é Criar Oportunidades',
     'impact.subtitle': 'AEFEM aposta na capacitação como motor de autonomia feminina',
-    'impact.description': 'A Associação de Empoderamento Feminino (AEFEM) promove o empoderamento económico de mulheres em situação de vulnerabilidade através da formação profissional orientada para geração de rendimento.',
+    'impact.description': 'A Associação do Empoderamento Feminino (AEFEM) promove o empoderamento económico de mulheres em situação de vulnerabilidade através da formação profissional orientada para geração de rendimento.',
     'impact.location': 'Em Maputo, a AEFEM apoiou mulheres vivendo com VIH com:',
     'impact.point1': 'Bolsas de formação técnica',
     'impact.point2': 'Apoio alimentar solidário',

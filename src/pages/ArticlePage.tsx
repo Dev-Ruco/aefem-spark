@@ -128,11 +128,17 @@ export default function ArticlePage() {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://www.aefem.org.mz/artigo/${slug}`} />
         <meta property="og:title" content={getTitle()} />
+        <meta property="og:description" content={getExcerpt()} />
         {article.featured_image && <meta property="og:image" content={article.featured_image} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={getTitle()} />
+        <meta name="twitter:description" content={getExcerpt()} />
+        {article.featured_image && <meta name="twitter:image" content={article.featured_image} />}
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Article",
           "headline": getTitle(),
+          "description": getExcerpt(),
           "image": article.featured_image || undefined,
           "datePublished": article.published_at || undefined,
           "publisher": {

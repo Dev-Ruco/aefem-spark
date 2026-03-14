@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,7 +16,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Loader2, CheckCircle, AlertCircle, UserPlus } from 'lucide-react';
+import { Loader2, AlertCircle, UserPlus } from 'lucide-react';
 
 const provinces = [
   'Maputo Cidade',
@@ -35,9 +35,9 @@ const provinces = [
 export default function MemberRegistration() {
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
     full_name: '',
@@ -139,17 +139,8 @@ export default function MemberRegistration() {
         return;
       }
 
-      // 3. Assign member role
-      const { error: roleError } = await supabase.from('user_roles').insert({
-        user_id: authData.user.id,
-        role: 'member' as any,
-      });
-
-      if (roleError) {
-        console.error('Role assign error:', roleError);
-      }
-
-      setShowSuccess(true);
+      // Registration complete — redirect to member dashboard
+      navigate('/membro');
     } catch (err) {
       console.error('Registration error:', err);
       setError(isEn ? 'Unexpected error. Please try again.' : 'Erro inesperado. Tente novamente.');
@@ -158,39 +149,8 @@ export default function MemberRegistration() {
     }
   };
 
-  if (showSuccess) {
-    return (
-      <>
-        <Helmet>
-          <title>{isEn ? 'Registration Complete' : 'Registo Concluído'} | AEFEM</title>
-        </Helmet>
-        <Layout>
-          <section className="pt-32 pb-20 min-h-screen gradient-hero">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-md mx-auto text-center">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <CheckCircle className="h-10 w-10 text-green-600" />
-                </div>
-                <h1 className="font-display text-3xl font-bold mb-4">
-                  {isEn ? 'Registration Successful!' : 'Registo Concluído!'}
-                </h1>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                  {isEn
-                    ? 'Your account has been created successfully. You can now log in to your member area.'
-                    : 'A sua conta foi criada com sucesso. Já pode aceder à sua área de membro.'}
-                </p>
-                <Link to="/membro/login">
-                  <Button variant="outline" size="lg">
-                    {isEn ? 'Go to Login' : 'Ir para Login'}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </section>
-        </Layout>
-      </>
-    );
-  }
+
+
 
   return (
     <>

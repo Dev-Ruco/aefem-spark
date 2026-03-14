@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LanguageSelector } from '@/components/ui/LanguageSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import logo from '@/assets/aefem-icon-optimized.png';
 
 const getNavLinks = (t: (key: string) => string) => [
@@ -19,14 +21,36 @@ const getNavLinks = (t: (key: string) => string) => [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [memberName, setMemberName] = useState<string | null>(null);
   const location = useLocation();
   const { t } = useLanguage();
+  const { user } = useAuth();
   
   const navLinks = getNavLinks(t);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+  // Fetch member name when user is logged in
+  useEffect(() => {
+    if (user) {
+      supabase
+        .from('members')
+        .select('full_name')
+        .eq('user_id', user.id)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data) {
+            setMemberName(data.full_name.split(' ')[0]);
+          }
+        });
+    } else {
+      setMemberName(null);
+    }
+  }, [user]);
+
+  const isLoggedIn = !!user && !!memberName;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-sm py-3">
@@ -42,7 +66,7 @@ export function Header() {
             {/* Desktop: two-line org name */}
             <div className="hidden lg:block leading-tight">
               <p className="text-xs xl:text-sm text-muted-foreground font-medium">
-                Associação de
+                Associação do
               </p>
               <p className="text-sm xl:text-base font-bold text-foreground tracking-tight">
                 Empoderamento Feminino
@@ -76,13 +100,27 @@ export function Header() {
           {/* CTA + Language + Mobile Toggle */}
           <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSelector />
-            <Link to="/tornar-se-membro" className="hidden sm:block">
-              <Button
-                className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105 text-sm px-4 xl:px-6"
-              >
-                {t('nav.become_member')}
-              </Button>
-            </Link>
+            
+            {isLoggedIn ? (
+              <Link to="/membro" className="hidden sm:flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  className="font-medium transition-all duration-300 hover:scale-105 text-sm px-4 xl:px-5 gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  {memberName}
+                  <Bell className="h-3.5 w-3.5 text-muted-foreground" />
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/tornar-se-membro" className="hidden sm:block">
+                <Button
+                  className="gradient-primary text-primary-foreground font-medium shadow-brand-sm hover:shadow-brand-md transition-all duration-300 hover:scale-105 text-sm px-4 xl:px-6"
+                >
+                  {t('nav.become_member')}
+                </Button>
+              </Link>
+            )}
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -102,10 +140,10 @@ export function Header() {
         <div
           className={cn(
             'lg:hidden overflow-hidden transition-all duration-300 ease-in-out',
-            isMobileMenuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
+            isMobileMenuOpen ? 'max-h-[80vh] opacity-100 mt-4' : 'max-h-0 opacity-0'
           )}
         >
-          <div className="bg-card rounded-xl p-4 shadow-brand-md space-y-2">
+          <div className="bg-card rounded-xl p-4 shadow-brand-md space-y-2 overflow-y-auto max-h-[70vh]">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -123,11 +161,21 @@ export function Header() {
             <div className="flex items-center justify-between pt-2 px-4">
               <LanguageSelector />
             </div>
-            <Link to="/tornar-se-membro" className="block pt-2">
-              <Button className="w-full gradient-primary text-primary-foreground">
-                {t('nav.become_member')}
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <Link to="/membro" className="block pt-2">
+                <Button variant="outline" className="w-full gap-2">
+                  <User className="h-4 w-4" />
+                  {memberName}
+                  <Bell className="h-3.5 w-3.5 text-muted-foreground" />
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/tornar-se-membro" className="block pt-2">
+                <Button className="w-full gradient-primary text-primary-foreground">
+                  {t('nav.become_member')}
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

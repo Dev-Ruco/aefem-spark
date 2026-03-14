@@ -29,7 +29,7 @@ export default function WhatsAppChannelSection() {
             Fique mais perto da AEFEM
           </h2>
           <p className="text-white/90 text-lg mb-8 leading-relaxed">
-            Acompanhe notícias, iniciativas e oportunidades da Associação de Empoderamento Feminino através do nosso canal oficial.
+            Acompanhe notícias, iniciativas e oportunidades da Associação do Empoderamento Feminino através do nosso canal oficial.
           </p>
 
           <a
