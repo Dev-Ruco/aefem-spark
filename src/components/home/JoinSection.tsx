@@ -3,6 +3,7 @@ import { UserPlus, Users, GraduationCap, Megaphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SectionHeader from '@/components/ui/section-header';
 import { useLanguage } from '@/contexts/LanguageContext';
+import joinImage from '@/assets/join-members.jpg';
 
 const benefits = [
   {
@@ -35,17 +36,42 @@ export default function JoinSection() {
   return (
     <section className="py-20 md:py-28 gradient-hero">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          subtitle={isEn ? 'Become a Member' : 'Tornar-se Membro'}
-          title={isEn ? 'Join the AEFEM' : 'Junte-se à AEFEM'}
-          description={
-            isEn
-              ? 'Any person can join our community. Together we are stronger.'
-              : 'Qualquer pessoa pode juntar-se à nossa comunidade. Juntos somos mais fortes.'
-          }
-        />
+        {/* Split layout: image + text */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-16">
+          {/* Image */}
+          <div className="relative rounded-2xl overflow-hidden shadow-brand-lg">
+            <img
+              src={joinImage}
+              alt={isEn ? 'AEFEM members together' : 'Membros da AEFEM juntas'}
+              className="w-full h-[400px] lg:h-[480px] object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          </div>
 
-        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12 mb-12">
+          {/* Text + CTA */}
+          <div className="space-y-6">
+            <SectionHeader
+              subtitle={isEn ? 'Become a Member' : 'Tornar-se Membro'}
+              title={isEn ? 'Join the AEFEM' : 'Junte-se à AEFEM'}
+              align="left"
+            />
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {isEn
+                ? 'Be part of a community of women who share experiences, knowledge and opportunities for female empowerment. Together, we are transforming Mozambique.'
+                : 'Faça parte de uma comunidade de mulheres que partilham experiências, conhecimento e oportunidades para o empoderamento feminino. Juntas, estamos a transformar Moçambique.'}
+            </p>
+            <Link to="/tornar-se-membro">
+              <Button size="lg" className="gradient-primary text-lg px-10 h-14 mt-2">
+                <UserPlus className="mr-2 h-5 w-5" />
+                {isEn ? 'Join Now' : 'Juntar-me Agora'}
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Benefits cards */}
+        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {benefits.map((b, i) => (
             <div
               key={i}
@@ -62,15 +88,6 @@ export default function JoinSection() {
               </p>
             </div>
           ))}
-        </div>
-
-        <div className="text-center">
-          <Link to="/tornar-se-membro">
-            <Button size="lg" className="gradient-primary text-lg px-10 h-14">
-              <UserPlus className="mr-2 h-5 w-5" />
-              {isEn ? 'Join Now' : 'Juntar-me Agora'}
-            </Button>
-          </Link>
         </div>
       </div>
     </section>
