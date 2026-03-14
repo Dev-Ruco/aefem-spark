@@ -35,6 +35,7 @@ const provinces = [
 export default function MemberRegistration() {
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);

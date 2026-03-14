@@ -42,7 +42,7 @@ export function Header() {
             {/* Desktop: two-line org name */}
             <div className="hidden lg:block leading-tight">
               <p className="text-xs xl:text-sm text-muted-foreground font-medium">
-                Associação de
+                Associação do
               </p>
               <p className="text-sm xl:text-base font-bold text-foreground tracking-tight">
                 Empoderamento Feminino
