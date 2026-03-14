@@ -1,72 +1,126 @@
 
-## Plano: Criar Harmonia Visual entre Seccoes da Homepage
 
-### Problema Actual
-Varias seccoes consecutivas usam o mesmo fundo (`bg-secondary/30` ou `bg-muted/30`), criando uma aparencia monotona sem distincao clara entre seccoes. Faltam contrastes visuais alternados.
+## Plano: Auditoria Técnica e Correcções do Website AEFEM
 
-### Solucao
-Criar um ritmo visual alternado usando a paleta existente do site (magenta, roxo, lavanda, branco), garantindo que cada seccao se distingue da anterior sem sair da identidade visual.
+Este é um plano abrangente que cobre os 10 pontos da auditoria. Dado o volume, será implementado em fases prioritárias.
 
-### Esquema de Fundos (de cima para baixo)
+---
 
-| # | Seccao | Fundo Actual | Novo Fundo |
-|---|--------|-------------|------------|
-| 1 | HeroSlider | imagens (inalterado) | Sem alteracao |
-| 2 | AboutSection | branco + gradiente sutil | Sem alteracao |
-| 3 | StatisticsSection | `bg-muted/30` | **Fundo escuro** - gradiente primary-to-accent escuro com texto claro |
-| 4 | ImpactStorySection | gradientes subtis | Sem alteracao (ja tem decoracoes proprias) |
-| 5 | PillarsSection | branco | **`bg-secondary/40`** com borda superior sutil |
-| 6 | ActivitiesSection | `bg-secondary/30` | **Branco** (fundo limpo, sem background) |
-| 7 | VideosSection | `bg-muted/30` | **Fundo escuro** - gradiente escuro do foreground/accent |
-| 8 | TeamSection | `bg-secondary/30` | **Branco** (fundo limpo) |
-| 9 | PartnersSection | `bg-secondary/30` | **`bg-muted/20`** com borda superior sutil |
+### 1. Correcção Crítica de Autenticação (Admin)
 
-### Detalhes das Alteracoes
+**Problema identificado:** A página Settings (`Settings.tsx`) pede o UUID do utilizador para adicionar roles — isto é impraticável. Além disso, o registo de membros tenta inserir role `'member'` na tabela `user_roles`, mas o enum `app_role` só tem `admin`, `moderator`, `user` — o que causa erro silencioso.
 
-#### 1. StatisticsSection - Fundo Escuro Dramatico
-- Fundo: gradiente de `hsl(280 30% 15%)` (foreground escuro) para `hsl(288 55% 25%)`
-- Texto do titulo e subtitulo: branco (`text-white`)
-- Badge: fundo `bg-white/10` com texto branco
-- Cards mantêm o estilo actual (ja têm `bg-card`)
-- Fonte de dados: `bg-white/10` com texto `text-white/70`
-- Cria impacto visual forte apos a seccao About
+**Correcções:**
+- **`Settings.tsx`**: Redesenhar para aceitar **email** em vez de UUID. Criar uma edge function ou query que busca o `user_id` a partir do email na tabela `auth.users` (via service role). Remover referência ao "Supabase Dashboard".
+- **Migração DB**: Adicionar valor `'member'` ao enum `app_role` se necessário, OU remover a tentativa de inserir role `member` no registo (membros não precisam de role na `user_roles` — são identificados pela tabela `members`).
+- **`MemberRegistration.tsx`**: Remover a inserção na `user_roles` com role `member` (linhas 143-150), pois causa erro e não é necessário.
 
-#### 2. PillarsSection - Lavanda Suave
-- Adicionar `bg-secondary/40` ao section
-- Manter tudo o resto igual
-- Contrasta com a ImpactStorySection (branca com gradientes) acima
+### 2. Melhorar Dashboard do Administrador
 
-#### 3. ActivitiesSection - Fundo Branco Limpo
-- Remover `bg-secondary/30`, deixar fundo branco
-- Contrasta com PillarsSection (lavanda) acima
+**`Dashboard.tsx`**: Adicionar card financeiro de quotas:
+- Total quotas pagas no mês actual (MZN)
+- Filtros: 3, 6, 12 meses e histórico completo
+- Cards: quotas pagas, pendentes, total
+- Buscar dados da tabela `member_quotas`
 
-#### 4. VideosSection - Fundo Escuro
-- Fundo: gradiente escuro similar ao StatisticsSection mas ligeiramente diferente
-- Texto e titulos em branco
-- Cards de video: bordas mais visíveis com `border-white/10`
-- Botao play: manter o estilo actual (ja esta bom)
-- Cria drama visual e destaca os videos
+**`MembersList.tsx`**: Adicionar funcionalidades:
+- Botão **Eliminar membro** (com confirmação)
+- Botão **Editar membro** (dialog com formulário)
+- **Detalhes expandidos**: ao clicar no membro, mostrar página/dialog com informações completas + histórico de quotas (pagas, pendentes, meses em atraso)
 
-#### 5. TeamSection - Fundo Branco
-- Remover `bg-secondary/30`, deixar fundo branco
-- Cards dos membros ja têm `bg-card` proprio
+### 3. Melhorar Experiência de Registo
 
-#### 6. PartnersSection - Muted Suave
-- Alterar de `bg-secondary/30` para `bg-muted/20`
-- Adicionar borda superior decorativa sutil
+**`MemberRegistration.tsx`**: Após registo bem-sucedido, em vez de mostrar ecrã de sucesso com link para login:
+- Redirecionar automaticamente para `/membro` (o utilizador já tem sessão activa por causa do auto-confirm)
+- Remover o ecrã `showSuccess` e usar `navigate('/membro')` directamente
 
-### Padrao Visual Resultante
-```text
-Branco -> ESCURO -> Branco/Sutil -> Lavanda -> Branco -> ESCURO -> Branco -> Muted
+### 4. Painel do Membro — Melhorias
+
+**`MemberDashboard.tsx`**:
+- Adicionar opção **"Deixar de ser membro"** (botão discreto no final) que:
+  - Mostra dialog de confirmação
+  - Altera status para `inactive` e faz sign out
+- Adicionar secção **"Comunidade AEFEM"** com botão para grupo WhatsApp
+  - Link gerido via tabela `site_settings` (chave `whatsapp_group_link`)
+- Adicionar **editar perfil** (dialog para alterar nome, profissão, WhatsApp, província)
+
+**Admin — Gestão do link WhatsApp:**
+- Adicionar campo na página `Settings.tsx` para editar o link do grupo WhatsApp (guardar em `site_settings`)
+
+### 5. Correcção de Partilha de Artigos (OG Tags)
+
+**`ArticlePage.tsx`**: Já tem OG tags mas falta `og:description`. Adicionar:
+```html
+<meta property="og:description" content={getExcerpt()} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={getTitle()} />
+<meta name="twitter:description" content={getExcerpt()} />
+<meta name="twitter:image" content={article.featured_image} />
 ```
 
-Este ritmo cria alternancia visual clara, usando a paleta existente sem introduzir cores novas.
+**Nota:** Como é SPA (React), crawlers de redes sociais podem não executar JS. O `<noscript>` fallback no `index.html` e o SSR-like approach com `react-helmet-async` são a melhor solução possível sem SSR.
 
-### Ficheiros a Modificar
-- `src/components/home/StatisticsSection.tsx` - fundo escuro + ajuste de cores de texto
-- `src/components/home/PillarsSection.tsx` - adicionar fundo lavanda
-- `src/components/home/ActivitiesSection.tsx` - remover fundo
-- `src/components/home/VideosSection.tsx` - fundo escuro + ajuste de cores
-- `src/components/home/TeamSection.tsx` - remover fundo
-- `src/components/home/PartnersSection.tsx` - alterar fundo
-- `src/components/ui/section-header.tsx` - aceitar prop opcional para texto claro em fundos escuros
+### 6. Correcção do Nome Oficial
+
+Substituir **"Associação de Empoderamento Feminino"** por **"Associação do Empoderamento Feminino"** em:
+- `src/contexts/LanguageContext.tsx` (linha 14 e 373)
+- `src/components/layout/Header.tsx` (linha 45: "Associação de" → "Associação do")
+- `src/components/home/WhatsAppChannelSection.tsx` (linha 32)
+
+### 7. Correcção do Menu Mobile
+
+**`Header.tsx`**: O menu mobile usa `max-h-96` que pode não ser suficiente. Corrigir:
+- Mudar para `max-h-[80vh] overflow-y-auto` para permitir scroll
+- Garantir que o botão "Tornar-se Membro" aparece sempre (já existe, mas o `max-h` pode cortá-lo)
+- Adicionar link para "Área de Membro" no mobile quando o utilizador já está logado
+
+### 8. Botão de Conta do Utilizador no Header
+
+**`Header.tsx`**: Verificar se existe sessão activa + perfil de membro:
+- Se **logado como membro**: substituir botão "Tornar-se Membro" pelo **primeiro nome** do utilizador com link para `/membro`
+- Adicionar ícone de sino (Bell) para notificações futuras
+- No mobile, o mesmo comportamento
+
+Criar hook ou usar `useAuth` existente + query à tabela `members` para obter o nome.
+
+### 9. Secção "Tornar-se Membro" na Homepage
+
+**`JoinSection.tsx`**: Adicionar a imagem fornecida (duas mulheres com camisetas AEFEM):
+- Copiar imagem para `src/assets/`
+- Redesenhar a secção com layout split: imagem à esquerda, texto + CTA à direita
+- Manter os 3 cards de benefícios abaixo
+- Garantir harmonia visual com o gradiente existente
+
+### 10. Optimização de Imagens
+
+- Adicionar `loading="lazy"` a todas as imagens fora da dobra (muitas já têm)
+- Verificar que imagens de artigos/galeria do Supabase Storage usam transformações de tamanho
+- Adicionar `width` e `height` explícitos onde possível para reduzir CLS
+
+---
+
+### Ficheiros a criar/alterar (resumo)
+
+| Ficheiro | Acção |
+|---|---|
+| `src/pages/admin/Settings.tsx` | Redesenhar para aceitar email; adicionar gestão link WhatsApp |
+| `src/pages/admin/Dashboard.tsx` | Adicionar card financeiro de quotas |
+| `src/pages/admin/MembersList.tsx` | Adicionar eliminar, editar membro, histórico quotas expandido |
+| `src/pages/MemberRegistration.tsx` | Auto-redirect após registo |
+| `src/pages/member/MemberDashboard.tsx` | Editar perfil, sair da associação, comunidade WhatsApp |
+| `src/pages/ArticlePage.tsx` | Completar OG + Twitter tags |
+| `src/components/layout/Header.tsx` | Nome correcto, botão conta utilizador, fix mobile menu |
+| `src/components/home/JoinSection.tsx` | Adicionar imagem, redesenhar layout |
+| `src/components/home/WhatsAppChannelSection.tsx` | Corrigir nome |
+| `src/contexts/LanguageContext.tsx` | Corrigir "de" → "do" |
+| Edge function (nova) | Buscar user_id por email para Settings |
+| Migração DB | Remover inserção de role `member` / verificar enum |
+
+### Prioridade de implementação
+1. Auth fix + nome correcto (crítico)
+2. Registo auto-redirect + header user button
+3. Dashboard financeiro + member management
+4. OG tags + mobile menu fix
+5. JoinSection redesign + WhatsApp community
+6. Image optimisation
+
