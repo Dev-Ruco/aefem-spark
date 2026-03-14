@@ -39,7 +39,6 @@ export default function MemberRegistration() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [error, setError] = useState('');
   const [form, setForm] = useState({
     full_name: '',
     profession: '',
