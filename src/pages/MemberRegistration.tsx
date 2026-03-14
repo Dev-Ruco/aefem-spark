@@ -38,7 +38,7 @@ export default function MemberRegistration() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState('');
   const [error, setError] = useState('');
   const [form, setForm] = useState({
     full_name: '',
