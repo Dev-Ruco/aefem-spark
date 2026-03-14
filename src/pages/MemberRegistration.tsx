@@ -150,39 +150,8 @@ export default function MemberRegistration() {
     }
   };
 
-  if (showSuccess) {
-    return (
-      <>
-        <Helmet>
-          <title>{isEn ? 'Registration Complete' : 'Registo Concluído'} | AEFEM</title>
-        </Helmet>
-        <Layout>
-          <section className="pt-32 pb-20 min-h-screen gradient-hero">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-md mx-auto text-center">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <CheckCircle className="h-10 w-10 text-green-600" />
-                </div>
-                <h1 className="font-display text-3xl font-bold mb-4">
-                  {isEn ? 'Registration Successful!' : 'Registo Concluído!'}
-                </h1>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                  {isEn
-                    ? 'Your account has been created successfully. You can now log in to your member area.'
-                    : 'A sua conta foi criada com sucesso. Já pode aceder à sua área de membro.'}
-                </p>
-                <Link to="/membro/login">
-                  <Button variant="outline" size="lg">
-                    {isEn ? 'Go to Login' : 'Ir para Login'}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </section>
-        </Layout>
-      </>
-    );
-  }
+
+
 
   return (
     <>
