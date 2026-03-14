@@ -16,7 +16,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Loader2, CheckCircle, AlertCircle, UserPlus } from 'lucide-react';
+import { Loader2, AlertCircle, UserPlus } from 'lucide-react';
 
 const provinces = [
   'Maputo Cidade',
