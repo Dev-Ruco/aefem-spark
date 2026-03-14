@@ -139,17 +139,8 @@ export default function MemberRegistration() {
         return;
       }
 
-      // 3. Assign member role
-      const { error: roleError } = await supabase.from('user_roles').insert({
-        user_id: authData.user.id,
-        role: 'member' as any,
-      });
-
-      if (roleError) {
-        console.error('Role assign error:', roleError);
-      }
-
-      setShowSuccess(true);
+      // Registration complete — redirect to member dashboard
+      navigate('/membro');
     } catch (err) {
       console.error('Registration error:', err);
       setError(isEn ? 'Unexpected error. Please try again.' : 'Erro inesperado. Tente novamente.');
